@@ -446,3 +446,36 @@ Al incorporar interacción, aparece una segunda pregunta:
 La primera meta técnica es conseguir que una geometría almacenada en PostGIS sea consultada mediante FastAPI, transferida como GeoJSON y representada correctamente en Leaflet.
 
 Una vez verificado este flujo, se incorporarán progresivamente mecanismos de interacción y consulta espacial sobre la misma arquitectura.
+
+# Glosario de conceptos
+
+**API (Application Programming Interface):** interfaz que define cómo se comunican dos aplicaciones o componentes de software mediante solicitudes y respuestas estructuradas.
+
+**Endpoint:** dirección específica dentro de una API que permite acceder a un recurso o ejecutar una operación determinada.
+
+**Frontend:** parte de la aplicación con la que interactúa el usuario. En este ejercicio está compuesta principalmente por HTML, CSS, JavaScript y Leaflet.
+
+**Backend:** componente encargado de recibir solicitudes, ejecutar la lógica de la aplicación, consultar la base de datos y devolver respuestas al frontend.
+
+**HTTP (Hypertext Transfer Protocol):** protocolo utilizado para intercambiar solicitudes y respuestas entre el frontend y el backend.
+
+**GeoJSON:** formato basado en JSON utilizado para representar y transferir entidades geográficas con sus geometrías y atributos.
+
+**PostgreSQL:** sistema gestor de bases de datos relacional utilizado para almacenar y administrar la información de la aplicación.
+
+**PostGIS:** extensión espacial de PostgreSQL que incorpora tipos de geometría, funciones espaciales e índices especializados.
+
+**FastAPI:** framework de Python utilizado para construir el backend y exponer la API de la aplicación.
+
+**Leaflet:** biblioteca JavaScript utilizada para crear mapas web interactivos y representar información geográfica en el navegador.
+
+**SQL (Structured Query Language):** lenguaje utilizado para consultar, insertar, actualizar y administrar información almacenada en bases de datos relacionales.
+
+**CRS (Coordinate Reference System):** sistema de referencia de coordenadas que define cómo se localizan espacialmente las coordenadas de una geometría.
+
+**SRID (Spatial Reference System Identifier):** identificador numérico utilizado en bases de datos espaciales para asociar una geometría con un sistema de referencia específico.
+
+**Geometría:** representación espacial de una entidad geográfica mediante puntos, líneas, polígonos u otros tipos geométricos.
+
+**Atributo:** información descriptiva asociada a una entidad geográfica y almacenada junto con su geometría.
+
