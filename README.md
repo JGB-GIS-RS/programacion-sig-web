@@ -1,12 +1,12 @@
 # Programación SIG Web
 
-Proyecto docente para construir, desde cero y con una arquitectura mínima pero técnicamente rigurosa, una aplicación SIG web basada en **PostgreSQL/PostGIS**, **FastAPI** y **Leaflet**.
+Ejercicio de clase para construir la arquitectura de una aplicación SIG web basada en **PostgreSQL/PostGIS**, **FastAPI** y **Leaflet**.
 
 ## Objetivo general
 
 Construir un visor geográfico web capaz de consultar datos espaciales almacenados en PostGIS mediante una API desarrollada con FastAPI y representarlos dinámicamente en Leaflet.
 
-La prioridad del proyecto es comprender con claridad el flujo completo de datos:
+La aplicación se estructura a partir de la interacción entre el frontend, el backend y la base de datos espacial:
 
 ```text
 USUARIO
@@ -40,56 +40,45 @@ Leaflet
 MAPA EN PANTALLA
 ```
 
-## Principio de diseño
-
-El proyecto adopta una arquitectura deliberadamente pequeña.
-
-No se incorporarán tecnologías adicionales mientras no exista una necesidad técnica concreta que las justifique.
-
-Por tanto, en la primera versión no se utilizarán:
-
-- Docker
-- React
-- GeoServer
-- ORM
-- autenticación
-- microservicios
-- servicios en la nube
-- WebSockets
-- teselas vectoriales
-
-La simplificación no implica pérdida de rigor: cada componente tendrá una responsabilidad explícita y verificable.
-
 # Plan de trabajo
 
 ## 01 · Datos espaciales
 
 ### Objetivo
-Disponer de una capa geográfica real, limpia y comprensible que pueda utilizarse durante todo el proyecto.
+
+Disponer de una capa geográfica real, limpia y comprensible que pueda utilizarse durante todo el ejercicio.
 
 ### Datos iniciales
+
 **Municipios del departamento del Quindío, Colombia.**
 
 ### Aspectos a revisar
+
 - geometría
 - atributos
 - sistema de referencia de coordenadas
 - calidad básica de los datos
 
 ### Concepto central
+
 ```text
 GEOMETRÍA + ATRIBUTOS + SISTEMA DE REFERENCIA
 ```
 
 ### Resultado esperado
+
 Una capa de municipios revisada y lista para ser almacenada en PostGIS.
+
+---
 
 ## 02 · PostgreSQL + PostGIS
 
 ### Objetivo
-Almacenar las entidades geográficas dentro de una base de datos espacial y aprender a consultarlas.
+
+Almacenar las entidades geográficas dentro de una base de datos espacial y realizar consultas sobre sus atributos y geometrías.
 
 ### Actividades
+
 - crear una base de datos PostgreSQL
 - activar la extensión PostGIS
 - importar la capa de municipios
@@ -97,12 +86,15 @@ Almacenar las entidades geográficas dentro de una base de datos espacial y apre
 - realizar consultas SQL básicas
 
 ### Consultas iniciales
+
 ```sql
-SELECT * FROM municipios;
+SELECT *
+FROM municipios;
 ```
 
 ```sql
-SELECT nombre FROM municipios;
+SELECT nombre
+FROM municipios;
 ```
 
 ```sql
@@ -111,41 +103,55 @@ FROM municipios
 WHERE nombre = 'Armenia';
 ```
 
+Comprobación de geometría:
+
 ```sql
-SELECT nombre, ST_GeometryType(geom)
+SELECT
+    nombre,
+    ST_GeometryType(geom)
 FROM municipios;
 ```
 
 ### Resultado esperado
+
 Una tabla espacial correctamente almacenada y consultable.
+
+---
 
 ## 03 · FastAPI
 
 ### Objetivo
-Construir el backend que actúe como intermediario entre el navegador y PostGIS.
 
-### Conceptos mínimos
+Construir el backend encargado de recibir las solicitudes del frontend, consultar PostGIS y devolver los resultados.
+
+### Conceptos principales
+
 - URL
 - endpoint
 - petición HTTP
 - respuesta HTTP
 
 ### Primer endpoint
+
 ```text
 GET /municipios
 ```
 
-FastAPI recibirá la petición, consultará PostGIS y preparará la respuesta.
+FastAPI recibirá la petición, ejecutará la consulta sobre PostGIS y preparará la respuesta.
 
 ### Resultado esperado
+
 Una API funcional capaz de recuperar los municipios almacenados en PostGIS.
+
+---
 
 ## 04 · HTTP + GeoJSON
 
 ### Objetivo
-Comprender cómo se intercambia la información geográfica entre backend y frontend.
 
-GeoJSON no constituye una nueva capa del sistema: es el **formato de intercambio** utilizado para enviar geometrías y atributos al navegador.
+Definir el intercambio de información geográfica entre el backend y el frontend.
+
+GeoJSON será el formato utilizado para transferir geometrías y atributos desde FastAPI hacia el navegador.
 
 ```text
 PostGIS
@@ -157,7 +163,7 @@ GeoJSON
 JavaScript
 ```
 
-Estructura general:
+La respuesta tendrá una estructura general de este tipo:
 
 ```json
 {
@@ -167,25 +173,34 @@ Estructura general:
 ```
 
 ### Resultado esperado
+
 Un endpoint que entregue una colección GeoJSON válida.
+
+---
 
 ## 05 · JavaScript + Leaflet
 
 ### Objetivo
-Consumir desde el navegador la información publicada por FastAPI y representarla cartográficamente.
+
+Consumir desde el navegador la información publicada por FastAPI y representarla cartográficamente mediante Leaflet.
+
+El frontend realizará una petición al backend:
 
 ```javascript
 fetch("http://localhost:8000/municipios")
 ```
+
+y Leaflet incorporará la respuesta GeoJSON al mapa:
 
 ```javascript
 L.geoJSON(datos).addTo(map);
 ```
 
 ### Resultado esperado
+
 Los municipios del Quindío visibles en un mapa interactivo.
 
-Primer hito principal:
+El flujo completo será:
 
 ```text
 PostGIS
@@ -199,21 +214,31 @@ Leaflet
 MAPA
 ```
 
+---
+
 ## 06 · Interacción y consulta espacial
 
 ### Objetivo
+
 Permitir que las acciones realizadas por el usuario en el mapa generen consultas sobre los datos almacenados en PostGIS.
 
 ### Primera interacción
-Al seleccionar un municipio se podrán mostrar atributos como:
+
+Al seleccionar un municipio se podrán consultar atributos como:
+
 - nombre
 - código DANE
 - área
 
 ### Consulta parametrizada
+
+Ejemplo:
+
 ```text
 GET /municipios/63001
 ```
+
+Flujo:
 
 ```text
 USUARIO
@@ -230,29 +255,31 @@ PostGIS
 ```
 
 ### Primera consulta espacial
-Una vez dominado el flujo completo se incorporará una única operación espacial sencilla, por ejemplo:
+
+Una vez implementado el flujo completo, se incorporará una operación espacial, por ejemplo:
 
 > Identificar los municipios que se encuentran a una distancia determinada de un punto seleccionado en el mapa.
 
-Para consultas de proximidad se priorizará, cuando corresponda:
+Para consultas de proximidad se podrá utilizar:
 
 ```sql
 ST_DWithin()
 ```
 
 ### Resultado esperado
+
 Una consulta espacial ejecutada en PostGIS a partir de una interacción realizada en Leaflet.
 
-# Hitos del proyecto
+# Hitos del ejercicio
 
 1. PostGIS contiene los municipios del Quindío.
 2. FastAPI puede consultar PostGIS.
 3. FastAPI devuelve GeoJSON válido.
-4. Leaflet consume la API y dibuja los municipios.
+4. Leaflet consume la API y representa los municipios.
 5. El usuario selecciona o filtra información desde el visor.
 6. Una interacción en Leaflet desencadena una consulta espacial en PostGIS.
 
-# Estructura mínima del proyecto
+# Estructura del proyecto
 
 ```text
 programacion-sig-web/
@@ -270,11 +297,13 @@ programacion-sig-web/
     └── app.js
 ```
 
-No se crearán archivos o módulos adicionales hasta que aparezca una responsabilidad que justifique su separación.
+La estructura podrá ampliarse a medida que aparezcan nuevas responsabilidades dentro de la aplicación.
 
 # Pregunta transversal
 
 > **¿Cómo llega una geometría almacenada en PostGIS hasta convertirse en un objeto interactivo dentro de un mapa web?**
+
+El recorrido principal es:
 
 ```text
 DATOS
@@ -294,7 +323,7 @@ Leaflet
 MAPA
 ```
 
-Y el recorrido inverso comienza cuando el usuario interactúa:
+Y el recorrido inverso comienza cuando el usuario interactúa con el visor:
 
 ```text
 USUARIO
@@ -310,10 +339,8 @@ consulta SQL / espacial
 PostGIS
 ```
 
-# Filosofía del ejercicio
+# Criterio de implementación
 
-La meta inicial no es construir un visor visualmente complejo.
+La primera meta técnica es conseguir que una geometría almacenada en PostGIS sea consultada mediante FastAPI, transferida como GeoJSON y representada correctamente en Leaflet.
 
-La primera meta técnica es conseguir que **una geometría almacenada en PostGIS viaje correctamente hasta Leaflet**.
-
-Cuando ese flujo funcione, la arquitectura fundamental estará completa. Todo lo demás será una ampliación controlada del sistema.
+Una vez verificado este flujo, se incorporarán progresivamente mecanismos de interacción y consulta espacial sobre la misma arquitectura.
