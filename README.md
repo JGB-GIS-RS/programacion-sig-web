@@ -75,31 +75,97 @@ Una capa de municipios revisada y lista para ser almacenada en PostGIS.
 
 ### Objetivo
 
-Almacenar las entidades geográficas dentro de una base de datos espacial y realizar consultas sobre sus atributos y geometrías.
+Diseñar e implementar la base de datos geográfica y realizar consultas sobre sus atributos y geometrías.
 
-### Actividades
+### 2.1 · Modelo conceptual
 
-- crear una base de datos PostgreSQL
+Identificar las entidades del problema, sus propiedades y las relaciones entre ellas, sin depender todavía de una tecnología concreta.
+
+Ejemplo inicial:
+
+```text
+DEPARTAMENTO
+     │
+     │ contiene
+     ▼
+MUNICIPIO
+```
+
+### 2.2 · Modelo lógico
+
+Traducir el modelo conceptual a una estructura formal de entidades, atributos, claves y relaciones.
+
+Ejemplo:
+
+```text
+DEPARTAMENTO
+-------------------------
+cod_departamento   PK
+nombre
+
+MUNICIPIO
+-------------------------
+cod_municipio      PK
+nombre
+area_km2
+cod_departamento   FK
+geom
+
+DEPARTAMENTO 1 ───── N MUNICIPIO
+```
+
+### 2.3 · Modelo físico
+
+Definir la implementación concreta en PostgreSQL/PostGIS: nombres de tablas y columnas, tipos de datos, claves, restricciones, tipo geométrico, SRID e índices espaciales cuando correspondan.
+
+Ejemplo:
+
+```sql
+CREATE TABLE departamento (
+    cod_departamento varchar(2) PRIMARY KEY,
+    nombre varchar(100) NOT NULL
+);
+```
+
+```sql
+CREATE TABLE municipio (
+    cod_municipio varchar(5) PRIMARY KEY,
+    nombre varchar(100) NOT NULL,
+    area_km2 numeric,
+    cod_departamento varchar(2),
+    geom geometry(MultiPolygon, 4326),
+    FOREIGN KEY (cod_departamento)
+        REFERENCES departamento(cod_departamento)
+);
+```
+
+### 2.4 · Implementación en PostgreSQL/PostGIS
+
+- crear la base de datos PostgreSQL
 - activar la extensión PostGIS
-- importar la capa de municipios
-- identificar la columna geométrica
-- realizar consultas SQL básicas
+- crear las tablas definidas en el modelo físico
+- cargar la información geográfica
+- verificar la columna geométrica y el sistema de referencia
 
-### Consultas iniciales
+### 2.5 · Consultas SQL y espaciales
+
+Realizar consultas que permitan comprobar tanto la estructura del modelo como el contenido almacenado.
+
+Consultas iniciales:
 
 ```sql
 SELECT *
-FROM municipios;
+FROM municipio;
 ```
 
 ```sql
 SELECT nombre
-FROM municipios;
+FROM municipio;
 ```
 
 ```sql
 SELECT nombre
-FROM municipios
+FROM municipio
 WHERE nombre = 'Armenia';
 ```
 
@@ -109,12 +175,12 @@ Comprobación de geometría:
 SELECT
     nombre,
     ST_GeometryType(geom)
-FROM municipios;
+FROM municipio;
 ```
 
 ### Resultado esperado
 
-Una tabla espacial correctamente almacenada y consultable.
+Una base de datos geográfica diseñada, implementada y verificable mediante consultas SQL y espaciales.
 
 ---
 
