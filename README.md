@@ -79,7 +79,7 @@ Diseñar e implementar la base de datos geográfica y realizar consultas sobre s
 
 ### 2.1 · Modelo conceptual
 
-Identificar las entidades del problema, sus propiedades y las relaciones entre ellas, sin depender todavía de una tecnología concreta.
+Identificar las entidades geográficas y alfanuméricas que forman parte del dominio de estudio, sus propiedades y las relaciones entre ellas, sin depender todavía de una tecnología concreta.
 
 Ejemplo inicial:
 
