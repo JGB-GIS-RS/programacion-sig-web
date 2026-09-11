@@ -56,7 +56,7 @@ Disponer de una capa geográfica real, limpia y comprensible que pueda utilizars
 
 - geometría
 - atributos
-- sistema de referencia de coordenadas
+- sistema de referencia, unidades y transformación requerida para publicación web
 - calidad básica de los datos
 
 ### Concepto central
@@ -118,11 +118,11 @@ Una tabla espacial correctamente almacenada y consultable.
 
 ---
 
-## 03 · FastAPI
+## 03 · FastAPI + GeoJSON
 
 ### Objetivo
 
-Construir el backend encargado de recibir las solicitudes del frontend, consultar PostGIS y devolver los resultados.
+Construir el backend encargado de recibir las solicitudes del frontend, consultar PostGIS y devolver los resultados mediante HTTP en formato GeoJSON.
 
 ### Conceptos principales
 
@@ -130,6 +130,7 @@ Construir el backend encargado de recibir las solicitudes del frontend, consulta
 - endpoint
 - petición HTTP
 - respuesta HTTP
+- GeoJSON
 
 ### Primer endpoint
 
@@ -137,30 +138,18 @@ Construir el backend encargado de recibir las solicitudes del frontend, consulta
 GET /municipios
 ```
 
-FastAPI recibirá la petición, ejecutará la consulta sobre PostGIS y preparará la respuesta.
-
-### Resultado esperado
-
-Una API funcional capaz de recuperar los municipios almacenados en PostGIS.
-
----
-
-## 04 · HTTP + GeoJSON
-
-### Objetivo
-
-Definir el intercambio de información geográfica entre el backend y el frontend.
-
-GeoJSON será el formato utilizado para transferir geometrías y atributos desde FastAPI hacia el navegador.
+El flujo será:
 
 ```text
 PostGIS
    ↓
+consulta SQL
+   ↓
 FastAPI
    ↓
-GeoJSON
+respuesta HTTP
    ↓
-JavaScript
+GeoJSON
 ```
 
 La respuesta tendrá una estructura general de este tipo:
@@ -174,11 +163,11 @@ La respuesta tendrá una estructura general de este tipo:
 
 ### Resultado esperado
 
-Un endpoint que entregue una colección GeoJSON válida.
+Un endpoint operativo capaz de consultar PostGIS y entregar una colección GeoJSON válida.
 
 ---
 
-## 05 · JavaScript + Leaflet
+## 04 · JavaScript + Leaflet
 
 ### Objetivo
 
@@ -216,21 +205,33 @@ MAPA
 
 ---
 
-## 06 · Interacción y consulta espacial
+## 05 · Interacción
 
 ### Objetivo
 
-Permitir que las acciones realizadas por el usuario en el mapa generen consultas sobre los datos almacenados en PostGIS.
+Incorporar mecanismos de interacción en el visor y distinguir entre operaciones resueltas localmente en el navegador y consultas que requieren acceder nuevamente al servidor.
 
-### Primera interacción
+### Interacción local
 
-Al seleccionar un municipio se podrán consultar atributos como:
+Al seleccionar un municipio, Leaflet podrá mostrar atributos que ya hayan sido cargados con el GeoJSON, por ejemplo:
 
 - nombre
 - código DANE
 - área
 
-### Consulta parametrizada
+```text
+clic
+   ↓
+Leaflet
+   ↓
+atributos ya cargados
+   ↓
+popup
+```
+
+### Consulta al servidor
+
+Cuando se requiera información específica no disponible localmente, el frontend podrá realizar una nueva petición.
 
 Ejemplo:
 
@@ -241,7 +242,7 @@ GET /municipios/63001
 Flujo:
 
 ```text
-USUARIO
+selección
    ↓
 Leaflet
    ↓
@@ -249,16 +250,46 @@ HTTP
    ↓
 FastAPI
    ↓
-SQL
-   ↓
 PostGIS
+   ↓
+respuesta
 ```
 
-### Primera consulta espacial
+### Resultado esperado
 
-Una vez implementado el flujo completo, se incorporará una operación espacial, por ejemplo:
+Un visor capaz de resolver interacciones locales y realizar consultas parametrizadas al backend cuando sea necesario.
 
-> Identificar los municipios que se encuentran a una distancia determinada de un punto seleccionado en el mapa.
+---
+
+## 06 · Consulta espacial
+
+### Objetivo
+
+Ejecutar una consulta espacial en PostGIS a partir de una interacción realizada por el usuario en el mapa.
+
+### Consulta propuesta
+
+Identificar los municipios que se encuentran a una distancia determinada de un punto seleccionado en el mapa.
+
+```text
+clic en el mapa
+      ↓
+Leaflet
+      ↓
+coordenadas
+      ↓
+HTTP
+      ↓
+FastAPI
+      ↓
+consulta espacial
+      ↓
+PostGIS
+      ↓
+GeoJSON
+      ↓
+Leaflet
+```
 
 Para consultas de proximidad se podrá utilizar:
 
@@ -266,18 +297,19 @@ Para consultas de proximidad se podrá utilizar:
 ST_DWithin()
 ```
 
+Las operaciones métricas deberán ejecutarse en un sistema de referencia adecuado o mediante tipos espaciales que preserven correctamente las unidades de distancia.
+
 ### Resultado esperado
 
-Una consulta espacial ejecutada en PostGIS a partir de una interacción realizada en Leaflet.
+Una consulta espacial ejecutada en PostGIS y representada nuevamente en Leaflet.
 
 # Hitos del ejercicio
 
-1. PostGIS contiene los municipios del Quindío.
-2. FastAPI puede consultar PostGIS.
-3. FastAPI devuelve GeoJSON válido.
-4. Leaflet consume la API y representa los municipios.
-5. El usuario selecciona o filtra información desde el visor.
-6. Una interacción en Leaflet desencadena una consulta espacial en PostGIS.
+1. **Datos almacenados y consultables en PostGIS.**
+2. **Endpoint `/municipios` operativo y con respuesta GeoJSON válida.**
+3. **Municipios representados en Leaflet.**
+4. **Interacción local y consulta parametrizada desde el visor.**
+5. **Consulta espacial iniciada desde el mapa y resuelta en PostGIS.**
 
 # Estructura del proyecto
 
@@ -338,6 +370,10 @@ consulta SQL / espacial
   ↓
 PostGIS
 ```
+
+Al incorporar interacción, aparece una segunda pregunta:
+
+> **¿Qué debe resolverse en el navegador y qué debe solicitarse al servidor?**
 
 # Criterio de implementación
 
