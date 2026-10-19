@@ -137,6 +137,6 @@ Una interacción que solo opera sobre objetos previamente cargados también es v
 
 ## 8. Decisiones diferidas
 
-El ejercicio comienza con una sola tabla `municipio`: no se fabricarán relaciones o entidades adicionales solo para aparentar complejidad. El conjunto mínimo, los nombres de columnas y los límites de parámetros se validarán al inspeccionar el archivo oficial.
+El ejercicio comienza construyendo la **geodatabase mínima de dos tablas aprobada**: `departamento` (alfanumérica) y `municipio` (geográfica) con relación 1:N. Sus columnas, claves, restricciones, tipo geométrico e índice constan en [Etapa 01 — diseño físico](etapa-01-geodatabase.md). El backend consulta principalmente `municipio`; no se requiere introducir entidades adicionales para aparentar complejidad. La cartografía oficial se audita y sus campos se mapean al esquema ya creado.
 
 La implementación real de `backend/main.py`, `frontend/index.html`, `frontend/style.css` y `frontend/app.js` será progresiva. Este documento especifica **cómo debe comportarse la aplicación**, pero no afirma que exista una implementación funcional.

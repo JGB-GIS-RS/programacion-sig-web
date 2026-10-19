@@ -2,7 +2,7 @@
 
 ## 1. Orientación curricular
 
-Los estudiantes de **Programación para SIG** ya cursaron Bases de Datos Geográficas y han trabajado con HTML, CSS, JavaScript, Leaflet y eventos. Por tanto, **la geodatabase se introduce como infraestructura disponible**, no como un nuevo curso de modelación de datos.
+Los estudiantes de **Programación para SIG** ya cursaron Bases de Datos Geográficas y han trabajado con HTML, CSS, JavaScript, Leaflet y eventos. Por tanto, **diseñaremos e implementaremos nosotros mismos una geodatabase mínima como etapa aplicada de preparación**, sin convertir el ejercicio en un nuevo curso de modelación de datos. La integración web y las consultas espaciales seguirán siendo el centro.
 
 El énfasis se sitúa en:
 
@@ -21,7 +21,7 @@ El énfasis se sitúa en:
 - VS Code y navegador con herramientas de desarrollador para frontend.
 - Live Server u otro servidor local para servir HTML/CSS/JS por HTTP.
 
-No es necesario rediseñar esquemas relacionales complejos. Basta con recordar a los estudiantes cómo se comprueban una clave única, un tipo geométrico, un SRID y la validez de las geometrías.
+No es necesario repetir una unidad extensa de modelos conceptual y lógico. La **Etapa 01** construye directamente en PostgreSQL/PostGIS dos tablas (`departamento` y `municipio`), sus claves, relación, restricciones e índice GiST. Véanse la [guía detallada de diseño físico](etapa-01-geodatabase.md) y los scripts SQL incluidos en el repositorio.
 
 La máquina docente ya puede contar con PostgreSQL/PostGIS y QGIS conectados; **esa configuración local no equivale a archivos implementados en este repositorio**.
 
@@ -41,19 +41,18 @@ La máquina docente ya puede contar con PostgreSQL/PostGIS y QGIS conectados; **
 
 No fijar una versión de capa por suposición: verificar el producto efectivamente usado. No subir archivos pesados o de redistribución restringida al repositorio sin revisar su licencia.
 
-### Tabla mínima de trabajo
+### Modelo físico aprobado
 
-La **primera versión** puede operar con una sola tabla:
+La **primera versión** construye **dos tablas propias** antes de importar la cartografía:
 
-| Columna | Requisito | Uso |
+| Tabla | Columnas principales | Función |
 |---|---|---|
-| `cod_municipio` | Texto de cinco caracteres, clave primaria | Filtro `/municipios/{codigo}` |
-| `nombre` | Texto no nulo | Popup, listado, resultados |
-| `geom` | Multipolígono con SRID conocido y geometría no nula | Publicación, identificación y proximidad |
+| `departamento` | `cod_departamento` (PK), `nombre` | Entidad territorial alfanumérica; Quindío (`63`) |
+| `municipio` | `cod_municipio` (PK), `nombre`, `cod_departamento` (FK), `geom` | Geometrías y atributos usados por F1–F4 |
 
-El esquema `municipio` es una **propuesta de interfaz de datos**: antes de imponerlo hay que verificar nombres, tipos y geometrías del insumo descargado. Durante la preparación puede normalizarse una geometría de tipo Polygon a MultiPolygon, sin alterar indebidamente las coordenadas.
+La relación es **Departamento 1:N Municipio**. La columna `geom` se define como `geometry(MultiPolygon,4326)`; se crean restricciones e índice GiST. Antes de incorporar datos oficiales se espera un registro en `departamento` y cero en `municipio`.
 
-Una segunda tabla `departamento` y su relación 1:N son posibles ampliaciones, no prerrequisitos de F1–F4. Las consultas de áreas se calcularán, sin almacenar necesariamente una cifra derivada redundante.
+**Construcción y verificación en pgAdmin:** [Etapa 01 — modelo físico](etapa-01-geodatabase.md). Los nombres de los campos originales de la fuente DANE se mapearán explícitamente a nuestro esquema durante la carga, sin sustituirlo por el modelo de atributos de la descarga. El área se calculará desde la geometría cuando corresponda.
 
 ### CRS y validación
 
@@ -92,8 +91,10 @@ Clave primaria sobre `cod_municipio` e índice GiST sobre `geom` constituyen una
 
 ## 4. Etapas y criterios de avance
 
-### E1. Datos disponibles desde PostGIS
+### E1. Modelo físico y datos disponibles desde PostGIS
 
+- Crear primero las tablas `departamento` y `municipio`, sus restricciones e índice usando [la guía de la Etapa 01](etapa-01-geodatabase.md).
+- Verificar que hay 1 registro departamental y 0 municipales antes de importar la fuente.
 - Importar municipios, verificar conteo, identificadores, SRID y geometrías.
 - Ejecutar al menos una consulta de atributos y una función espacial en pgAdmin.
 - Abrir la tabla desde QGIS y comprobar visualmente que es la misma fuente.

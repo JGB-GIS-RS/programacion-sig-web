@@ -68,15 +68,20 @@ De igual forma, una operación espacial realizada exclusivamente en JavaScript *
 
 La preparación de PostGIS **no es el resultado final**; es la condición de partida para programar el visor. Revisión del dato, secuencia de trabajo, controles y entregables: [Hoja de ruta](docs/hoja-de-ruta.md).
 
-## Datos espaciales de partida
+## Etapa 01 · Geodatabase diseñada e implementada en PostGIS
 
-Modelo **mínimo** de una tabla geográfica `municipio`:
+Hemos decidido **construir las tablas antes de cargar la cartografía**: la base de datos espacial no será una simple importación automática de una capa del DANE. La recuperación conceptual es breve porque el alumnado ya aprobó Bases de Datos Geográficas; el trabajo principal del curso sigue siendo la conexión con el geovisor.
 
-- `cod_municipio`: identificador DIVIPOLA de cinco caracteres (texto, conserva ceros a la izquierda);
-- `nombre`: nombre municipal;
-- `geom`: geometría multipoligonal, válida y con SRID declarado.
+El diseño físico inicial consta de:
 
-Se puede añadir una tabla `departamento` si un objetivo posterior requiere `JOIN` y relaciones, **pero no es necesaria** para demostrar el flujo PostGIS–FastAPI–Leaflet. El área puede calcularse en el servidor y no necesita duplicarse como atributo persistente. Se revisarán geometrías, fuente oficial, licencia, fecha de referencia y transformaciones antes de cargar datos. La elección inicial de EPSG:4326 para `geom` se documenta como una convención de la práctica, no como un requisito de la fuente.
+- **`public.departamento`**: `cod_departamento` (PK, texto de 2 dígitos) y `nombre`.
+- **`public.municipio`**: `cod_municipio` (PK, texto de 5 dígitos), `nombre`, `cod_departamento` (FK a `departamento`) y `geom geometry(MultiPolygon,4326)`.
+- Restricciones sobre códigos, relación departamental, geometrías válidas/no vacías e índice espacial **GiST** sobre `geom`.
+- Un registro inicial para **Quindío (`63`)** y, antes de cargar la fuente oficial, **cero municipios**.
+
+**Guía completa y SQL reproducible:** [Etapa 01 — diseño físico e implementación](docs/etapa-01-geodatabase.md) · [Script de creación](sql/01_crear_geodatabase.sql) · [Script de verificación](sql/02_verificar_geodatabase.sql).
+
+Los datos municipales del DANE se auditarán e incorporarán después a nuestra estructura. EPSG:4326 es una convención del prototipo para intercambiar GeoJSON, no una unidad métrica para cálculos de distancia. El área se calculará en PostGIS cuando se solicite; no se almacena obligatoriamente como campo redundante.
 
 **Precauciones geodésicas:** GeoJSON se publica en coordenadas WGS 84, longitud/latitud; las distancias en metros no se calculan directamente sobre grados. Para F4 se propone `geography` en PostGIS o una transformación proyectada apropiada. No confundir `ST_SetSRID()` con `ST_Transform()`.
 
@@ -93,6 +98,8 @@ Se puede añadir una tabla `departamento` si un objetivo posterior requiere `JOI
 
 ## Documentación
 
+- [docs/etapa-01-geodatabase.md](docs/etapa-01-geodatabase.md) — **etapa inicial aprobada**, modelo físico, pasos en pgAdmin, SQL íntegro y verificación.
+- [sql/01_crear_geodatabase.sql](sql/01_crear_geodatabase.sql) y [sql/02_verificar_geodatabase.sql](sql/02_verificar_geodatabase.sql) — scripts reproducibles para la práctica.
 - [docs/arquitectura.md](docs/arquitectura.md) — responsabilidades, flujos de petición/respuesta, decisiones de seguridad, GeoJSON y CRS.
 - [docs/funcionalidades.md](docs/funcionalidades.md) — **F1–F4**, endpoints, lógica espacial, eventos, casos límite y criterios de aceptación.
 - [docs/hoja-de-ruta.md](docs/hoja-de-ruta.md) — prerrequisitos, preparación de datos del Quindío, progresión docente y evidencias de comprobación.
@@ -102,7 +109,8 @@ Se puede añadir una tabla `departamento` si un objetivo posterior requiere `JOI
 ~~~text
 programacion-sig-web/
 ├── README.md
-├── docs/                    # Documentación de diseño (existente)
+├── docs/                    # Documentación de diseño y etapas (existente)
+├── sql/                     # Creación y comprobación de la geodatabase (existente)
 ├── datos/                   # Insumos y su procedencia (por incorporar)
 ├── backend/
 │   └── main.py              # API FastAPI (por implementar)

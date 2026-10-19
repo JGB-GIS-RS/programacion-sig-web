@@ -4,7 +4,7 @@ Las cuatro funcionalidades siguientes constituyen el **núcleo obligatorio** del
 
 ## Reglas comunes
 
-- Fuente de datos: tabla `municipio` validada; identificador `cod_municipio`, nombre `nombre`, geometría `geom`.
+- Fuente de datos: tabla `municipio` validada; identificador `cod_municipio`, nombre `nombre`, geometría `geom` y clave foránea `cod_departamento` a la tabla `departamento`. Modelo y scripts: [Etapa 01 — geodatabase](etapa-01-geodatabase.md).
 - Supuesto inicial: `geom geometry(MultiPolygon,4326)`. Si se decide otro SRID, se actualizan de forma coherente las transformaciones y consultas.
 - Entrada desde Leaflet: latitud y longitud del clic; hacia la API se usan parámetros **`lon` y `lat`**; al construir un punto SQL: **`ST_MakePoint(lon, lat)`**.
 - Respuestas cartográficas: GeoJSON `FeatureCollection`, incluso con cero elementos. Geometría publicada en WGS 84 / EPSG:4326.
