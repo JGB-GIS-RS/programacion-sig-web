@@ -27,23 +27,33 @@ Las cuatro funcionalidades siguientes constituyen el **núcleo obligatorio** del
 3. El backend devuelve `FeatureCollection` con `cod_municipio`, `nombre` y `geometry`.
 4. Leaflet dibuja `L.geoJSON(datos)` y encuadra la extensión de resultados.
 
-**Contrato mínimo de una entidad (ilustrativo, no son coordenadas reales):**
+**Ejemplo sintético de estructura GeoJSON** (geometría y atributos inventados únicamente para ilustrar el formato; **no corresponde a un municipio real**):
 
 ~~~json
 {
   "type": "Feature",
   "properties": {
-    "cod_municipio": "63001",
-    "nombre": "Armenia"
+    "cod_municipio": "00000",
+    "nombre": "Ejemplo sintético"
   },
   "geometry": {
     "type": "MultiPolygon",
-    "coordinates": []
+    "coordinates": [
+      [
+        [
+          [-75.7, 4.5],
+          [-75.6, 4.5],
+          [-75.6, 4.6],
+          [-75.7, 4.6],
+          [-75.7, 4.5]
+        ]
+      ]
+    ]
   }
 }
 ~~~
 
-El ejemplo anterior muestra únicamente la **estructura**. Una geometría real requiere anillos de coordenadas válidos; `coordinates: []` **no constituye una geometría de demostración válida**.
+En la aplicación real **ninguna coordenada ni atributo se inventa**: se serializan los registros leídos desde PostGIS y se publican juntos en una `FeatureCollection`.
 
 **Aceptación:** los polígonos visibles coinciden con los registros de PostGIS; el inspector de red muestra `GET /municipios` con HTTP 200 y GeoJSON válido; el número esperado es 12, sujeto a la auditoría de la fuente. Se muestran errores si la API no está disponible.
 
