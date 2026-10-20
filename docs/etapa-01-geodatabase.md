@@ -5,7 +5,7 @@
 **Territorio de estudio:** municipios del Quindío, Colombia  
 **Base de datos:** `programacion_sig` · **Esquema:** `public`
 
-> **Estado:** guía y scripts de implementación disponibles en GitHub. Su publicación **no acredita** que las tablas ya hayan sido creadas en la instalación local del docente. La ejecución y la verificación se realizarán en pgAdmin 4.
+> **Estado actualizado al 20-10-2026:** la creación de ambas tablas se verificó en pgAdmin (inicialmente `departamento = 1`, `municipio = 0`) y la carga posterior de 12 municipios está documentada en [Etapa 02](etapa-02-carga-municipios.md). Los scripts de esta página permiten reproducir la creación **solo en un entorno nuevo**, no repetirla sobre la instalación ya poblada.
 
 ## 1. Propósito de esta etapa
 
@@ -188,7 +188,7 @@ La clave primaria evita códigos duplicados dentro de cada tabla. La clave forá
 
 No se han impuesto restricciones universales sobre nombres únicos, número fijo de departamentos, geometrías sin intersecciones entre municipios o área superficial: requieren definición y validación adicional del dominio. Por ahora no crearemos índices o relaciones extra sin justificación. Con doce municipios, el GiST tiene sobre todo **valor formativo**; no se presupone una mejora de rendimiento medible.
 
-## 6. Siguientes operaciones (todavía no ejecutadas)
+## 6. Operaciones posteriores (ejecutadas y documentadas en Etapa 02)
 
 Una vez validada la estructura:
 
@@ -200,7 +200,7 @@ Una vez validada la estructura:
 6. Verificar doce registros, SRID, geometrías válidas y consistencia territorial desde pgAdmin/QGIS.
 7. Empezar **F1: `GET /municipios` con FastAPI**, que recuperará esos datos y los publicará como GeoJSON en Leaflet.
 
-**Por ahora, la evidencia docente requerida es una captura de la consulta de verificación con `departamento = 1` y `municipio = 0`.** Ese hito separa la construcción de la estructura de la carga de datos y de la futura integración web.
+**Evidencia registrada de esta etapa:** antes de la carga se obtuvo `departamento = 1`, `municipio = 0`. Posteriormente se insertaron 12 municipios en la tabla propia; consultar [Etapa 02 — carga y validación](etapa-02-carga-municipios.md) para conocer la auditoría y los scripts de transferencia. **No ejecutar de nuevo el script de creación sobre las tablas actuales.**
 
 ## 7. Relación con el resultado final del curso
 

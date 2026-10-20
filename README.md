@@ -81,9 +81,20 @@ El diseño físico inicial consta de:
 
 **Guía completa y SQL reproducible:** [Etapa 01 — diseño físico e implementación](docs/etapa-01-geodatabase.md) · [Script de creación](sql/01_crear_geodatabase.sql) · [Script de verificación](sql/02_verificar_geodatabase.sql).
 
-Los datos municipales del DANE se auditarán e incorporarán después a nuestra estructura. EPSG:4326 es una convención del prototipo para intercambiar GeoJSON, no una unidad métrica para cálculos de distancia. El área se calculará en PostGIS cuando se solicite; no se almacena obligatoriamente como campo redundante.
+En la **Etapa 02**, ya se incorporaron y auditaron los 12 registros en el equipo docente (véase abajo). EPSG:4326 es una convención del prototipo para intercambiar GeoJSON, no una unidad métrica para cálculos de distancia. El área se calculará en PostGIS cuando se solicite; no se almacena obligatoriamente como campo redundante.
 
 **Precauciones geodésicas:** GeoJSON se publica en coordenadas WGS 84, longitud/latitud; las distancias en metros no se calculan directamente sobre grados. Para F4 se propone `geography` en PostGIS o una transformación proyectada apropiada. No confundir `ST_SetSRID()` con `ST_Transform()`.
+
+
+## Etapa 02 · Poblamiento y auditoría completados (20-10-2026)
+
+A partir de la fuente oficial **DANE DIVIPOLA MGN 2025**, se filtraron los **12 municipios del Quindío**, se exportaron desde QGIS a GeoPackage con transformación **EPSG:3857 → EPSG:4326**, y se importaron primero a `public.municipios_quindio_2025_stg`.
+
+Se realizó una transferencia controlada a nuestra propia tabla `public.municipio`: PostgreSQL informó **`INSERT 0 12`**. La auditoría final mostró **12** en cada indicador (registros, códigos únicos, municipio del Quindío, SRID 4326, MultiPolygon y validez geométrica). Un `INNER JOIN` con `public.departamento` recuperó **12 filas**.
+
+**Documentación y SQL:** [Etapa 02 — carga y validación](docs/etapa-02-carga-municipios.md) · [Auditar staging](sql/03_auditar_staging.sql) · [Transferencia reproducible](sql/04_cargar_municipios.sql) · [Validación final](sql/05_verificar_carga.sql).
+
+> **Estado de la evidencia:** resultados observados en pgAdmin/QGIS durante la práctica local; la base de datos y el GeoPackage no están alojados en este repositorio. La auditoría de topología entre municipios sigue pendiente. **No volver a ejecutar el INSERT sobre la tabla docente ya poblada.**
 
 ## Contrato previsto de la API
 
@@ -98,8 +109,9 @@ Los datos municipales del DANE se auditarán e incorporarán después a nuestra 
 
 ## Documentación
 
-- [docs/etapa-01-geodatabase.md](docs/etapa-01-geodatabase.md) — **etapa inicial aprobada**, modelo físico, pasos en pgAdmin, SQL íntegro y verificación.
-- [sql/01_crear_geodatabase.sql](sql/01_crear_geodatabase.sql) y [sql/02_verificar_geodatabase.sql](sql/02_verificar_geodatabase.sql) — scripts reproducibles para la práctica.
+- [docs/etapa-01-geodatabase.md](docs/etapa-01-geodatabase.md) — modelo físico y creación de la geodatabase.
+- [docs/etapa-02-carga-municipios.md](docs/etapa-02-carga-municipios.md) — **carga real y auditoría observada**, correspondencia de campos y resultados SQL.
+- [sql/](sql/) — scripts SQL de **creación, auditoría staging, inserción controlada y verificación**.
 - [docs/arquitectura.md](docs/arquitectura.md) — responsabilidades, flujos de petición/respuesta, decisiones de seguridad, GeoJSON y CRS.
 - [docs/funcionalidades.md](docs/funcionalidades.md) — **F1–F4**, endpoints, lógica espacial, eventos, casos límite y criterios de aceptación.
 - [docs/hoja-de-ruta.md](docs/hoja-de-ruta.md) — prerrequisitos, preparación de datos del Quindío, progresión docente y evidencias de comprobación.

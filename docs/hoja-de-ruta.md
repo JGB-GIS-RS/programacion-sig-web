@@ -93,6 +93,8 @@ Clave primaria sobre `cod_municipio` e índice GiST sobre `geom` constituyen una
 
 ### E1. Modelo físico y datos disponibles desde PostGIS
 
+**Estado observado en la instalación docente: completado el 20-10-2026.** Se han creado ambas tablas; se insertaron 12 municipios desde staging y se comprobaron los seis indicadores (todos con valor 12), además de un JOIN de 12 filas. Ver [Etapa 02 y auditoría de carga](etapa-02-carga-municipios.md). La topología del conjunto permanece pendiente de auditar.
+
 - Crear primero las tablas `departamento` y `municipio`, sus restricciones e índice usando [la guía de la Etapa 01](etapa-01-geodatabase.md).
 - Verificar que hay 1 registro departamental y 0 municipales antes de importar la fuente.
 - Importar municipios, verificar conteo, identificadores, SRID y geometrías.
@@ -176,7 +178,7 @@ GET /consultas/proximidad?lon=...&lat=...&radio_m=...
 
 | Entregable | Contenido verificable |
 |---|---|
-| Datos auditados | Fuente, CRS, tabla PostGIS y consultas de validación |
+| Datos auditados | **Completado en la instalación docente**: fuente DANE 2025, 12 municipios, EPSG:4326, validación SQL y JOIN. Detalle: [Etapa 02](etapa-02-carga-municipios.md) |
 | Backend mínimo | API operativa con endpoints y acceso a PostGIS |
 | Frontend mínimo | Mapa Leaflet, capas GeoJSON y manejo de estados |
 | F1 y F2 | Publicación, selección local y consulta de detalle |
@@ -185,6 +187,6 @@ GET /consultas/proximidad?lon=...&lat=...&radio_m=...
 
 ## 7. Alcance y estado
 
-Este documento no acredita por sí mismo una aplicación funcional. **La documentación define el contrato y la secuencia; el código, los datos y las pruebas se incorporarán de forma progresiva.** No confundir la instalación local del software ni la conexión QGIS–PostGIS con una API integrada.
+La **geodatabase local ya fue poblada y verificada en la sesión docente**; la documentación recoge resultados observados, no sustituye una copia de la base ni constituye una aplicación funcional. **FastAPI y el frontend siguen pendientes de implementación**. No confundir carga local de datos con una API integrada.
 
 El núcleo del aprendizaje no es construir el diseño relacional desde cero, sino **programar y justificar cómo las solicitudes de un visor activan consultas reales sobre una base de datos espacial**.
