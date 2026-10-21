@@ -26,6 +26,12 @@ Diseñar, implementar y evaluar una aplicación SIG web multiusuario mediante la
 7. El docente abre el centro de control Leaflet y visualiza el nuevo reporte junto con atributos, foto y estado.
 8. Se comprueba la llegada desde dispositivos y redes diferentes sin intervención manual sobre archivos.
 
+## Arquitectura funcional del piloto — figura 01
+
+La figura recoge el flujo multiusuario desde distintos sectores y redes hasta el servidor central, la persistencia geoespacial y el centro de control. Se mantiene en formato Mermaid, editable y renderizable por GitHub.
+
+**[Ver figura 01 y documentación de arquitectura funcional](docs/arquitectura-funcional-piloto.md)**.
+
 ## Arquitectura de referencia
 - **Frontend ciudadano:** HTML, CSS, JavaScript y Leaflet; interfaz móvil adaptable, posible PWA futura.
 - **Backend:** Python y FastAPI, con endpoints HTTP para crear y consultar reportes.
