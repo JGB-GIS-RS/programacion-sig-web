@@ -47,6 +47,12 @@ El modelo inicial de dos tablas ya está implementado y validado. Para enriquece
 
 **[Diseño conceptual y lógico, criterios de integridad y ruta de ampliación](docs/modelo-ampliado-cuatro-tablas.md)**. La ampliación no modifica por ahora las tablas existentes ni el endpoint local `GET /municipios`; su implementación se planificará después de acordar una fuente de equipamientos trazable.
 
+## Etapa 04 — F1: geovisor Leaflet (código preparado)
+
+Se añadieron los archivos [`frontend/index.html`](frontend/index.html), [`frontend/style.css`](frontend/style.css) y [`frontend/app.js`](frontend/app.js). Consultan el endpoint local `GET /municipios`, dibujan los polígonos mediante `L.geoJSON()` y ajustan el encuadre. **La integración visual todavía debe validarse en el equipo docente**; no se considera F1 finalizada.
+
+[Guía de integración con el backend Python local](docs/etapa-04-f1-leaflet.md). El archivo `backend/main.py` sigue siendo local; no se ha publicado código con credenciales.
+
 ## Cuatro funcionalidades del geovisor
 
 | ID | Funcionalidad | Interacción | Resultado esperado |
@@ -118,6 +124,8 @@ Se realizó una transferencia controlada a nuestra propia tabla `public.municipi
 **Estos endpoints son un contrato de diseño; todavía no están implementados.** En los límites compartidos, la consulta de ubicación puede devolver más de un municipio; fuera del área de estudio, ninguno. La especificación de parámetros, unidades, estados y pruebas está en [Funcionalidades y pruebas](docs/funcionalidades.md).
 
 ## Documentación
+
+- [docs/etapa-04-f1-leaflet.md](docs/etapa-04-f1-leaflet.md) — frontend de F1, integración y criterios de aceptación.
 
 - [docs/etapa-01-geodatabase.md](docs/etapa-01-geodatabase.md) — modelo físico y creación de la geodatabase.
 - [docs/etapa-02-carga-municipios.md](docs/etapa-02-carga-municipios.md) — **carga real y auditoría observada**, correspondencia de campos y resultados SQL.

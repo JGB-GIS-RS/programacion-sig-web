@@ -1,0 +1,23 @@
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#173549;background:#f3f7f9}
+*{box-sizing:border-box}body{margin:0;min-width:320px;min-height:100vh;display:flex;flex-direction:column}
+header{display:flex;align-items:center;gap:20px;background:#153b54;color:white;padding:15px 25px}
+header strong{letter-spacing:.1em}header span{font-size:14px;color:#d1e9ed}
+main{display:grid;grid-template-columns:minmax(290px,350px) minmax(0,1fr);flex:1;min-height:0}
+aside{padding:30px;background:white;border-right:1px solid #dde7ec}
+.etiqueta{display:inline-block;padding:8px 10px;border-radius:8px;background:#e0f4ed;color:#087569;font-size:11px;font-weight:700}
+h1{font-size:34px;line-height:1.15;margin:20px 0 12px}
+aside p{color:#4e6777;font-size:14px;line-height:1.65}
+.contador{display:flex;align-items:baseline;gap:12px;padding:18px;background:#eff8f5;border:1px solid #cce7e0;border-radius:12px;margin-top:22px}
+.contador strong{font-size:38px;color:#076f64}.contador span{font-size:14px}
+#estado{min-height:24px}#estado.error{color:#b32626;font-weight:600}
+button{padding:13px;border:0;border-radius:9px;background:#08776d;color:white;cursor:pointer;width:100%;font-weight:700}
+button:disabled{opacity:.5;cursor:not-allowed}
+button:hover:not(:disabled){background:#075e57}
+.nota{margin-top:28px;padding-top:18px;border-top:1px solid #e0e9ec}
+.nota h2{font-size:16px}.nota p{font-size:13px}.nota code{font-weight:700;color:#08675e}
+.mapa-contenedor{position:relative;min-width:0;min-height:530px}
+#mapa{width:100%;height:100%;min-height:530px;background:#e8f0f2}
+.leyenda{position:absolute;bottom:20px;left:18px;z-index:900;padding:11px 13px;background:white;box-shadow:0 2px 16px #1234;border-radius:8px;display:flex;align-items:center;gap:8px;font-size:13px}
+.muestra{width:20px;height:13px;border:2px solid #00776f;background:#58b8a0a6}
+footer{padding:12px 25px;background:#153b54;color:#c9e3ea;font-size:12px}
+@media(max-width:760px){main{grid-template-columns:1fr}aside{padding:20px}.nota{display:none}.mapa-contenedor,#mapa{min-height:56vh}}

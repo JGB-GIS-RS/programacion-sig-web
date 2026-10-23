@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quindío | Programación SIG Web</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header><strong>SIG WEB</strong><span>Programación para SIG · F1</span></header>
+  <main>
+    <aside>
+      <span class="etiqueta">ETAPA 04 · GEOVISOR MUNICIPAL</span>
+      <h1>Municipios del Quindío</h1>
+      <p>Geometrías oficiales DANE 2025, almacenadas en PostGIS y publicadas mediante FastAPI.</p>
+      <div class="contador"><strong id="total">—</strong><span>municipios cargados</span></div>
+      <p id="estado" role="status" aria-live="polite">Consultando la geodatabase...</p>
+      <button id="centrar" disabled>Ver todos los municipios</button>
+      <section class="nota">
+        <h2>¿Qué comprobamos?</h2>
+        <p>JavaScript solicita <code>GET /municipios</code> y Leaflet dibuja el GeoJSON obtenido desde la base espacial.</p>
+        <p>Un clic muestra datos ya descargados; todavía no ejecuta una nueva consulta espacial.</p>
+      </section>
+    </aside>
+    <section class="mapa-contenedor" aria-label="Mapa de municipios">
+      <div id="mapa"></div>
+      <div class="leyenda"><span class="muestra"></span> Límites municipales</div>
+    </section>
+  </main>
+  <footer>Fuente cartográfica: DANE · DIVIPOLA MGN 2025 · Práctica académica local</footer>
+</body>
+</html>
