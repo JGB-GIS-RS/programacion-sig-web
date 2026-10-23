@@ -10,7 +10,7 @@
   <script src="/static/app.js" defer></script>
 </head>
 <body>
-  <header><strong>SIG WEB</strong><span>Programación para SIG · F1 + F2</span></header>
+  <header><strong>SIG WEB</strong><span>Programación para SIG · F1 + F2 + F3</span></header>
   <main>
     <aside>
       <span class="etiqueta">ETAPA 04 · GEOVISOR MUNICIPAL</span>
@@ -19,10 +19,23 @@
       <div class="contador"><strong id="total">—</strong><span>municipios cargados</span></div>
       <p id="estado" role="status" aria-live="polite">Consultando la geodatabase...</p>
       <button id="centrar" disabled>Ver todos los municipios</button>
+      <section class="identificacion" aria-labelledby="titulo-identificacion">
+        <span class="etiqueta">F3 · CONSULTA ESPACIAL</span>
+        <h2 id="titulo-identificacion">Identificar por ubicación</h2>
+        <p>Activa este modo y haz clic sobre cualquier lugar del mapa. PostGIS determinará qué municipios cubren el punto.</p>
+        <button id="identificar" class="boton-identificar" type="button"
+                aria-pressed="false" disabled>Identificar ubicación</button>
+        <p id="estado-identificacion" class="coordenadas" role="status" aria-live="polite">
+          Activa el modo para comenzar.
+        </p>
+        <p id="resultado-identificacion" class="resultado-ubicacion" aria-live="polite">
+          Todavía no se ha efectuado ninguna consulta espacial.
+        </p>
+      </section>
       <section class="nota">
         <h2>¿Qué comprobamos?</h2>
         <p>JavaScript solicita <code>GET /municipios</code> y Leaflet dibuja el GeoJSON obtenido desde la base espacial.</p>
-        <p>El primer clic muestra atributos descargados. El botón <strong>Consultar detalle</strong> solicita al servidor la superficie geodésica calculada en PostGIS.</p>
+        <p>El clic normal abre un popup local (F1); <strong>Consultar detalle</strong> solicita el área geodésica (F2). En el modo F3, un clic envía coordenadas para ejecutar <code>ST_Covers()</code> en PostGIS.</p>
       </section>
     </aside>
     <section class="mapa-contenedor" aria-label="Mapa de municipios">

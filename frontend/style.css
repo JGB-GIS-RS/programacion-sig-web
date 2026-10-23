@@ -31,3 +31,15 @@ footer{padding:12px 25px;background:#153b54;color:#c9e3ea;font-size:12px}
 .leaflet-popup-content .resultado-detalle{
   margin:10px 0 0;font-size:12px;line-height:1.5;color:#315167;
 }
+
+/* F3: zona de consulta espacial en el panel lateral */
+.identificacion{margin-top:22px;padding:20px 0;border-top:1px solid #dce7eb}
+.identificacion h2{font-size:19px;margin:13px 0 7px}
+.identificacion p{font-size:13px;line-height:1.55}
+.boton-identificar{background:#245c79}
+.boton-identificar:hover:not(:disabled){background:#19465d}
+.boton-identificar.activo{background:#8b2c58}
+.boton-identificar.activo:hover:not(:disabled){background:#702245}
+.coordenadas{margin-bottom:7px;font-weight:600}
+.resultado-ubicacion{padding:12px;border-radius:9px;border:1px solid #d6e6eb;background:#f1f7fa;min-height:48px}
+#mapa.modo-identificar, #mapa.modo-identificar .leaflet-interactive{cursor:crosshair}

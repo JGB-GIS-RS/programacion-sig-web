@@ -59,6 +59,12 @@ Se amplió [`frontend/app.js`](frontend/app.js) con un botón **Consultar detall
 
 [Guía de integración y pruebas de F2](docs/etapa-05-f2-detalle-municipal.md).
 
+## Etapa 06 — F3: identificación por punto (preparada, no validada)
+
+Se incorpora al frontend un modo explícito **Identificar ubicación**. Al activarlo se suspenden temporalmente los popups F1/F2 y cada clic envía `lon` y `lat` a `GET /consultas/ubicacion`. El backend local debe ejecutar una consulta parametrizada con `ST_Covers`, devolver una `FeatureCollection` con cero, uno o más municipios y permitir resaltar las geometrías resultantes. **F3 aún requiere integrar el nuevo endpoint en el backend local y verificarlo en Chrome**.
+
+[Guía y pruebas de F3](docs/etapa-06-f3-identificacion-espacial.md).
+
 ## Cuatro funcionalidades del geovisor
 
 | ID | Funcionalidad | Interacción | Resultado esperado |
@@ -130,6 +136,8 @@ Se realizó una transferencia controlada a nuestra propia tabla `public.municipi
 **Estos endpoints son un contrato de diseño; todavía no están implementados.** En los límites compartidos, la consulta de ubicación puede devolver más de un municipio; fuera del área de estudio, ninguno. La especificación de parámetros, unidades, estados y pruebas está en [Funcionalidades y pruebas](docs/funcionalidades.md).
 
 ## Documentación
+
+- [docs/etapa-06-f3-identificacion-espacial.md](docs/etapa-06-f3-identificacion-espacial.md) — SQL `ST_Covers`, modo de identificación Leaflet y pruebas de casos límite.
 
 - [docs/etapa-05-f2-detalle-municipal.md](docs/etapa-05-f2-detalle-municipal.md) — diseño, código SQL/API y criterios de aceptación de F2.
 
