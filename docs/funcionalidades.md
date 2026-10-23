@@ -1,6 +1,6 @@
 # Especificación funcional y pruebas del geovisor — F1 a F4
 
-Las cuatro funcionalidades siguientes constituyen el **núcleo obligatorio** del ejercicio de Programación para SIG. Se ejecutarán en orden, sobre los límites municipales del Quindío cargados en PostgreSQL/PostGIS.
+Las cuatro funcionalidades siguientes constituyen el **núcleo obligatorio** del ejercicio de Programación para SIG. La [ampliación aprobada a cuatro tablas](modelo-ampliado-cuatro-tablas.md) permitirá consultas adicionales sobre equipamientos; no cambia retrospectivamente el significado de F1–F4 y todavía no se ha implementado. Se ejecutarán en orden, sobre los límites municipales del Quindío cargados en PostgreSQL/PostGIS.
 
 ## Reglas comunes
 

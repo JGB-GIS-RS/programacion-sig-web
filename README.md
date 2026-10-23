@@ -37,6 +37,16 @@ flowchart TB
 
 Véanse los flujos completos, la distribución de responsabilidades y los criterios técnicos en [Arquitectura](docs/arquitectura.md).
 
+## Modelo ampliado aprobado: cuatro tablas
+
+El modelo inicial de dos tablas ya está implementado y validado. Para enriquecer las consultas espaciales y temáticas del geovisor se ha **aprobado la opción A**, con cuatro tablas y tres relaciones 1:N:
+
+- `departamento` **1:N** `municipio` (existentes).
+- `municipio` **1:N** `equipamiento` (la tabla de puntos está pendiente de implementar).
+- `tipo_equipamiento` **1:N** `equipamiento` (catálogo y clasificación pendientes de implementar).
+
+**[Diseño conceptual y lógico, criterios de integridad y ruta de ampliación](docs/modelo-ampliado-cuatro-tablas.md)**. La ampliación no modifica por ahora las tablas existentes ni el endpoint local `GET /municipios`; su implementación se planificará después de acordar una fuente de equipamientos trazable.
+
 ## Cuatro funcionalidades del geovisor
 
 | ID | Funcionalidad | Interacción | Resultado esperado |
@@ -112,6 +122,7 @@ Se realizó una transferencia controlada a nuestra propia tabla `public.municipi
 - [docs/etapa-01-geodatabase.md](docs/etapa-01-geodatabase.md) — modelo físico y creación de la geodatabase.
 - [docs/etapa-02-carga-municipios.md](docs/etapa-02-carga-municipios.md) — **carga real y auditoría observada**, correspondencia de campos y resultados SQL.
 - [sql/](sql/) — scripts SQL de **creación, auditoría staging, inserción controlada y verificación**.
+- [docs/modelo-ampliado-cuatro-tablas.md](docs/modelo-ampliado-cuatro-tablas.md) — **opción A aprobada:** modelo de equipamientos, relaciones, integridad y consultas ampliadas (pendiente de implementación).
 - [docs/arquitectura.md](docs/arquitectura.md) — responsabilidades, flujos de petición/respuesta, decisiones de seguridad, GeoJSON y CRS.
 - [docs/funcionalidades.md](docs/funcionalidades.md) — **F1–F4**, endpoints, lógica espacial, eventos, casos límite y criterios de aceptación.
 - [docs/hoja-de-ruta.md](docs/hoja-de-ruta.md) — prerrequisitos, preparación de datos del Quindío, progresión docente y evidencias de comprobación.

@@ -137,6 +137,6 @@ Una interacción que solo opera sobre objetos previamente cargados también es v
 
 ## 8. Decisiones diferidas
 
-El ejercicio comienza construyendo la **geodatabase mínima de dos tablas aprobada**: `departamento` (alfanumérica) y `municipio` (geográfica) con relación 1:N. Sus columnas, claves, restricciones, tipo geométrico e índice constan en [Etapa 01 — diseño físico](etapa-01-geodatabase.md). El backend consulta principalmente `municipio`; no se requiere introducir entidades adicionales para aparentar complejidad. La cartografía oficial se audita y sus campos se mapean al esquema ya creado.
+La implementación inicial está sustentada por las **dos tablas ya creadas**: `departamento` (alfanumérica) y `municipio` (geográfica) con relación 1:N. Sus columnas y restricciones constan en [Etapa 01 — diseño físico](etapa-01-geodatabase.md). Como **ampliación de diseño aprobada, todavía no ejecutada**, incorporaremos `tipo_equipamiento` y `equipamiento` con dos relaciones 1:N adicionales; véase [modelo ampliado de cuatro tablas](modelo-ampliado-cuatro-tablas.md). Esta ampliación habilitará consultas temáticas y de puntos sin invalidar los endpoints o scripts del modelo inicial.
 
 La implementación real de `backend/main.py`, `frontend/index.html`, `frontend/style.css` y `frontend/app.js` será progresiva. Este documento especifica **cómo debe comportarse la aplicación**, pero no afirma que exista una implementación funcional.

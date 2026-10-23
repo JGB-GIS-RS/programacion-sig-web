@@ -185,6 +185,12 @@ GET /consultas/proximidad?lon=...&lat=...&radio_m=...
 | F3 y F4 | Identificación por punto y proximidad con SQL espacial |
 | Demostración final | Evidencia Network + respuesta HTTP + consulta SQL + mapa |
 
+## Ampliación acordada del modelo (pendiente de implementación)
+
+Se aprobó añadir `tipo_equipamiento` y `equipamiento` a las tablas ya construidas `departamento` y `municipio`. El diseño de las tres relaciones 1:N, las reglas de coherencia espacial y las consultas futuras están en [Modelo ampliado de cuatro tablas](modelo-ampliado-cuatro-tablas.md).
+
+**No ejecutar todavía scripts de carga ni modificar tablas existentes.** Antes se requiere identificar y auditar una fuente de equipamientos y cerrar el modelo físico de las nuevas tablas. Esta ampliación es compatible con la entrega F1 y no debe bloquear su avance.
+
 ## 7. Alcance y estado
 
 La **geodatabase local ya fue poblada y verificada en la sesión docente**; la documentación recoge resultados observados, no sustituye una copia de la base ni constituye una aplicación funcional. **FastAPI y el frontend siguen pendientes de implementación**. No confundir carga local de datos con una API integrada.
