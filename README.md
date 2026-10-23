@@ -47,9 +47,9 @@ El modelo inicial de dos tablas ya está implementado y validado. Para enriquece
 
 **[Diseño conceptual y lógico, criterios de integridad y ruta de ampliación](docs/modelo-ampliado-cuatro-tablas.md)**. La ampliación no modifica por ahora las tablas existentes ni el endpoint local `GET /municipios`; su implementación se planificará después de acordar una fuente de equipamientos trazable.
 
-## Etapa 04 — F1: geovisor Leaflet (código preparado)
+## Etapa 04 — F1: geovisor Leaflet (validación funcional completada)
 
-Se añadieron los archivos [`frontend/index.html`](frontend/index.html), [`frontend/style.css`](frontend/style.css) y [`frontend/app.js`](frontend/app.js). Consultan el endpoint local `GET /municipios`, dibujan los polígonos mediante `L.geoJSON()` y ajustan el encuadre. **La integración visual todavía debe validarse en el equipo docente**; no se considera F1 finalizada.
+Se añadieron los archivos [`frontend/index.html`](frontend/index.html), [`frontend/style.css`](frontend/style.css) y [`frontend/app.js`](frontend/app.js). Consultan el endpoint local `GET /municipios`, dibujan los polígonos mediante `L.geoJSON()` y ajustan el encuadre. **Integración funcional verificada en el equipo docente el 23 de octubre de 2026**: se visualizaron los 12 municipios, un popup local devolvió `ARMENIA` / `63001` y DevTools → Network mostró la petición `municipios` con **HTTP 200**, iniciada desde `app.js:38`. Se observó una transferencia indicada de aproximadamente 5.228 kB y una duración de 715 ms (valores de una sola prueba, no benchmark).
 
 [Guía de integración con el backend Python local](docs/etapa-04-f1-leaflet.md). El archivo `backend/main.py` sigue siendo local; no se ha publicado código con credenciales.
 

@@ -1,6 +1,6 @@
 # Etapa 04 — F1: representación de municipios en Leaflet
 
-**Estado:** código frontend incorporado a GitHub; integración y prueba visual **pendientes de verificar en el computador del docente**.
+**Estado: F1 validada funcionalmente en el computador del docente (23 de octubre de 2026).** Se comprobó el visor, la carga de doce municipios, el popup local de Armenia y la petición HTTP 200 mediante las herramientas de desarrollo de Chrome. El código del backend sigue pendiente de versionarse en GitHub.
 
 ## Propósito
 
@@ -57,7 +57,13 @@ Si el servidor ya estaba ejecutándose con `--reload`, al guardar `main.py` debe
 
 Abrir [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
 
-**Aceptación F1** (pendiente de evidencia): visualizar los 12 polígonos, ajustar extensión automáticamente, confirmar en las herramientas del navegador una petición HTTP 200 a `/municipios`, ver 12 entidades y comprobar el popup local de un municipio.
+**Aceptación F1 — evidencias observadas:** el visor representa los polígonos municipales y encuadra Quindío; muestra contador de **12 municipios cargados** y estado de GeoJSON recibido; el popup de Armenia identifica **ARMENIA** y **DIVIPOLA 63001**; en Chrome DevTools → Network, la petición `municipios` aparece con **HTTP 200**, tipo `fetch`, iniciada desde `app.js:38`.
+
+**Métricas de esa carga:** 5.228 kB indicados en Network y 715 ms observados. Son medidas puntuales y no permiten establecer rendimiento general; la complejidad de los vértices invita a evaluar simplificación de geometrías más adelante, sin alterar la tabla fuente.
+
+**Verificación adicional posible:** el panel de encabezados HTTP no se mostró en la captura y por ello no se afirma que se haya comprobado visualmente el valor literal `Content-Type`. La API ya había devuelto una `FeatureCollection` de 12 entidades en la prueba con PowerShell. La coherencia topológica entre los doce polígonos sigue fuera del alcance de esta validación.
+
+**Advertencia:** que GitHub contenga el frontend y documentación no significa que la aplicación completa sea reproducible directamente desde el repositorio: `backend/main.py` sigue local y deberá versionarse sin credenciales antes de afirmar reproducibilidad íntegra.
 
 El popup solo muestra atributos **ya descargados**. No supone una consulta adicional SQL: esa distinción se desarrollará en F2. Las consultas espaciales F3/F4 y el modelo ampliado de equipamientos están pendientes.
 
