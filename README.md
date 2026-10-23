@@ -53,9 +53,9 @@ Se añadieron los archivos [`frontend/index.html`](frontend/index.html), [`front
 
 [Guía de integración con el backend Python local](docs/etapa-04-f1-leaflet.md). El archivo `backend/main.py` sigue siendo local; no se ha publicado código con credenciales.
 
-## Etapa 05 — F2: detalle municipal mediante una consulta remota (preparada)
+## Etapa 05 — F2: detalle municipal (primera prueba visual positiva)
 
-Se amplió [`frontend/app.js`](frontend/app.js) con un botón **Consultar detalle** en el popup: el clic inicial usa atributos locales (F1) y el botón ejecuta una nueva petición `GET /municipios/{codigo}` (F2). El backend local debe incorporar el nuevo endpoint con SQL parametrizado y cálculo `ST_Area(geom::geography) / 1000000.0`. **F2 está preparada en GitHub, pero pendiente de comprobación funcional en la instalación docente.**
+Se amplió [`frontend/app.js`](frontend/app.js) con un botón **Consultar detalle** en el popup: el clic inicial usa atributos locales (F1) y el botón ejecuta una nueva petición `GET /municipios/{codigo}` (F2). El backend local debe incorporar el nuevo endpoint con SQL parametrizado y cálculo `ST_Area(geom::geography) / 1000000.0`. **F2 muestra una primera ejecución funcional en el navegador del docente**: el popup de Armenia (63001) presenta la superficie geodésica calculada **121,17 km²**. La captura de Network disponible solo acredita la petición general `GET /municipios` con HTTP 200; **queda por capturar la petición individual `GET /municipios/63001`** antes de cerrar F2 formalmente.
 
 [Guía de integración y pruebas de F2](docs/etapa-05-f2-detalle-municipal.md).
 

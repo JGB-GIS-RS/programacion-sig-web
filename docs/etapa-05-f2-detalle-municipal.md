@@ -1,7 +1,7 @@
 # Etapa 05 — F2: consulta remota de detalle municipal
 
 **Curso:** Programación para SIG  
-**Estado:** frontend F2 preparado en GitHub; **backend e integración pendientes de ejecutar y validar en el computador del docente**. El visor F1 y la geodatabase con 12 municipios ya funcionan localmente.
+**Estado (23 de octubre de 2026): primera prueba visual de F2 positiva en el computador del docente.** El popup de Armenia (DIVIPOLA 63001) mostró **121,17 km²** de superficie geodésica calculada tras pulsar «Consultar detalle». **Aún no se ha aportado captura de la petición individual en Chrome DevTools**: la captura disponible de Network muestra únicamente la carga F1 (`municipios`, HTTP 200). F2 no se considera completamente auditada hasta comprobar `GET /municipios/63001` con HTTP 200 y la respuesta JSON.
 
 ## 1. Diferencia conceptual entre F1 y F2
 
@@ -103,3 +103,12 @@ Comprobar también:
 F3 utilizará un clic sobre el mapa para construir un punto geográfico y ejecutar `ST_Covers` en PostGIS. F4 utilizará un radio definido por el usuario y `ST_DWithin`; ambas funcionalidades conservan el diseño del ejercicio municipal original.
 
 La [ampliación de cuatro tablas con equipamientos](modelo-ampliado-cuatro-tablas.md) sigue aprobada a nivel de diseño y se implementará posteriormente con su propia fuente y auditoría.
+
+## 7. Evidencia visual preliminar recibida
+
+- Popup sobre ARMENIA, código DIVIPOLA **63001**, con botón **Consultar detalle**.
+- Respuesta representada por el popup: **«Superficie geodésica calculada: 121,17 km²»**.
+- Chrome Network: petición **`municipios`**, HTTP **200**, tipo `fetch`, desde `app.js:100`, con **5.228 kB** y **509 ms** indicados para la carga general F1.
+- **Precaución:** estos valores de tiempo y tamaño corresponden a `GET /municipios`, no a la consulta individual. Las capturas no permiten inferir rendimiento de F2 ni acreditar todavía el HTTP 200 del endpoint `/municipios/63001`.
+
+**Prueba final pendiente:** con DevTools → Network → Fetch/XHR abierto, limpiar la lista, pulsar «Consultar detalle» y verificar la nueva entrada `municipios/63001`, su estado **200**, y el JSON de respuesta. Esta distinción es esencial en el propósito docente de F2.
