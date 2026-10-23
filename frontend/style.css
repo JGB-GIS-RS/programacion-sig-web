@@ -21,3 +21,13 @@ button:hover:not(:disabled){background:#075e57}
 .muestra{width:20px;height:13px;border:2px solid #00776f;background:#58b8a0a6}
 footer{padding:12px 25px;background:#153b54;color:#c9e3ea;font-size:12px}
 @media(max-width:760px){main{grid-template-columns:1fr}aside{padding:20px}.nota{display:none}.mapa-contenedor,#mapa{min-height:56vh}}
+
+/* F2: control y respuesta de la consulta remota en el popup */
+.leaflet-popup-content .boton-detalle{
+  display:block;width:100%;padding:9px 12px;font-size:13px;
+  background:#08776d;color:white;border:0;border-radius:7px;
+}
+.leaflet-popup-content .boton-detalle:disabled{opacity:.55}
+.leaflet-popup-content .resultado-detalle{
+  margin:10px 0 0;font-size:12px;line-height:1.5;color:#315167;
+}

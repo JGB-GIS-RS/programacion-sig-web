@@ -1,6 +1,6 @@
 "use strict";
 
-// F1: Leaflet representa los datos que consulta FastAPI desde PostGIS.
+// F1: representación de GeoJSON; F2: consulta remota de detalle municipal.
 const mapa = L.map("mapa").setView([4.5, -75.7], 9);
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -18,15 +18,77 @@ const estilo = {
   fillColor: "#58b8a0", fillOpacity: 0.35
 };
 
+// F2: solo esta función realiza una nueva petición por municipio.
+async function consultarDetalle(codigo, resultado, boton) {
+  boton.disabled = true;
+  resultado.textContent = "Consultando PostGIS...";
+
+  try {
+    const respuesta = await fetch(
+      "/municipios/" + encodeURIComponent(codigo),
+      { headers: { Accept: "application/json" } }
+    );
+
+    if (respuesta.status === 404) {
+      throw new Error("Municipio no encontrado en la base de datos");
+    }
+    if (!respuesta.ok) {
+      throw new Error("La API respondió con HTTP " + respuesta.status);
+    }
+
+    const datos = await respuesta.json();
+    const area = Number(datos.area_geodesica_km2);
+
+    if (datos.area_geodesica_km2 == null || !Number.isFinite(area)) {
+      throw new Error("La respuesta no contiene una superficie válida");
+    }
+
+    const formato = new Intl.NumberFormat("es-CO", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    resultado.textContent =
+      "Superficie geodésica calculada: " + formato.format(area) + " km²";
+
+  } catch (error) {
+    console.error("Fallo en consulta de detalle:", error);
+    resultado.textContent = "No fue posible consultar el detalle: " + error.message;
+  } finally {
+    boton.disabled = false;
+  }
+}
+
+// Un clic sobre el polígono muestra atributos LOCALES (F1).
+// Solo el botón del popup realiza una nueva consulta HTTP (F2).
 function prepararMunicipio(feature, capa) {
   const atributos = feature.properties || {};
-  // Se crean nodos DOM para no interpretar los atributos como HTML.
+  const codigoMunicipio = String(atributos.cod_municipio || "");
+
+  // TextContent evita interpretar atributos de datos como HTML.
   const contenido = document.createElement("div");
   const titulo = document.createElement("strong");
   titulo.textContent = String(atributos.nombre || "Municipio");
+
   const codigo = document.createElement("p");
-  codigo.textContent = "Código DIVIPOLA: " + String(atributos.cod_municipio || "—");
-  contenido.append(titulo, codigo);
+  codigo.textContent = "Código DIVIPOLA: " + (codigoMunicipio || "—");
+
+  const boton = document.createElement("button");
+  boton.type = "button";
+  boton.className = "boton-detalle";
+  boton.textContent = "Consultar detalle";
+  boton.disabled = !/^[0-9]{5}$/.test(codigoMunicipio);
+
+  const resultado = document.createElement("p");
+  resultado.className = "resultado-detalle";
+  resultado.setAttribute("aria-live", "polite");
+  resultado.textContent = "La superficie todavía no se ha consultado.";
+
+  boton.addEventListener("click", () => {
+    consultarDetalle(codigoMunicipio, resultado, boton);
+  });
+
+  contenido.append(titulo, codigo, boton, resultado);
+  L.DomEvent.disableClickPropagation(contenido);
   capa.bindPopup(contenido);
 
   capa.on("mouseover", () => capa.setStyle({ weight: 3, fillOpacity: 0.55 }));

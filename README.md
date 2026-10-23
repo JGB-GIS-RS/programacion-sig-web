@@ -53,6 +53,12 @@ Se añadieron los archivos [`frontend/index.html`](frontend/index.html), [`front
 
 [Guía de integración con el backend Python local](docs/etapa-04-f1-leaflet.md). El archivo `backend/main.py` sigue siendo local; no se ha publicado código con credenciales.
 
+## Etapa 05 — F2: detalle municipal mediante una consulta remota (preparada)
+
+Se amplió [`frontend/app.js`](frontend/app.js) con un botón **Consultar detalle** en el popup: el clic inicial usa atributos locales (F1) y el botón ejecuta una nueva petición `GET /municipios/{codigo}` (F2). El backend local debe incorporar el nuevo endpoint con SQL parametrizado y cálculo `ST_Area(geom::geography) / 1000000.0`. **F2 está preparada en GitHub, pero pendiente de comprobación funcional en la instalación docente.**
+
+[Guía de integración y pruebas de F2](docs/etapa-05-f2-detalle-municipal.md).
+
 ## Cuatro funcionalidades del geovisor
 
 | ID | Funcionalidad | Interacción | Resultado esperado |
@@ -124,6 +130,8 @@ Se realizó una transferencia controlada a nuestra propia tabla `public.municipi
 **Estos endpoints son un contrato de diseño; todavía no están implementados.** En los límites compartidos, la consulta de ubicación puede devolver más de un municipio; fuera del área de estudio, ninguno. La especificación de parámetros, unidades, estados y pruebas está en [Funcionalidades y pruebas](docs/funcionalidades.md).
 
 ## Documentación
+
+- [docs/etapa-05-f2-detalle-municipal.md](docs/etapa-05-f2-detalle-municipal.md) — diseño, código SQL/API y criterios de aceptación de F2.
 
 - [docs/etapa-04-f1-leaflet.md](docs/etapa-04-f1-leaflet.md) — frontend de F1, integración y criterios de aceptación.
 
