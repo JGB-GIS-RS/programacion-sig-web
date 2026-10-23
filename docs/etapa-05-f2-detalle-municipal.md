@@ -1,7 +1,7 @@
 # Etapa 05 — F2: consulta remota de detalle municipal
 
 **Curso:** Programación para SIG  
-**Estado (23 de octubre de 2026): primera prueba visual de F2 positiva en el computador del docente.** El popup de Armenia (DIVIPOLA 63001) mostró **121,17 km²** de superficie geodésica calculada tras pulsar «Consultar detalle». **Aún no se ha aportado captura de la petición individual en Chrome DevTools**: la captura disponible de Network muestra únicamente la carga F1 (`municipios`, HTTP 200). F2 no se considera completamente auditada hasta comprobar `GET /municipios/63001` con HTTP 200 y la respuesta JSON.
+**Estado (23 de octubre de 2026): F2 validada funcionalmente en el equipo del docente.** Tras pulsar «Consultar detalle», el popup de Armenia (DIVIPOLA 63001) mostró **121,17 km²** de superficie geodésica calculada. Chrome DevTools → Network registró las peticiones individuales `63001` y `63690` con **HTTP 200**, tipo `fetch`, iniciadas en `app.js:27`. Las capturas no incluyen la pestaña Response, por lo que el contenido JSON íntegro no se auditó visualmente, aunque la interfaz presentó el resultado calculado.
 
 ## 1. Diferencia conceptual entre F1 y F2
 
@@ -96,7 +96,7 @@ Comprobar también:
 6. Repetir con otro municipio; verificar que la URL y el dato corresponden al código seleccionado.
 7. Desconectar temporalmente la API solo si se necesita probar errores; la interfaz debe informar el fallo sin atribuir un valor falso.
 
-**F2 no se declara validada hasta completar estas verificaciones y registrar la evidencia.**
+**Criterio esencial de F2 cumplido:** la acción explícita provoca una petición individual HTTP 200 y muestra en el popup el valor de superficie calculada. Pruebas adicionales de códigos inválidos, inexistentes y el contenido JSON completo siguen recomendadas como pruebas de regresión.
 
 ## 6. Continuidad
 
@@ -104,11 +104,13 @@ F3 utilizará un clic sobre el mapa para construir un punto geográfico y ejecut
 
 La [ampliación de cuatro tablas con equipamientos](modelo-ampliado-cuatro-tablas.md) sigue aprobada a nivel de diseño y se implementará posteriormente con su propia fuente y auditoría.
 
-## 7. Evidencia visual preliminar recibida
+## 7. Evidencias funcionales recibidas
 
 - Popup sobre ARMENIA, código DIVIPOLA **63001**, con botón **Consultar detalle**.
 - Respuesta representada por el popup: **«Superficie geodésica calculada: 121,17 km²»**.
 - Chrome Network: petición **`municipios`**, HTTP **200**, tipo `fetch`, desde `app.js:100`, con **5.228 kB** y **509 ms** indicados para la carga general F1.
-- **Precaución:** estos valores de tiempo y tamaño corresponden a `GET /municipios`, no a la consulta individual. Las capturas no permiten inferir rendimiento de F2 ni acreditar todavía el HTTP 200 del endpoint `/municipios/63001`.
+- **Nueva evidencia Network (23-10-2026):** llamadas individuales `63690` y `63001`, ambas **HTTP 200**, tipo `fetch`, iniciador `app.js:27`. La tabla muestra, respectivamente, **0,2 kB / 55 ms** y **0,2 kB / 74 ms**. Estas son observaciones puntuales, no un benchmark de rendimiento.
+- El popup visible de **ARMENIA** (63001) muestra **«Superficie geodésica calculada: 121,17 km²»** después de pulsar el botón.
+- La captura del panel Network no presenta **Response** ni **Headers** expandidos. No se afirma haber auditado visualmente el JSON ni el contenido del encabezado HTTP.
 
-**Prueba final pendiente:** con DevTools → Network → Fetch/XHR abierto, limpiar la lista, pulsar «Consultar detalle» y verificar la nueva entrada `municipios/63001`, su estado **200**, y el JSON de respuesta. Esta distinción es esencial en el propósito docente de F2.
+**Conclusión:** F2 está **validada funcionalmente**; quedan como pruebas de regresión recomendadas el JSON exacto, los estados 404/422, la repetición con diversos municipios y la comprobación de que un clic sin pulsar el botón no provoca nuevas peticiones.

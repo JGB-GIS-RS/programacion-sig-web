@@ -53,9 +53,9 @@ Se añadieron los archivos [`frontend/index.html`](frontend/index.html), [`front
 
 [Guía de integración con el backend Python local](docs/etapa-04-f1-leaflet.md). El archivo `backend/main.py` sigue siendo local; no se ha publicado código con credenciales.
 
-## Etapa 05 — F2: detalle municipal (primera prueba visual positiva)
+## Etapa 05 — F2: consulta individual validada en el geovisor
 
-Se amplió [`frontend/app.js`](frontend/app.js) con un botón **Consultar detalle** en el popup: el clic inicial usa atributos locales (F1) y el botón ejecuta una nueva petición `GET /municipios/{codigo}` (F2). El backend local debe incorporar el nuevo endpoint con SQL parametrizado y cálculo `ST_Area(geom::geography) / 1000000.0`. **F2 muestra una primera ejecución funcional en el navegador del docente**: el popup de Armenia (63001) presenta la superficie geodésica calculada **121,17 km²**. La captura de Network disponible solo acredita la petición general `GET /municipios` con HTTP 200; **queda por capturar la petición individual `GET /municipios/63001`** antes de cerrar F2 formalmente.
+Se amplió [`frontend/app.js`](frontend/app.js) con un botón **Consultar detalle** en el popup: el clic inicial usa atributos locales (F1) y el botón ejecuta una nueva petición `GET /municipios/{codigo}` (F2). El backend local debe incorporar el nuevo endpoint con SQL parametrizado y cálculo `ST_Area(geom::geography) / 1000000.0`. **F2 validada funcionalmente en navegador (23 de octubre de 2026):** el popup de Armenia (63001) muestra **121,17 km²** y Chrome DevTools registra peticiones individuales `GET /municipios/63001` y `GET /municipios/63690` con **HTTP 200**. En la captura, el iniciador es `app.js:27`. La pestaña Response no se mostró; el resultado del popup y las solicitudes 200 sustentan la aceptación funcional, no una auditoría íntegra del JSON.
 
 [Guía de integración y pruebas de F2](docs/etapa-05-f2-detalle-municipal.md).
 
@@ -143,23 +143,20 @@ Se realizó una transferencia controlada a nuestra propia tabla `public.municipi
 - [docs/funcionalidades.md](docs/funcionalidades.md) — **F1–F4**, endpoints, lógica espacial, eventos, casos límite y criterios de aceptación.
 - [docs/hoja-de-ruta.md](docs/hoja-de-ruta.md) — prerrequisitos, preparación de datos del Quindío, progresión docente y evidencias de comprobación.
 
-## Organización prevista del código
+## Organización actual del código
 
 ~~~text
 programacion-sig-web/
 ├── README.md
-├── docs/                    # Documentación de diseño y etapas (existente)
-├── sql/                     # Creación y comprobación de la geodatabase (existente)
-├── datos/                   # Insumos y su procedencia (por incorporar)
-├── backend/
-│   └── main.py              # API FastAPI (por implementar)
-└── frontend/
-    ├── index.html           # Interfaz (por implementar)
-    ├── style.css            # Presentación (por implementar)
-    └── app.js               # Leaflet, fetch y eventos (por implementar)
+├── docs/                    # Guías y evidencias del proyecto
+├── sql/                     # Scripts de geodatabase y auditoría
+└── frontend/                # F1 + F2 versionadas en GitHub
+    ├── index.html
+    ├── style.css
+    └── app.js
 ~~~
 
-La estructura del frontend/backend es **proyectada** y se materializará por etapas. No se presentan ejemplos de arquitectura como código ya ejecutable.
+**Backend:** `backend/main.py` y `backend/probar_conexion.py` están funcionando **en la copia local del docente**, pero todavía no se han incorporado a este repositorio. El directorio local `.venv/` y el archivo privado `.env` permanecen fuera de Git; nunca deben publicarse. Las funcionalidades F3–F4 aún están pendientes.
 
 ## Criterio de logro
 
