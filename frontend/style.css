@@ -43,3 +43,18 @@ footer{padding:12px 25px;background:#153b54;color:#c9e3ea;font-size:12px}
 .coordenadas{margin-bottom:7px;font-weight:600}
 .resultado-ubicacion{padding:12px;border-radius:9px;border:1px solid #d6e6eb;background:#f1f7fa;min-height:48px}
 #mapa.modo-identificar, #mapa.modo-identificar .leaflet-interactive{cursor:crosshair}
+
+/* F4: consulta de proximidad */
+.proximidad{margin-top:22px;padding:20px 0;border-top:1px solid #dce7eb}
+.proximidad h2{font-size:19px;margin:13px 0 7px}
+.proximidad p{font-size:13px;line-height:1.55}
+.proximidad label{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}
+#radio-proximidad{width:100%;padding:11px;border:1px solid #a8c8d0;border-radius:8px;margin-bottom:10px;font:inherit}
+.boton-proximidad{background:#976022}
+.boton-proximidad:hover:not(:disabled){background:#784a18}
+.boton-proximidad.activo{background:#8b2c58}
+.resultado-proximidad{padding:12px;border-radius:9px;border:1px solid #d6e6eb;background:#f1f7fa;min-height:48px;font-size:13px;line-height:1.55;color:#315167}
+.resultado-proximidad p{margin:0 0 6px}
+.resultado-proximidad ol{margin:0;padding-left:20px}
+.resultado-proximidad li{margin:3px 0}
+#mapa.modo-proximidad, #mapa.modo-proximidad .leaflet-interactive{cursor:crosshair}
