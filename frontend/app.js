@@ -1,6 +1,6 @@
 "use strict";
 
-// F1: GeoJSON; F2: detalle municipal; F3: identificación espacial por clic.
+// F1: visualización; F2: detalle; F3: identificación; F4: proximidad geodésica.
 const mapa = L.map("mapa").setView([4.5, -75.7], 9);
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -14,12 +14,20 @@ const botonCentrar = document.getElementById("centrar");
 const botonIdentificar = document.getElementById("identificar");
 const estadoIdentificacion = document.getElementById("estado-identificacion");
 const resultadoIdentificacion = document.getElementById("resultado-identificacion");
+const botonProximidad = document.getElementById("proximidad");
+const radioProximidad = document.getElementById("radio-proximidad");
+const estadoProximidad = document.getElementById("estado-proximidad");
+const resultadoProximidad = document.getElementById("resultado-proximidad");
 
 let municipios = null;
 let modoIdentificar = false;
 let capaCoincidencias = null;
 let marcadorConsulta = null;
 let solicitudUbicacionActual = 0;
+let modoProximidad = false;
+let circuloProximidad = null;
+let puntoProximidad = null;
+let solicitudProximidadActual = 0;
 
 const estilo = {
   color: "#00776f", weight: 2,
@@ -121,6 +129,7 @@ function limpiarIdentificacion() {
 // Alternar modos para que F1/F2 y F3 no compitan por el mismo clic.
 function cambiarModoIdentificacion() {
   if (!municipios) return;
+  if (!modoIdentificar && modoProximidad) cambiarModoProximidad();
 
   modoIdentificar = !modoIdentificar;
   solicitudUbicacionActual += 1; // Invalidar respuestas HTTP anteriores.
@@ -229,11 +238,117 @@ async function identificarUbicacion(latlng) {
   }
 }
 
+
+// F4: radio visual y resultados transitorios. PostGIS realiza el cálculo real.
+function limpiarProximidad() {
+  if (circuloProximidad) mapa.removeLayer(circuloProximidad);
+  if (puntoProximidad) mapa.removeLayer(puntoProximidad);
+  circuloProximidad = null;
+  puntoProximidad = null;
+}
+
+function cambiarModoProximidad() {
+  if (!municipios) return;
+  const radio = Number(radioProximidad.value);
+  if (!modoProximidad && (!Number.isFinite(radio) || radio <= 0 || radio > 50000)) {
+    estadoProximidad.textContent = "Introduce un radio mayor que 0 y hasta 50.000 metros.";
+    return;
+  }
+  if (!modoProximidad && modoIdentificar) cambiarModoIdentificacion();
+
+  modoProximidad = !modoProximidad;
+  solicitudProximidadActual++;
+  mapa.closePopup();
+  municipios.eachLayer(capa => {
+    if (modoProximidad) capa.unbindPopup();
+    else if (capa.contenidoPopupLocal) capa.bindPopup(capa.contenidoPopupLocal);
+  });
+  botonProximidad.textContent = modoProximidad
+    ? "Finalizar proximidad" : "Consultar proximidad";
+  botonProximidad.setAttribute("aria-pressed", String(modoProximidad));
+  botonProximidad.classList.toggle("activo", modoProximidad);
+  mapa.getContainer().classList.toggle("modo-proximidad", modoProximidad);
+  radioProximidad.disabled = modoProximidad;
+  limpiarProximidad();
+  estadoProximidad.textContent = modoProximidad
+    ? "Modo activo: haz clic en el mapa para consultar un punto."
+    : "Modo de proximidad desactivado.";
+  resultadoProximidad.replaceChildren();
+  resultadoProximidad.textContent = modoProximidad
+    ? "PostGIS buscará municipios a la distancia indicada."
+    : "Activa F4 para consultar de nuevo.";
+}
+
+async function consultarProximidad(latlng) {
+  const radio = Number(radioProximidad.value);
+  const idSolicitud = ++solicitudProximidadActual;
+  limpiarProximidad();
+  circuloProximidad = L.circle(latlng, {
+    radius: radio, color: "#8b4b10", weight: 2,
+    fillColor: "#f0b866", fillOpacity: 0.15,
+    interactive: false
+  }).addTo(mapa);
+  puntoProximidad = L.circleMarker(latlng, {
+    radius: 5, color: "#8b4b10", weight: 2,
+    fillColor: "white", fillOpacity: 1, interactive: false
+  }).addTo(mapa);
+  estadoProximidad.textContent =
+    "Longitud: " + latlng.lng.toFixed(5) +
+    " · Latitud: " + latlng.lat.toFixed(5) +
+    " · Radio: " + radio + " m";
+  resultadoProximidad.textContent = "Consultando proximidad en PostGIS...";
+
+  const parametros = new URLSearchParams({
+    lon: String(latlng.lng),
+    lat: String(latlng.lat),
+    radio_m: String(radio)
+  });
+  try {
+    const respuesta = await fetch("/consultas/proximidad?" + parametros, {
+      headers: { Accept: "application/json" }
+    });
+    if (!respuesta.ok) throw new Error("HTTP " + respuesta.status);
+    const datos = await respuesta.json();
+    if (!Array.isArray(datos.municipios) ||
+        datos.total !== datos.municipios.length) {
+      throw new Error("Formato de respuesta de proximidad incorrecto");
+    }
+    if (!modoProximidad || idSolicitud !== solicitudProximidadActual) return;
+    resultadoProximidad.replaceChildren();
+
+    if (!datos.municipios.length) {
+      resultadoProximidad.textContent =
+        "Ningún municipio se encuentra dentro del radio consultado.";
+      return;
+    }
+    const resumen = document.createElement("p");
+    resumen.textContent = datos.total + " municipio(s) encontrados:";
+    const lista = document.createElement("ol");
+    const formato = new Intl.NumberFormat("es-CO", {maximumFractionDigits: 2});
+    for (const item of datos.municipios) {
+      const fila = document.createElement("li");
+      fila.textContent = String(item.nombre) + " (" +
+        String(item.cod_municipio) + "): " +
+        formato.format(Number(item.distancia_metros)) + " m";
+      lista.append(fila);
+    }
+    resultadoProximidad.append(resumen, lista);
+  } catch (error) {
+    if (!modoProximidad || idSolicitud !== solicitudProximidadActual) return;
+    console.error("Error F4:", error);
+    resultadoProximidad.textContent =
+      "No fue posible consultar proximidad. Revisa el backend y la consola.";
+  }
+}
+
+botonProximidad.addEventListener("click", cambiarModoProximidad);
+
 botonIdentificar.addEventListener("click", cambiarModoIdentificacion);
 
 // Leaflet propaga al mapa los clics sobre polígonos cuando no hay popup activo.
 mapa.on("click", evento => {
   if (modoIdentificar) identificarUbicacion(evento.latlng);
+  else if (modoProximidad) consultarProximidad(evento.latlng);
 });
 
 async function cargarMunicipios() {
@@ -263,6 +378,7 @@ async function cargarMunicipios() {
     estado.textContent = "Datos GeoJSON recibidos correctamente desde FastAPI.";
     botonCentrar.disabled = false;
     botonIdentificar.disabled = false;
+    botonProximidad.disabled = false;
   } catch (error) {
     console.error("Fallo al cargar municipios:", error);
     estado.classList.add("error");
