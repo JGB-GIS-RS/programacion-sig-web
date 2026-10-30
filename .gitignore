@@ -1,0 +1,28 @@
+
+# Configuración privada
+.env
+.env.*
+!.env.example
+
+# Entornos virtuales de Python
+.venv/
+venv/
+
+# Archivos temporales de Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Archivos de configuración locales
+.vscode/
+.idea/
+
+# Archivos temporales
+*.log
+*.tmp
+
+# Bases de datos y copias locales
+*.sqlite
+*.sqlite3
+*.backup
+*.dump
