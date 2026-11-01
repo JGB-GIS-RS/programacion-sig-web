@@ -1,6 +1,6 @@
 "use strict";
 
-// F1: visualización; F2: detalle; F3: identificación; F4: proximidad geodésica.
+// F1: visualización; F2: detalle; F3: identificación; F4: proximidad; F5: sedes educativas.
 const mapa = L.map("mapa").setView([4.5, -75.7], 9);
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -18,6 +18,10 @@ const botonProximidad = document.getElementById("proximidad");
 const radioProximidad = document.getElementById("radio-proximidad");
 const estadoProximidad = document.getElementById("estado-proximidad");
 const resultadoProximidad = document.getElementById("resultado-proximidad");
+const selectorSedes = document.getElementById("municipio-sedes");
+const botonMostrarSedes = document.getElementById("mostrar-sedes");
+const botonLimpiarSedes = document.getElementById("limpiar-sedes");
+const resultadoSedes = document.getElementById("resultado-sedes");
 
 let municipios = null;
 let modoIdentificar = false;
@@ -28,6 +32,8 @@ let modoProximidad = false;
 let circuloProximidad = null;
 let puntoProximidad = null;
 let solicitudProximidadActual = 0;
+let capaSedes = null;
+let solicitudSedesActual = 0;
 
 const estilo = {
   color: "#00776f", weight: 2,
@@ -130,6 +136,7 @@ function limpiarIdentificacion() {
 function cambiarModoIdentificacion() {
   if (!municipios) return;
   if (!modoIdentificar && modoProximidad) cambiarModoProximidad();
+  if (!modoIdentificar) limpiarSedes();
 
   modoIdentificar = !modoIdentificar;
   solicitudUbicacionActual += 1; // Invalidar respuestas HTTP anteriores.
@@ -255,6 +262,7 @@ function cambiarModoProximidad() {
     return;
   }
   if (!modoProximidad && modoIdentificar) cambiarModoIdentificacion();
+  if (!modoProximidad) limpiarSedes();
 
   modoProximidad = !modoProximidad;
   solicitudProximidadActual++;
@@ -341,6 +349,82 @@ async function consultarProximidad(latlng) {
   }
 }
 
+
+function limpiarSedes() {
+  solicitudSedesActual++;
+  if (capaSedes) {
+    mapa.removeLayer(capaSedes);
+    capaSedes = null;
+  }
+  botonLimpiarSedes.disabled = true;
+  resultadoSedes.textContent = "No hay sedes educativas visibles.";
+}
+
+async function mostrarSedes() {
+  const codigo = selectorSedes.value;
+  if (!/^[0-9]{5}$/.test(codigo)) return;
+
+  // El modo de consulta por clic se desactiva antes de habilitar los popups F5.
+  if (modoIdentificar) cambiarModoIdentificacion();
+  if (modoProximidad) cambiarModoProximidad();
+
+  limpiarSedes();
+  const idSolicitud = ++solicitudSedesActual;
+  botonMostrarSedes.disabled = true;
+  resultadoSedes.textContent = "Solicitando sedes educativas a FastAPI...";
+
+  try {
+    const respuesta = await fetch(
+      "/equipamientos/municipio/" + encodeURIComponent(codigo),
+      { headers: { Accept: "application/geo+json" } }
+    );
+    if (!respuesta.ok) throw new Error("HTTP " + respuesta.status);
+    const datos = await respuesta.json();
+    if (datos.type !== "FeatureCollection" || !Array.isArray(datos.features)) {
+      throw new Error("GeoJSON incorrecto");
+    }
+    if (idSolicitud !== solicitudSedesActual) return;
+
+    capaSedes = L.geoJSON(datos, {
+      pointToLayer: (_feature, latlng) => L.circleMarker(latlng, {
+        radius: 5, color: "#173b54", weight: 1.5,
+        fillColor: "#e5a447", fillOpacity: 0.9
+      }),
+      onEachFeature: (feature, capa) => {
+        const propiedades = feature.properties || {};
+        const contenedor = document.createElement("div");
+        const nombre = document.createElement("strong");
+        nombre.textContent = String(propiedades.nombre || "Sede educativa");
+        const direccion = document.createElement("p");
+        direccion.textContent = "Dirección: " + String(propiedades.direccion || "No disponible");
+        const identificador = document.createElement("p");
+        identificador.textContent = "Código DANE: " + String(propiedades.codigo_fuente || "—");
+        contenedor.append(nombre, direccion, identificador);
+        L.DomEvent.disableClickPropagation(contenedor);
+        capa.bindPopup(contenedor);
+      }
+    }).addTo(mapa);
+
+    const municipioSeleccionado = municipios.getLayers().find(capa =>
+      String(capa.feature?.properties?.cod_municipio) === codigo
+    );
+    if (municipioSeleccionado) mapa.fitBounds(municipioSeleccionado.getBounds(), {padding: [25, 25]});
+    resultadoSedes.textContent = datos.features.length + " sedes educativas encontradas en " +
+      selectorSedes.options[selectorSedes.selectedIndex].text + ".";
+    botonLimpiarSedes.disabled = datos.features.length === 0;
+  } catch (error) {
+    if (idSolicitud !== solicitudSedesActual) return;
+    console.error("Error F5:", error);
+    resultadoSedes.textContent = "No fue posible cargar las sedes. Comprueba el endpoint F5.";
+  } finally {
+    botonMostrarSedes.disabled = false;
+  }
+}
+
+botonMostrarSedes.addEventListener("click", mostrarSedes);
+botonLimpiarSedes.addEventListener("click", limpiarSedes);
+selectorSedes.addEventListener("change", limpiarSedes);
+
 botonProximidad.addEventListener("click", cambiarModoProximidad);
 
 botonIdentificar.addEventListener("click", cambiarModoIdentificacion);
@@ -374,6 +458,23 @@ async function cargarMunicipios() {
     if (!limites.isValid()) throw new Error("Geometrías sin extensión válida");
 
     mapa.fitBounds(limites, { padding: [20, 20] });
+    const opciones = [...datos.features]
+      .map(f => ({
+        codigo: String(f.properties?.cod_municipio || ""),
+        nombre: String(f.properties?.nombre || "")
+      }))
+      .filter(x => /^[0-9]{5}$/.test(x.codigo))
+      .sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
+    selectorSedes.replaceChildren();
+    for (const opcion of opciones) {
+      const item = document.createElement("option");
+      item.value = opcion.codigo;
+      item.textContent = opcion.nombre;
+      selectorSedes.append(item);
+    }
+    selectorSedes.value = opciones.some(x => x.codigo === "63001") ? "63001" : opciones[0]?.codigo || "";
+    selectorSedes.disabled = opciones.length === 0;
+    botonMostrarSedes.disabled = opciones.length === 0;
     contador.textContent = String(datos.features.length);
     estado.textContent = "Datos GeoJSON recibidos correctamente desde FastAPI.";
     botonCentrar.disabled = false;
