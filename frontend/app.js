@@ -1,6 +1,6 @@
 "use strict";
 
-// F1: visualización; F2: detalle; F3: identificación; F4: proximidad; F5: sedes educativas.
+// F1: visualización; F2: detalle; F3: identificación; F4: proximidad a salud; F5: equipamientos por categoría.
 const mapa = L.map("mapa").setView([4.5, -75.7], 9);
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -32,6 +32,7 @@ let solicitudUbicacionActual = 0;
 let modoProximidad = false;
 let circuloProximidad = null;
 let puntoProximidad = null;
+let capaSaludProximidad = null;
 let solicitudProximidadActual = 0;
 let capaSedes = null;
 let solicitudSedesActual = 0;
@@ -247,12 +248,14 @@ async function identificarUbicacion(latlng) {
 }
 
 
-// F4: radio visual y resultados transitorios. PostGIS realiza el cálculo real.
+// F4: la distancia se calcula en PostGIS respecto a sedes de salud.
 function limpiarProximidad() {
   if (circuloProximidad) mapa.removeLayer(circuloProximidad);
   if (puntoProximidad) mapa.removeLayer(puntoProximidad);
+  if (capaSaludProximidad) mapa.removeLayer(capaSaludProximidad);
   circuloProximidad = null;
   puntoProximidad = null;
+  capaSaludProximidad = null;
 }
 
 function cambiarModoProximidad() {
@@ -273,18 +276,18 @@ function cambiarModoProximidad() {
     else if (capa.contenidoPopupLocal) capa.bindPopup(capa.contenidoPopupLocal);
   });
   botonProximidad.textContent = modoProximidad
-    ? "Finalizar proximidad" : "Consultar proximidad";
+    ? "Finalizar proximidad" : "Consultar salud cercana";
   botonProximidad.setAttribute("aria-pressed", String(modoProximidad));
   botonProximidad.classList.toggle("activo", modoProximidad);
   mapa.getContainer().classList.toggle("modo-proximidad", modoProximidad);
   radioProximidad.disabled = modoProximidad;
   limpiarProximidad();
   estadoProximidad.textContent = modoProximidad
-    ? "Modo activo: haz clic en el mapa para consultar un punto."
+    ? "Modo activo: haz clic en el mapa para buscar sedes de salud."
     : "Modo de proximidad desactivado.";
   resultadoProximidad.replaceChildren();
   resultadoProximidad.textContent = modoProximidad
-    ? "PostGIS buscará municipios a la distancia indicada."
+    ? "PostGIS buscará sedes de salud dentro del radio indicado."
     : "Activa F4 para consultar de nuevo.";
 }
 
@@ -292,6 +295,7 @@ async function consultarProximidad(latlng) {
   const radio = Number(radioProximidad.value);
   const idSolicitud = ++solicitudProximidadActual;
   limpiarProximidad();
+
   circuloProximidad = L.circle(latlng, {
     radius: radio, color: "#8b4b10", weight: 2,
     fillColor: "#f0b866", fillOpacity: 0.15,
@@ -301,11 +305,12 @@ async function consultarProximidad(latlng) {
     radius: 5, color: "#8b4b10", weight: 2,
     fillColor: "white", fillOpacity: 1, interactive: false
   }).addTo(mapa);
+
   estadoProximidad.textContent =
     "Longitud: " + latlng.lng.toFixed(5) +
     " · Latitud: " + latlng.lat.toFixed(5) +
     " · Radio: " + radio + " m";
-  resultadoProximidad.textContent = "Consultando proximidad en PostGIS...";
+  resultadoProximidad.textContent = "Consultando sedes de salud en PostGIS...";
 
   const parametros = new URLSearchParams({
     lon: String(latlng.lng),
@@ -314,31 +319,55 @@ async function consultarProximidad(latlng) {
   });
   try {
     const respuesta = await fetch("/consultas/proximidad?" + parametros, {
-      headers: { Accept: "application/json" }
+      headers: { Accept: "application/geo+json" }
     });
     if (!respuesta.ok) throw new Error("HTTP " + respuesta.status);
     const datos = await respuesta.json();
-    if (!Array.isArray(datos.municipios) ||
-        datos.total !== datos.municipios.length) {
-      throw new Error("Formato de respuesta de proximidad incorrecto");
+    if (datos.type !== "FeatureCollection" || !Array.isArray(datos.features)) {
+      throw new Error("GeoJSON de proximidad incorrecto");
     }
     if (!modoProximidad || idSolicitud !== solicitudProximidadActual) return;
-    resultadoProximidad.replaceChildren();
 
-    if (!datos.municipios.length) {
+    capaSaludProximidad = L.geoJSON(datos, {
+      pointToLayer: (_feature, coordenadas) => L.circleMarker(coordenadas, {
+        radius: 6, color: "#6d2747", weight: 2,
+        fillColor: "#d86586", fillOpacity: 0.95,
+        bubblingMouseEvents: false
+      }),
+      onEachFeature: (feature, capa) => {
+        const p = feature.properties || {};
+        const contenedor = document.createElement("div");
+        const nombre = document.createElement("strong");
+        nombre.textContent = String(p.nombre || "Sede de salud");
+        const direccion = document.createElement("p");
+        direccion.textContent = "Dirección: " + String(p.direccion || "No disponible");
+        const distancia = document.createElement("p");
+        distancia.textContent = "Distancia directa: " +
+          new Intl.NumberFormat("es-CO", { maximumFractionDigits: 2 })
+            .format(Number(p.distancia_metros)) + " m";
+        const codigo = document.createElement("p");
+        codigo.textContent = "Código de habilitación: " + String(p.codigo_fuente || "—");
+        contenedor.append(nombre, direccion, distancia, codigo);
+        capa.bindPopup(contenedor);
+      }
+    }).addTo(mapa);
+    puntoProximidad.bringToFront();
+
+    resultadoProximidad.replaceChildren();
+    if (!datos.features.length) {
       resultadoProximidad.textContent =
-        "Ningún municipio se encuentra dentro del radio consultado.";
+        "No hay sedes de salud registradas dentro del radio consultado.";
       return;
     }
     const resumen = document.createElement("p");
-    resumen.textContent = datos.total + " municipio(s) encontrados:";
+    resumen.textContent = datos.features.length + " sede(s) de salud encontradas, ordenadas por distancia directa:";
     const lista = document.createElement("ol");
-    const formato = new Intl.NumberFormat("es-CO", {maximumFractionDigits: 2});
-    for (const item of datos.municipios) {
+    const formato = new Intl.NumberFormat("es-CO", { maximumFractionDigits: 2 });
+    for (const feature of datos.features) {
+      const p = feature.properties || {};
       const fila = document.createElement("li");
-      fila.textContent = String(item.nombre) + " (" +
-        String(item.cod_municipio) + "): " +
-        formato.format(Number(item.distancia_metros)) + " m";
+      fila.textContent = String(p.nombre || "Sede de salud") + " — " +
+        formato.format(Number(p.distancia_metros)) + " m";
       lista.append(fila);
     }
     resultadoProximidad.append(resumen, lista);
@@ -346,7 +375,7 @@ async function consultarProximidad(latlng) {
     if (!modoProximidad || idSolicitud !== solicitudProximidadActual) return;
     console.error("Error F4:", error);
     resultadoProximidad.textContent =
-      "No fue posible consultar proximidad. Revisa el backend y la consola.";
+      "No fue posible consultar sedes de salud. Revisa el backend y la consola.";
   }
 }
 
