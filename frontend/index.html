@@ -10,7 +10,7 @@
   <script src="/static/app.js" defer></script>
 </head>
 <body>
-  <header><strong>SIG WEB</strong><span>Programación para SIG · F1 + F2 + F3 + F4</span></header>
+  <header><strong>SIG WEB</strong><span>Programación para SIG · F1 + F2 + F3 + F4 + F5</span></header>
   <main>
     <aside>
       <span class="etiqueta">ETAPA 04 · GEOVISOR MUNICIPAL</span>
@@ -47,10 +47,24 @@
           Todavía no se ha efectuado ninguna consulta de proximidad.
         </div>
       </section>
+      <section class="sedes" aria-labelledby="titulo-sedes">
+        <span class="etiqueta">F5 · EQUIPAMIENTOS</span>
+        <h2 id="titulo-sedes">Sedes educativas</h2>
+        <p>Selecciona un municipio del Quindío para consultar desde PostGIS sus sedes educativas.</p>
+        <label for="municipio-sedes">Municipio</label>
+        <select id="municipio-sedes" disabled>
+          <option value="">Cargando municipios...</option>
+        </select>
+        <button id="mostrar-sedes" type="button" disabled>Mostrar sedes educativas</button>
+        <button id="limpiar-sedes" type="button" class="boton-secundario" disabled>Ocultar sedes</button>
+        <p id="resultado-sedes" class="resultado-sedes" role="status" aria-live="polite">
+          Selecciona un municipio para comenzar.
+        </p>
+      </section>
       <section class="nota">
         <h2>¿Qué comprobamos?</h2>
         <p>JavaScript solicita <code>GET /municipios</code> y Leaflet dibuja el GeoJSON obtenido desde la base espacial.</p>
-        <p>El clic normal abre un popup local (F1); <strong>Consultar detalle</strong> solicita el área geodésica (F2). En F3, un clic ejecuta <code>ST_Covers()</code>; en F4 se utiliza <code>ST_DWithin()</code> con distancia en metros. Solo puede estar activo un modo a la vez.</p>
+        <p>El clic normal abre un popup local (F1); <strong>Consultar detalle</strong> solicita el área geodésica (F2). En F3, un clic ejecuta <code>ST_Covers()</code>; en F4 se utiliza <code>ST_DWithin()</code> con distancia en metros. Solo puede estar activo un modo espacial a la vez. F5 permite consultar los puntos educativos de un municipio.</p>
       </section>
     </aside>
     <section class="mapa-contenedor" aria-label="Mapa de municipios">
