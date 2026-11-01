@@ -59,12 +59,12 @@ footer{padding:12px 25px;background:#153b54;color:#c9e3ea;font-size:12px}
 .resultado-proximidad li{margin:3px 0}
 #mapa.modo-proximidad, #mapa.modo-proximidad .leaflet-interactive{cursor:crosshair}
 
-/* F5: consulta educativa por municipio */
+/* F5: consulta de equipamientos por municipio y categoría */
 .sedes{margin-top:22px;padding:20px 0;border-top:1px solid #dce7eb}
 .sedes h2{font-size:19px;margin:13px 0 7px}
 .sedes p{font-size:13px;line-height:1.55}
 .sedes label{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}
-#municipio-sedes{width:100%;padding:11px;border:1px solid #a8c8d0;border-radius:8px;margin-bottom:10px;font:inherit;background:#fff}
+#municipio-sedes,#tipo-sedes{width:100%;padding:11px;border:1px solid #a8c8d0;border-radius:8px;margin-bottom:10px;font:inherit;background:#fff}
 .sedes button{margin-bottom:8px}
 .boton-secundario{background:#4f6978}
 .boton-secundario:hover:not(:disabled){background:#385263}
