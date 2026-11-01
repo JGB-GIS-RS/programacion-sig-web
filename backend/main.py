@@ -241,16 +241,17 @@ def abrir_geovisor():
 
 
 # ============================================
-# F4. CONSULTA ESPACIAL DE PROXIMIDAD
+# F4. PROXIMIDAD A SEDES DE SALUD
 # ============================================
 
 @app.get("/consultas/proximidad")
 def consultar_proximidad(
     lon: float = Query(..., ge=-180, le=180),
     lat: float = Query(..., ge=-90, le=90),
-    radio_m: float = Query(..., gt=0, le=50000)
+    radio_m: float = Query(2000, gt=0, le=50000)
 ):
-
+    # Las geometrías Point 4326 se convierten a geography
+    # para comparar distancias geodésicas en metros.
     sql = """
         WITH punto AS (
             SELECT ST_SetSRID(
@@ -258,55 +259,55 @@ def consultar_proximidad(
             )::geography AS ubicacion
         )
         SELECT
-            m.cod_municipio,
-            m.nombre,
-            ST_Distance(
-                m.geom::geography,
-                p.ubicacion
-            ) AS distancia_metros
-        FROM public.municipio AS m
+            e.id_equipamiento,
+            e.nombre,
+            e.codigo_fuente,
+            e.direccion,
+            ST_AsGeoJSON(e.geom) AS geometria,
+            ST_Distance(e.geom::geography, p.ubicacion)
+                AS distancia_metros
+        FROM public.equipamiento AS e
         CROSS JOIN punto AS p
-        WHERE ST_DWithin(
-            m.geom::geography,
-            p.ubicacion,
-            %s
-        )
-        ORDER BY distancia_metros, m.cod_municipio;
+        WHERE e.id_tipo = 2
+          AND ST_DWithin(
+              e.geom::geography,
+              p.ubicacion,
+              %s
+          )
+        ORDER BY distancia_metros, e.id_equipamiento;
     """
 
     try:
         with conectar_bd() as conexion:
             with conexion.cursor() as cursor:
-                cursor.execute(
-                    sql,
-                    (lon, lat, radio_m)
-                )
+                cursor.execute(sql, (lon, lat, radio_m))
                 registros = cursor.fetchall()
 
     except psycopg.Error:
         raise HTTPException(
             status_code=503,
-            detail="No se pudo ejecutar la consulta de proximidad"
+            detail="No se pudo ejecutar la consulta de proximidad a salud"
         )
 
-    resultados = []
-
-    for codigo, nombre, distancia in registros:
-        resultados.append({
-            "cod_municipio": codigo,
-            "nombre": nombre,
-            "distancia_metros": round(distancia, 2)
+    entidades = []
+    for identificador, nombre, codigo_fuente, direccion, geometria, distancia in registros:
+        entidades.append({
+            "type": "Feature",
+            "properties": {
+                "id_equipamiento": identificador,
+                "nombre": nombre,
+                "codigo_fuente": codigo_fuente,
+                "direccion": direccion,
+                "id_tipo": 2,
+                "distancia_metros": round(distancia, 2)
+            },
+            "geometry": json.loads(geometria)
         })
 
-    return {
-        "punto": {
-            "lon": lon,
-            "lat": lat
-        },
-        "radio_m": radio_m,
-        "total": len(resultados),
-        "municipios": resultados
-    }
+    return JSONResponse(
+        content={"type": "FeatureCollection", "features": entidades},
+        media_type="application/geo+json"
+    )
 
 
 # ============================================
