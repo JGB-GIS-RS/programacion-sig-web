@@ -19,6 +19,7 @@ const radioProximidad = document.getElementById("radio-proximidad");
 const estadoProximidad = document.getElementById("estado-proximidad");
 const resultadoProximidad = document.getElementById("resultado-proximidad");
 const selectorSedes = document.getElementById("municipio-sedes");
+const selectorTipoSedes = document.getElementById("tipo-sedes");
 const botonMostrarSedes = document.getElementById("mostrar-sedes");
 const botonLimpiarSedes = document.getElementById("limpiar-sedes");
 const resultadoSedes = document.getElementById("resultado-sedes");
@@ -357,12 +358,13 @@ function limpiarSedes() {
     capaSedes = null;
   }
   botonLimpiarSedes.disabled = true;
-  resultadoSedes.textContent = "No hay sedes educativas visibles.";
+  resultadoSedes.textContent = "No hay equipamientos visibles.";
 }
 
 async function mostrarSedes() {
   const codigo = selectorSedes.value;
-  if (!/^[0-9]{5}$/.test(codigo)) return;
+  const tipo = Number(selectorTipoSedes.value);
+  if (!/^[0-9]{5}$/.test(codigo) || ![1, 2].includes(tipo)) return;
 
   // El modo de consulta por clic se desactiva antes de habilitar los popups F5.
   if (modoIdentificar) cambiarModoIdentificacion();
@@ -371,11 +373,11 @@ async function mostrarSedes() {
   limpiarSedes();
   const idSolicitud = ++solicitudSedesActual;
   botonMostrarSedes.disabled = true;
-  resultadoSedes.textContent = "Solicitando sedes educativas a FastAPI...";
+  resultadoSedes.textContent = "Solicitando equipamientos a FastAPI...";
 
   try {
     const respuesta = await fetch(
-      "/equipamientos/municipio/" + encodeURIComponent(codigo),
+      "/equipamientos/municipio/" + encodeURIComponent(codigo) + "?tipo=" + tipo,
       { headers: { Accept: "application/geo+json" } }
     );
     if (!respuesta.ok) throw new Error("HTTP " + respuesta.status);
@@ -388,17 +390,17 @@ async function mostrarSedes() {
     capaSedes = L.geoJSON(datos, {
       pointToLayer: (_feature, latlng) => L.circleMarker(latlng, {
         radius: 5, color: "#173b54", weight: 1.5,
-        fillColor: "#e5a447", fillOpacity: 0.9
+        fillColor: tipo === 1 ? "#e5a447" : "#b75472", fillOpacity: 0.9
       }),
       onEachFeature: (feature, capa) => {
         const propiedades = feature.properties || {};
         const contenedor = document.createElement("div");
         const nombre = document.createElement("strong");
-        nombre.textContent = String(propiedades.nombre || "Sede educativa");
+        nombre.textContent = String(propiedades.nombre || "Equipamiento");
         const direccion = document.createElement("p");
         direccion.textContent = "Dirección: " + String(propiedades.direccion || "No disponible");
         const identificador = document.createElement("p");
-        identificador.textContent = "Código DANE: " + String(propiedades.codigo_fuente || "—");
+        identificador.textContent = (tipo === 1 ? "Código DANE: " : "Código de habilitación: ") + String(propiedades.codigo_fuente || "—");
         contenedor.append(nombre, direccion, identificador);
         L.DomEvent.disableClickPropagation(contenedor);
         capa.bindPopup(contenedor);
@@ -409,13 +411,13 @@ async function mostrarSedes() {
       String(capa.feature?.properties?.cod_municipio) === codigo
     );
     if (municipioSeleccionado) mapa.fitBounds(municipioSeleccionado.getBounds(), {padding: [25, 25]});
-    resultadoSedes.textContent = datos.features.length + " sedes educativas encontradas en " +
+    resultadoSedes.textContent = datos.features.length + (tipo === 1 ? " sedes educativas" : " sedes de prestadores de salud") + " encontradas en " +
       selectorSedes.options[selectorSedes.selectedIndex].text + ".";
     botonLimpiarSedes.disabled = datos.features.length === 0;
   } catch (error) {
     if (idSolicitud !== solicitudSedesActual) return;
     console.error("Error F5:", error);
-    resultadoSedes.textContent = "No fue posible cargar las sedes. Comprueba el endpoint F5.";
+    resultadoSedes.textContent = "No fue posible cargar los equipamientos. Comprueba el endpoint F5.";
   } finally {
     botonMostrarSedes.disabled = false;
   }
@@ -424,6 +426,7 @@ async function mostrarSedes() {
 botonMostrarSedes.addEventListener("click", mostrarSedes);
 botonLimpiarSedes.addEventListener("click", limpiarSedes);
 selectorSedes.addEventListener("change", limpiarSedes);
+selectorTipoSedes.addEventListener("change", limpiarSedes);
 
 botonProximidad.addEventListener("click", cambiarModoProximidad);
 
