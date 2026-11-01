@@ -307,3 +307,75 @@ def consultar_proximidad(
         "total": len(resultados),
         "municipios": resultados
     }
+
+
+# ============================================
+# F5. EQUIPAMIENTOS POR MUNICIPIO Y CATEGORÍA
+# ============================================
+
+@app.get("/equipamientos/municipio/{codigo}")
+def consultar_equipamientos_municipio(
+    codigo: str,
+    tipo: int = Query(1, ge=1, le=2)
+):
+
+    # Validar el código DIVIPOLA
+    if (
+        len(codigo) != 5
+        or not codigo.isascii()
+        or not codigo.isdigit()
+    ):
+        raise HTTPException(
+            status_code=422,
+            detail="El código municipal debe contener cinco dígitos"
+        )
+
+    # tipo = 1: Educativo; tipo = 2: Salud.
+    # El valor predeterminado mantiene compatibilidad con F5 anterior.
+    sql = """
+        SELECT
+            e.id_equipamiento,
+            e.nombre,
+            e.codigo_fuente,
+            e.direccion,
+            ST_AsGeoJSON(e.geom) AS geometria
+        FROM public.equipamiento AS e
+        WHERE e.cod_municipio = %s
+          AND e.id_tipo = %s
+        ORDER BY e.nombre, e.id_equipamiento;
+    """
+
+    try:
+        with conectar_bd() as conexion:
+            with conexion.cursor() as cursor:
+                cursor.execute(sql, (codigo, tipo))
+                registros = cursor.fetchall()
+
+    except psycopg.Error:
+        raise HTTPException(
+            status_code=503,
+            detail="No se pudieron consultar los equipamientos"
+        )
+
+    entidades = []
+
+    for identificador, nombre, codigo_fuente, direccion, geometria in registros:
+        entidades.append({
+            "type": "Feature",
+            "properties": {
+                "id_equipamiento": identificador,
+                "nombre": nombre,
+                "codigo_fuente": codigo_fuente,
+                "direccion": direccion,
+                "id_tipo": tipo
+            },
+            "geometry": json.loads(geometria)
+        })
+
+    return JSONResponse(
+        content={
+            "type": "FeatureCollection",
+            "features": entidades
+        },
+        media_type="application/geo+json"
+    )
