@@ -49,14 +49,19 @@
       </section>
       <section class="sedes" aria-labelledby="titulo-sedes">
         <span class="etiqueta">F5 · EQUIPAMIENTOS</span>
-        <h2 id="titulo-sedes">Sedes educativas</h2>
-        <p>Selecciona un municipio del Quindío para consultar desde PostGIS sus sedes educativas.</p>
+        <h2 id="titulo-sedes">Equipamientos por municipio</h2>
+        <p>Selecciona un municipio y una categoría para consultar los equipamientos registrados en PostGIS.</p>
         <label for="municipio-sedes">Municipio</label>
         <select id="municipio-sedes" disabled>
           <option value="">Cargando municipios...</option>
         </select>
-        <button id="mostrar-sedes" type="button" disabled>Mostrar sedes educativas</button>
-        <button id="limpiar-sedes" type="button" class="boton-secundario" disabled>Ocultar sedes</button>
+        <label for="tipo-sedes">Categoría</label>
+        <select id="tipo-sedes">
+          <option value="1">Educativo</option>
+          <option value="2">Salud</option>
+        </select>
+        <button id="mostrar-sedes" type="button" disabled>Mostrar equipamientos</button>
+        <button id="limpiar-sedes" type="button" class="boton-secundario" disabled>Ocultar equipamientos</button>
         <p id="resultado-sedes" class="resultado-sedes" role="status" aria-live="polite">
           Selecciona un municipio para comenzar.
         </p>
@@ -64,7 +69,7 @@
       <section class="nota">
         <h2>¿Qué comprobamos?</h2>
         <p>JavaScript solicita <code>GET /municipios</code> y Leaflet dibuja el GeoJSON obtenido desde la base espacial.</p>
-        <p>El clic normal abre un popup local (F1); <strong>Consultar detalle</strong> solicita el área geodésica (F2). En F3, un clic ejecuta <code>ST_Covers()</code>; en F4 se utiliza <code>ST_DWithin()</code> con distancia en metros. Solo puede estar activo un modo espacial a la vez. F5 permite consultar los puntos educativos de un municipio.</p>
+        <p>El clic normal abre un popup local (F1); <strong>Consultar detalle</strong> solicita el área geodésica (F2). En F3, un clic ejecuta <code>ST_Covers()</code>; en F4 se utiliza <code>ST_DWithin()</code> con distancia en metros. Solo puede estar activo un modo espacial a la vez. F5 filtra los equipamientos por municipio y categoría (Educativo o Salud).</p>
       </section>
     </aside>
     <section class="mapa-contenedor" aria-label="Mapa de municipios">
@@ -72,6 +77,6 @@
       <div class="leyenda"><span class="muestra"></span> Límites municipales</div>
     </section>
   </main>
-  <footer>Fuente cartográfica: DANE · DIVIPOLA MGN 2025 · Práctica académica local</footer>
+  <footer>Fuentes: DANE 2025–2026 (cartografía y educación) · SISPRO/REPS (salud) · Práctica académica local</footer>
 </body>
 </html>
