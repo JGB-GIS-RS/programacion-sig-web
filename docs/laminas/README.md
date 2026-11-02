@@ -1,28 +1,30 @@
-# Láminas docentes — SIG Web del Quindío
+# Láminas del Módulo 05 — plan de integración
 
-Este directorio se reserva para las **nueve láminas aprobadas** del ejercicio integrador, desde herramientas y datos hasta F1–F5.
+Las **10 láminas aprobadas por el docente** se asociarán a las lecciones existentes. **Las imágenes aún no se han incorporado como archivos binarios a esta carpeta**; por ahora no se insertan enlaces de imagen rotos en las lecciones.
 
-**Estado de publicación:** el índice está versionado; las imágenes originales se encuentran preparadas en un paquete ZIP de entrega, pero **todavía no se han incorporado como archivos binarios a este repositorio**. No enlazar imágenes hasta que se publiquen.
-
-| Archivo previsto | Tema |
+| Archivo de la lámina | Ubicación académica |
 |---|---|
-| `01_plataformas_herramientas.png` | Plataformas y herramientas |
-| `02_datos_fuentes.png` | Datos y fuentes |
-| `03_modelo_relacional.png` | Modelo de cuatro tablas |
-| `04_arquitectura_funcional.png` | Arquitectura del proyecto |
-| `05_f1_municipios.png` | F1: municipios |
-| `06_f2_detalle.png` | F2: detalle municipal |
-| `07_f3_identificacion.png` | F3: identificación espacial |
-| `08_f4_salud_cercana.png` | F4: búsqueda de sedes de salud cercanas |
-| `09_f5_equipamientos.png` | F5: equipamientos por municipio y categoría |
+| `01-plataformas-herramientas.jpg` | [Preparación y ejecución](../guia-principal-visor.md#5-ejecutar-en-el-computador-docente) |
+| `02-datos-fuentes.jpg` | [Datos y geodatabase](../visor/02-datos-geodatabase.md) |
+| `03-modelo-relacional.jpg` | [Datos y geodatabase](../visor/02-datos-geodatabase.md) |
+| `04-arquitectura-funcional.jpg` | [Arquitectura](../visor/03-arquitectura.md) |
+| `05-f1-municipios.jpg` | [F1](../visor/05-funcionalidades/f1-municipios.md) |
+| `06-f2-superficie.jpg` | [F2](../visor/05-funcionalidades/f2-detalle-municipal.md) |
+| `07-f3-identificacion.jpg` | [F3](../visor/05-funcionalidades/f3-identificacion.md) |
+| `08-f4-proximidad.jpg` | [F4](../visor/05-funcionalidades/f4-proximidad-salud.md) |
+| `09-f5-equipamientos.jpg` | [F5](../visor/05-funcionalidades/f5-equipamientos.md) |
+| `10-corazon-proyecto.jpg` | [Presentación](../visor/01-presentacion.md) |
 
-Una vez incorporadas, mantener las láminas junto a sus descripciones e identificar expresamente que el bloque SQL de algunas figuras es **ilustrativo y resumido**, no una copia ejecutable y exacta del SQL del backend.
+## Observaciones de rigor antes de incrustarlas
 
-## Referencias de mayor autoridad técnica
+1. **Modelo relacional:** la imagen utiliza `nombre_departamento` y `nombre_municipio`, mientras que las tablas verificadas utilizan `nombre` en ambas. El campo `tipo_equipamiento.nombre_tipo` sí existe. Por tanto, la lámina **no es un diccionario de datos ejecutable**; utilizar [modelo físico](../modelo-geodatabase-final.md).
+2. **F1–F3:** los fragmentos de SQL de las láminas se deben cotejar con los archivos reales. En las imágenes recibidas aparece `geom`, que sí es el nombre de la columna del código vigente; no confundir con otras versiones históricas.
+3. **F4:** la imagen presenta una consulta SQL **esquemática**, no idéntica al backend actual: utiliza `id` donde el código real usa `id_equipamiento`, y no muestra la misma estructura `WITH punto` y orden final. El [SQL ejecutado](../../backend/main.py) prevalece.
+4. **F5:** el SQL de la imagen coincide en lo esencial con el filtro administrativo del backend; no debe interpretarse como comprobación de pertenencia geométrica.
+5. **Datos:** los conteos 12, 418, 227 y 645 documentan la carga del ejercicio, no cifras dinámicas de un servicio público.
 
-- [Guía principal](../guia-principal-visor.md)
-- [Modelo vigente de la geodatabase](../modelo-geodatabase-final.md)
-- [Contrato funcional F1–F5](../funcionalidades.md)
-- [Código del backend](../../backend/main.py)
+## Integración editorial
 
-No confundir los archivos visuales con pruebas de ejecución o una exportación certificada de la geodatabase local.
+La imagen se coloca **al inicio del capítulo relacionado** como organizador visual. A continuación se explica el proceso y se enlaza el código ejecutable. Cada lámina con SQL didáctico llevará el rótulo: «Figura de síntesis; para ejecutar la consulta, usar el SQL vigente de backend/main.py».
+
+Una vez que los JPG se hayan subido a `docs/visor/laminas/`, pueden añadirse referencias Markdown como `![Arquitectura funcional](laminas/04-arquitectura-funcional.jpg)` con rutas relativas correctas al capítulo.
