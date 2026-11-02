@@ -1,29 +1,22 @@
 "use strict";
-// El catálogo no presume que las prácticas aún no incorporadas sean ejecutables.
-const practicas=[
- {id:"01",titulo:"Fundamentos de HTML y CSS",descripcion:"Siete lecciones de HTML y un ejercicio aplicado de CSS externo.",tecnologias:["HTML","CSS"],estado:"disponible",url:"../practicas/01-fundamentos-web/"},
- {id:"01B",titulo:"Fundamentos de JavaScript",descripcion:"Seis lecciones de variables, condicionales, ciclos, funciones y objetos.",tecnologias:["JavaScript","Lógica"],estado:"disponible",url:"../practicas/02-fundamentos-javascript/"},
- {id:"02",titulo:"Leaflet: fundamentos cartográficos",descripcion:"Nueve prácticas: mapas base, controles, métodos, eventos, geometrías y GeoJSON.",tecnologias:["JavaScript","Leaflet"],estado:"disponible",url:"../practicas/03-leaflet-fundamentos/"},
- {id:"03",titulo:"Eventos en Leaflet",descripcion:"Interacciones de clic, movimiento y menú contextual sobre el mapa.",tecnologias:["JavaScript","Eventos"],estado:"pendiente"},
- {id:"04",titulo:"Ruteo mediante geoservicios",descripcion:"Consulta a una API externa y representación de rutas y resultados.",tecnologias:["HTTP","API","Leaflet"],estado:"pendiente"},
- {id:"05",titulo:"Leaflet: interfaces y herramientas",descripcion:"Barra lateral con búsqueda y edición de geometrías mediante Leaflet.draw.",tecnologias:["HTML","CSS","Leaflet"],estado:"disponible",url:"../practicas/04-leaflet-integracion/"},
- {id:"06",titulo:"SIG Web con PostGIS y FastAPI",descripcion:"Cinco funcionalidades: municipios, detalle, identificación, proximidad y equipamientos. Requiere API y base local.",tecnologias:["PostGIS","FastAPI","Leaflet"],estado:"disponible",url:"../practicas/05-sig-postgis-fastapi/"},
- {id:"07",titulo:"Inventario geográfico universitario",descripcion:"Ejercicio de registro y consulta de entidades geográficas, pendiente de incorporación al portal.",tecnologias:["Leaflet","GeoJSON"],estado:"pendiente"}
+const modulos = [
+  {numero:"01",titulo:"HTML y CSS",descripcion:"Estructura de páginas web, formularios, estilos y ejercicios aplicados.",temas:["HTML","CSS"],url:"../practicas/01-fundamentos-web/",nota:"7 lecciones y 1 ejercicio aplicado"},
+  {numero:"02",titulo:"Fundamentos de JavaScript",descripcion:"Variables, condicionales, ciclos, funciones y programación con objetos.",temas:["JavaScript","Lógica"],url:"../practicas/02-fundamentos-javascript/",nota:"6 ejemplos didácticos"},
+  {numero:"03",titulo:"Fundamentos de Leaflet",descripcion:"Mapas, controles, eventos, geometrías y consulta de GeoJSON.",temas:["Leaflet","GeoJSON"],url:"../practicas/03-leaflet-fundamentos/",nota:"9 prácticas"},
+  {numero:"04",titulo:"Integración con Leaflet",descripcion:"Interfaces cartográficas, barras laterales y herramientas de edición; ruteo pendiente de revisión segura.",temas:["Interfaces","Plugins"],url:"../practicas/04-leaflet-integracion/",nota:"2 prácticas disponibles"},
+  {numero:"05",titulo:"SIG Web con PostGIS y FastAPI",descripcion:"Ejercicio integrador del Quindío: datos, arquitectura, funcionalidades F1–F5, documentación y código real.",temas:["PostGIS","FastAPI","Leaflet"],url:"../practicas/05-sig-postgis-fastapi/",nota:"Guía académica y aplicación local"},
+  {numero:"06",titulo:"Proyectos integradores",descripcion:"Propuestas y desarrollos aplicados: inventario geográfico y Geoalerta, con su estado real de avance.",temas:["Proyectos","SIG Web"],url:"../proyectos/",nota:"Documentación y proyectos en desarrollo"}
 ];
-const tarjetas=document.querySelector("#tarjetas");const filtro=document.querySelector("#filtro");
-function dibujar(){
- const estado=filtro.value;tarjetas.replaceChildren();
- practicas.filter(p=>estado==="todas"||p.estado===estado).forEach(p=>{
-  const article=document.createElement("article");article.className="tarjeta";
-  const num=document.createElement("div");num.className="num";num.textContent="PRÁCTICA "+p.id;
-  const title=document.createElement("h3");title.textContent=p.titulo;
-  const d=document.createElement("p");d.textContent=p.descripcion;
-  const tags=document.createElement("div");tags.className="etiquetas";
-  p.tecnologias.forEach(t=>{const s=document.createElement("span");s.textContent=t;tags.append(s)});
-  const state=document.createElement("span");state.className="estado "+p.estado;state.textContent=p.estado==="disponible"?(p.id==="06"?"Apartado disponible · visor local":"Prácticas incorporadas"):"Por integrar";
-  article.append(num,title,d,tags,state);
-  if(p.url){const a=document.createElement("a");a.href=p.url;a.textContent=p.id==="06"?"Abrir apartado del visor ↗":"Abrir módulo ↗";a.title=p.id==="06"?"Incluye funcionalidades, documentación y acceso al visor local":"Ejercicios estáticos servidos por HTTP";article.append(a)}
-  tarjetas.append(article);
- });
-}
-filtro.addEventListener("change",dibujar);dibujar();
+const contenedor=document.querySelector("#tarjetas");
+modulos.forEach(m=>{
+  const articulo=document.createElement("article");articulo.className="tarjeta";
+  const numero=document.createElement("div");numero.className="num";numero.textContent="MÓDULO "+m.numero;
+  const titulo=document.createElement("h3");titulo.textContent=m.titulo;
+  const descripcion=document.createElement("p");descripcion.textContent=m.descripcion;
+  const etiquetas=document.createElement("div");etiquetas.className="etiquetas";
+  m.temas.forEach(t=>{const etiqueta=document.createElement("span");etiqueta.textContent=t;etiquetas.append(etiqueta)});
+  const detalle=document.createElement("span");detalle.className="detalle";detalle.textContent=m.nota;
+  const enlace=document.createElement("a");enlace.href=m.url;enlace.textContent="Explorar módulo →";
+  articulo.append(numero,titulo,descripcion,etiquetas,detalle,enlace);
+  contenedor.append(articulo);
+});
