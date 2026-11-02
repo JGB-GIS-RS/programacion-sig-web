@@ -79,7 +79,7 @@ Las cifras son conteos dependientes del punto, radio y versión de los datos; no
 
 ## Ejercicios Leaflet incorporados
 
-El [Módulo 03 — Fundamentos Leaflet](practicas/03-leaflet-fundamentos/) incorpora seis prácticas independientes (mapa base, capas, controles, métodos, eventos y estado), con [guía de ejecución y límites de comprobación](practicas/03-leaflet-fundamentos/README.md). Se accede desde el portal docente. Son adaptaciones de los ejemplos iniciales; su verificación final en navegador sigue pendiente.
+El [Módulo 03 — Fundamentos Leaflet](practicas/03-leaflet-fundamentos/) incorpora nueve prácticas independientes (mapa base, capas, controles, métodos, eventos, estado, geometrías y GeoJSON), con [guía de ejecución y límites de comprobación](practicas/03-leaflet-fundamentos/README.md). Se accede desde el portal docente. Son adaptaciones de los ejemplos iniciales; su verificación final en navegador sigue pendiente.
 
 ## Portal docente — Fase 1
 
