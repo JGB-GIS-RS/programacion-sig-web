@@ -1,5 +1,9 @@
 # Programación SIG Web — Quindío
 
+## Guía principal del proyecto
+
+**Para estudiantes y visitantes:** comenzar por [Guía principal del visor SIG Web](docs/guia-principal-visor.md) y [Modelo de geodatabase vigente](docs/modelo-geodatabase-final.md). La [Etapa 01](docs/etapa-01-geodatabase.md) es histórica (dos tablas), no el modelo final. La guía de [F5](docs/etapa-08-f5-equipamientos.md) ya está disponible.
+
 **Proyecto docente · Ingeniería Topográfica y Geomática · Programación para SIG**
 
 Aplicación SIG Web que consulta una geodatabase PostgreSQL/PostGIS mediante una API Python/FastAPI y representa los resultados en un frontend HTML, CSS, JavaScript y Leaflet. El énfasis didáctico es comprobar el recorrido **evento del usuario → HTTP → FastAPI → SQL/PostGIS → JSON/GeoJSON → representación en el visor**.
