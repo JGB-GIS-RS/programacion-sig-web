@@ -111,3 +111,7 @@ Se incorporaron [dos prácticas autónomas](practicas/04-leaflet-integracion/): 
 - [Fundamentos JavaScript](practicas/02-fundamentos-javascript/): seis ejemplos reconstruidos de sintaxis y lógica.
 
 Son adaptaciones docentes; el RAR de JavaScript no permitió verificar y trasladar fielmente todos los originales. Se conservaron los archivos fuente aportados al trabajo sin publicar datos personales ni direcciones locales de imágenes. Se requiere completar la revisión de otras versiones y la prueba en navegador.
+
+## Apartado del visor SIG Web desarrollado en clase
+
+El [apartado del visor PostGIS/FastAPI](practicas/05-sig-postgis-fastapi/) reúne las funcionalidades F1–F5, la arquitectura, las rutas de consulta, instrucciones de ejecución y enlaces al código y las guías. Se accede desde el **Laboratorio SIG Web**. Es una página de orientación: el código sigue en `backend/` y `frontend/`, sin migración ni duplicación de la aplicación.
