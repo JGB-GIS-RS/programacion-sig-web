@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Proyecto integrador: SIG Web de los municipios y equipamientos del Quindío.">
+<title>Visor SIG Web · PostgreSQL/PostGIS y FastAPI</title>
+<style>
+:root{--navy:#113b4b;--teal:#087e75;--text:#193c48;--line:#d5e4e6}
+*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,Arial,sans-serif;background:#f3f8f9;color:var(--text)}
+header{background:linear-gradient(115deg,#0a2e3e,#155e63);color:#fff;padding:35px 20px}
+.wrap{max-width:1080px;margin:auto}header a{color:#c3e9e6}h1{font-size:clamp(1.8rem,4vw,2.75rem);line-height:1.2;margin:13px 0 8px}header p{max-width:760px;color:#daebec}
+main{padding:26px 20px 50px}.eyebrow{font-weight:700;color:#087b73;text-transform:uppercase;font-size:12px;letter-spacing:.1em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:13px}.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px}
+.card h3{margin:5px 0 8px;font-size:18px}.card p{color:#526a73;font-size:14px;margin:0}
+h2{margin:30px 0 12px;font-size:23px}.launch{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+.btn{display:inline-block;padding:11px 16px;border-radius:7px;background:var(--teal);color:white;text-decoration:none;font-weight:700}.btn.secondary{background:white;color:var(--teal);border:1px solid var(--teal)}
+.note{border-left:4px solid var(--teal);background:#e5f1f1;padding:14px 18px;margin-top:22px}
+code,pre{font-family:ui-monospace,Consolas,monospace}pre{overflow:auto;background:#eaf1f3;padding:14px;border-radius:8px}a{color:#087269}footer{border-top:1px solid var(--line);padding:20px;margin-top:28px;color:#526a73}
+</style></head><body>
+<header><div class="wrap"><a href="../../portal/">← Volver al Laboratorio SIG Web</a><h1>Visor SIG Web del Quindío</h1><p>Proyecto integrador · PostgreSQL/PostGIS · Python/FastAPI · Psycopg · JavaScript/Leaflet</p><p>Una interacción sobre el mapa se transforma en una consulta real a una geodatabase y regresa como JSON o GeoJSON.</p></div></header>
+<main class="wrap">
+<span class="eyebrow">Aplicación desarrollada durante la práctica</span>
+<h2>Funcionalidades F1–F5</h2>
+<div class="grid">
+<article class="card"><strong>F1</strong><h3>Municipios</h3><p>Carga de los 12 polígonos municipales desde PostGIS.</p></article>
+<article class="card"><strong>F2</strong><h3>Detalle municipal</h3><p>Consulta de nombre, código y superficie geodésica calculada.</p></article>
+<article class="card"><strong>F3</strong><h3>Identificación espacial</h3><p>Determina qué municipio cubre un punto utilizando ST_Covers().</p></article>
+<article class="card"><strong>F4</strong><h3>Proximidad a salud</h3><p>Busca sedes de salud por radio en metros con ST_DWithin() y ST_Distance().</p></article>
+<article class="card"><strong>F5</strong><h3>Equipamientos</h3><p>Filtra sedes educativas o de salud por municipio y categoría.</p></article>
+</div>
+<h2>Acceder al visor</h2>
+<p>La aplicación utiliza el servidor local FastAPI y la base de datos <code>programacion_sig</code>. No funciona desde una página estática sin ese servicio.</p>
+<div class="launch"><a class="btn" href="http://127.0.0.1:8000/">Abrir visor local ↗</a><a class="btn secondary" href="http://127.0.0.1:8000/docs">Documentación interactiva de la API ↗</a></div>
+<div class="note"><strong>Antes de abrir:</strong> inicia PostgreSQL y el backend con su archivo privado <code>.env</code> configurado. Los enlaces <code>127.0.0.1</code> se refieren al computador desde el cual se abre la página; no son una aplicación publicada en Internet.</div>
+<h2>Arquitectura que debes comprender</h2>
+<pre>Usuario y Leaflet
+      ↓ interacción
+JavaScript → fetch() → HTTP GET
+      ↓
+Python / FastAPI → Psycopg
+      ↓
+PostgreSQL / PostGIS
+      ↓
+JSON o GeoJSON → JavaScript / Leaflet</pre>
+<h2>Código y documentación</h2>
+<div class="grid">
+<article class="card"><h3>Frontend</h3><p>Interfaz, eventos, solicitudes HTTP y representación cartográfica.</p><p><a href="../../frontend/index.html">Consultar HTML</a> · <a href="../../frontend/app.js">JavaScript</a></p></article>
+<article class="card"><h3>Backend</h3><p>Rutas FastAPI, validación de parámetros y consultas SQL/PostGIS.</p><p><a href="../../backend/main.py">Consultar Python</a></p></article>
+<article class="card"><h3>Guías docentes</h3><p>Etapas de desarrollo, diseño de la base y funcionamiento F1–F5.</p><p><a href="../../docs/funcionalidades.md">Funcionalidades</a> · <a href="../../docs/hoja-de-ruta.md">Etapas</a></p></article>
+</div>
+<h2>Iniciar en VS Code</h2>
+<p>Con el entorno virtual, las dependencias y la base de datos ya preparados, ejecuta desde la raíz del repositorio:</p>
+<pre>.\.venv\Scripts\python.exe -m uvicorn backend.main:app --reload</pre>
+<p>Los datos originales y las credenciales no están incluidos en GitHub. Una clonación del repositorio no crea automáticamente la base de datos.</p>
+<footer><a href="../../README.md">Documentación general del proyecto</a> · <a href="../../docs/arquitectura.md">Arquitectura técnica</a></footer>
+</main></body></html>
