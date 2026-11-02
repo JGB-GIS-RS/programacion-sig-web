@@ -1,5 +1,8 @@
 # Decisión de diseño: modelo ampliado de cuatro tablas (opción A)
 
+> **Estado vigente (noviembre de 2026):** la ampliación **sí fue implementada**. `tipo_equipamiento` y `equipamiento` existen en la base docente y se usan en F4/F5. Este texto se conserva como **documento histórico de decisión y propuesta**, de modo que las expresiones «por crear», «pendiente» y los endpoints propuestos no describen el backend actual. Consultar [modelo final](modelo-geodatabase-final.md) y [rutas vigentes](funcionalidades.md). No ejecutar las instrucciones antiguas de creación como si se tratara de una migración actual.
+
+
 **Proyecto:** Programación SIG Web · **Curso:** Programación para SIG  
 **Ámbito:** municipios del Quindío, Colombia  
 **Decisión aceptada:** complementar el modelo administrativo con equipamientos y un catálogo temático, para enriquecer las consultas desde Leaflet.  
