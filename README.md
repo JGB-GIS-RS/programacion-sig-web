@@ -77,6 +77,10 @@ El radio inicial de la interfaz es **2.000 m**; el usuario puede indicar otro va
 
 Las cifras son conteos dependientes del punto, radio y versión de los datos; no constituyen métricas de rendimiento. Ver [guía F4](docs/etapa-07-f4-proximidad-salud.md).
 
+## Ejercicios Leaflet incorporados
+
+El [Módulo 03 — Fundamentos Leaflet](practicas/03-leaflet-fundamentos/) incorpora seis prácticas independientes (mapa base, capas, controles, métodos, eventos y estado), con [guía de ejecución y límites de comprobación](practicas/03-leaflet-fundamentos/README.md). Se accede desde el portal docente. Son adaptaciones de los ejemplos iniciales; su verificación final en navegador sigue pendiente.
+
 ## Portal docente — Fase 1
 
 Se incorporó [Laboratorio SIG Web](portal/index.html) como portada de navegación. El [manual del portal](portal/README.md) explica su ejecución con un servidor estático local y la diferencia entre ejercicios pendientes y aplicaciones accesibles. La práctica PostGIS sigue funcionando en su ubicación original (`backend/` y `frontend/`) y **no se movió ni modificó**.
