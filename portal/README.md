@@ -1,45 +1,40 @@
-# Portal · Laboratorio SIG Web
+# Portal académico — Laboratorio SIG Web
 
-Portada de navegación de las prácticas de **Programación para SIG**.
+**Acceso al menú:** [`portal/index.html`](index.html)
 
-## Estado de la Fase 1
+Este portal presenta seis módulos curriculares, con acceso a los índices y ejercicios de cada uno:
 
-El portal presenta siete entradas curriculares y el proyecto Geoalerta. **El módulo básico Leaflet está incorporado con nueve prácticas estáticas**. La aplicación PostGIS/FastAPI mantiene su acceso local condicionado; las demás entradas se indican como *por integrar*. La tarjeta F6 conduce a `http://127.0.0.1:8000/`: requiere ejecutar el backend en el mismo equipo y disponer de la base PostgreSQL/PostGIS. Un enlace visible **no implica** que el servidor esté encendido.
+1. [HTML y CSS](../practicas/01-fundamentos-web/)
+2. [JavaScript](../practicas/02-fundamentos-javascript/)
+3. [Fundamentos de Leaflet](../practicas/03-leaflet-fundamentos/)
+4. [Integración Leaflet](../practicas/04-leaflet-integracion/)
+5. [Visor SIG Web con PostGIS/FastAPI](../practicas/05-sig-postgis-fastapi/)
+6. [Proyectos integradores](../proyectos/)
 
-Las prácticas Leaflet se encuentran en [Módulo 03](../practicas/03-leaflet-fundamentos/README.md). La portada, estilos y catálogo están aislados en `portal/index.html`, `portal/style.css` y `portal/app.js`. No se ha modificado `backend/`, `frontend/` ni `sql/`.
+**Organización:** el menú se encuentra en `portal/`; cada módulo tiene su índice HTML. Los ejercicios y su código están organizados en `practicas/`; el proyecto Geoalerta está bajo `proyectos/`. Los archivos ejecutables del visor SIG del Quindío permanecen en `frontend/` y `backend/`, sin duplicar programas.
 
-## Abrir el portal localmente
+## Ejecutar el portal
 
-Desde la raíz del repositorio, iniciar un servidor HTTP para archivos estáticos:
+Desde la raíz del repositorio:
 
 ```powershell
 python -m http.server 5500
 ```
 
-Abrir `http://127.0.0.1:5500/portal/`. En otra terminal se puede iniciar el backend PostGIS, desde la raíz:
+Abrir `http://127.0.0.1:5500/portal/`. Las páginas introductorias son estáticas, pero requieren conexión para recursos externos como Leaflet y sus teselas.
+
+Para el visor PostGIS, iniciar PostgreSQL y su backend en otra terminal:
 
 ```powershell
 .\.venv\Scripts\python.exe -m uvicorn backend.main:app --reload
 ```
 
-Entonces la tarjeta de PostGIS abre `http://127.0.0.1:8000/`. Si no se dispone de los datos o del backend, esa tarjeta no puede mostrar la aplicación.
+Visor: `http://127.0.0.1:8000/`. **No es un enlace público a un servicio desplegado.**
 
-## Próximas fases
+## Publicación
 
-1. Recuperar los ejercicios HTML/CSS/JavaScript, sus imágenes y dependencias; organizarlos como prácticas independientes; probarlos antes de activarlos.
-2. Integrar los ejercicios de Leaflet, eventos, ruteo y barra lateral.
-3. Decidir si conviene migrar el SIG PostGIS a `practicas/06-postgis-fastapi/`, conservando rutas, documentación y pruebas.
+GitHub muestra de forma predeterminada archivos y carpetas, no esta página HTML como portada. Para que los visitantes naveguen el portal como sitio web hay que configurar una publicación estática, por ejemplo GitHub Pages. La configuración y la dirección pública aún deben comprobarse; este README no afirma que Pages esté activo. GitHub Pages no ejecuta PostgreSQL ni FastAPI.
 
-**Publicación:** los archivos de este portal son estáticos y podrían publicarse en GitHub Pages, pero el enlace local `127.0.0.1` seguiría apuntando al equipo del visitante. GitHub Pages no ejecuta FastAPI ni PostGIS; no anunciar F6 como servicio público.
+## Estado y límites
 
-## Criterio docente
-
-Una práctica solo cambia a estado `disponible` cuando tiene una ruta real, sus archivos y recursos están completos y se ha comprobado su ejecución.
-
-## Auditoría Leaflet
-
-La [matriz de selección Leaflet](../docs/auditoria-coleccion-leaflet.md) recoge las decisiones curriculares. Se incorporó el primer lote de seis prácticas de fundamentos como adaptaciones didácticas; su funcionamiento final depende de la verificación en navegador y la disponibilidad de CDN/teselas. El módulo 04 continúa pendiente.
-
-## Segundo módulo Leaflet
-
-Se incorporó [Módulo 04 — integración Leaflet](../practicas/04-leaflet-integracion/README.md) con barra lateral y dibujo. Ruteo y medición avanzada permanecen pendientes de revisión técnica y de credenciales. El catálogo del portal ya enlaza estas dos prácticas; sus pruebas de navegador aún están pendientes.
+El portal enlaza módulos con contenidos ya incorporados. El inventario universitario, el ruteo externo y otros ejemplos pendientes no se muestran como funcionalmente listos. El material sigue sujeto a pruebas integrales de navegación; los códigos originales de los módulos 01/02 se adaptaron, no se reproducen necesariamente de forma literal.
