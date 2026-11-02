@@ -16,6 +16,28 @@ La figura muestra **qué responsabilidad cumple cada herramienta**, pero no sign
 | Python + FastAPI + Psycopg | Publicar endpoints HTTP y consultar PostgreSQL desde el backend |
 | HTML + CSS + JavaScript + Leaflet | Mostrar el visor, recoger interacciones y representar JSON/GeoJSON |
 
+## ¿Dónde se encuentra el código?
+
+![Estructura de archivos del proyecto SIG Web](laminas/11-estructura-archivos.png)
+
+La lámina representa la **organización local observada en VS Code**. No es un listado completo del repositorio de GitHub: las carpetas locales y los archivos publicados pueden diferir.
+
+| Archivo o carpeta | Para qué sirve |
+|---|---|
+| `frontend/index.html` | Organiza los elementos visibles: mapa, paneles y botones |
+| `frontend/style.css` | Define la apariencia y distribución de la interfaz |
+| `frontend/app.js` | Gestiona Leaflet, los eventos y las peticiones HTTP |
+| `backend/main.py` | Publica la API FastAPI, conecta mediante Psycopg y consulta PostgreSQL/PostGIS |
+| `backend/probar_conexion.py` (local) | Script auxiliar que solicita la contraseña con `getpass`, conecta a `programacion_sig` y ejecuta `SELECT COUNT(*) FROM public.municipio` |
+| `docs/` | Conserva las lecciones y explicaciones del proyecto |
+| `sql/` | Contiene scripts SQL de preparación y comprobación de la geodatabase |
+| `.env` y `.venv/` (locales) | Configuración privada de conexión y entorno de dependencias Python |
+| `.gitignore` | Define qué archivos no deben incorporarse al control de versiones |
+
+**Distinción importante:** `probar_conexion.py` verifica una conexión directa a PostgreSQL y una consulta de recuento; **no prueba que PostGIS funcione espacialmente ni interviene en las solicitudes normales del visor**. El archivo que atiende esas solicitudes es `backend/main.py`. El script auxiliar se ha comprobado a partir del contenido compartido durante la clase, no de una versión publicada en el repositorio.
+
+**Seguridad:** `.env` puede contener credenciales y no debe publicarse. `.venv/` tampoco necesita subirse a GitHub. La imagen ilustra archivos locales, no una invitación a incorporarlos al repositorio.
+
 ## Qué sucede cuando usamos el visor
 
 Una vez preparados y cargados los datos, el circuito normal no pasa por QGIS ni por pgAdmin: **Leaflet/JavaScript → FastAPI/Psycopg → PostgreSQL/PostGIS → respuesta JSON/GeoJSON → Leaflet**.
