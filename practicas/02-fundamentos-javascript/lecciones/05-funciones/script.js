@@ -1,0 +1,1 @@
+"use strict";document.querySelector('#ejecutar').addEventListener('click',()=>{function calcularAreaRectangulo(base,altura){return base*altura;}document.querySelector('#resultado').textContent='Área de ejemplo: '+calcularAreaRectangulo(15,8)+' m²';});
