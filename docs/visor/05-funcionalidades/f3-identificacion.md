@@ -6,6 +6,13 @@
 
 **Al finalizar podrás:** distinguir una búsqueda por atributo (F2) de una consulta espacial (F3), explicar la función `ST_Covers()` y comprobar una identificación desde el navegador, la API y PostGIS.
 
+## Lámina de orientación
+
+![F3: identificación espacial](../laminas/07-f3-identificacion.jpg)
+
+> **Lectura de la figura.** La imagen ilustra la consulta topológica; el punto de frontera debe comprobarse con coordenadas precisas.
+
+
 ## 1. Del código municipal a la posición geográfica
 
 En F2 conocíamos de antemano un identificador, por ejemplo `63001`, y consultábamos la superficie correspondiente. **Ahora no partimos de un código municipal**: el usuario hace clic en una posición cualquiera y necesitamos averiguar qué polígono o polígonos la cubren.
