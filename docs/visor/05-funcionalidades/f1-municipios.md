@@ -6,6 +6,13 @@
 
 **Al finalizar podrás:** seguir una solicitud desde el navegador hasta PostGIS, interpretar la respuesta GeoJSON y comprobar que los municipios representados proceden de la base de datos. **Ruta:** navegador → HTTP → FastAPI/Psycopg → PostGIS → GeoJSON → Leaflet. Esta lección explica el código vigente de [`backend/main.py`](../../../backend/main.py) y [`frontend/app.js`](../../../frontend/app.js), sin crear otra versión de la aplicación.
 
+## Lámina de orientación
+
+![F1: visualización de municipios](../laminas/05-f1-municipios.jpg)
+
+> **Lectura de la figura.** El fragmento SQL de la lámina es material de lectura; el código ejecutable vigente está enlazado en esta lección.
+
+
 ## 1. Problema geográfico
 
 El mapa necesita los límites municipales y sus atributos. Sin embargo, **las geometrías no están dibujadas ni copiadas manualmente en JavaScript**: residen en la tabla `public.municipio` de nuestra geodatabase. F1 los consulta y los representa.
