@@ -27,6 +27,12 @@ Durante la validación de salud se excluyó **uno de 228 registros candidatos** 
 
 `ST_SetSRID` declara la referencia espacial; no modifica coordenadas. Si los datos vienen de otro CRS, la transformación debe efectuarla `ST_Transform` o un proceso equivalente correctamente configurado. La validez individual de las geometrías no demuestra ausencia de solapamientos entre polígonos.
 
+## Lámina del modelo relacional
+
+![Modelo relacional de la geodatabase](laminas/03-modelo-relacional.jpg)
+
+> **Advertencia sobre nombres de campos:** la figura utiliza `nombre_departamento` y `nombre_municipio`, pero el esquema físico verificado almacena ambos nombres en la columna `nombre`. La tabla `tipo_equipamiento` utiliza `nombre_tipo`. Para escribir SQL se debe consultar el [modelo físico vigente](../modelo-geodatabase-final.md); **la figura no es un diccionario de datos ejecutable**.
+
 ## ¿Por qué cuatro tablas?
 
 ```mermaid
