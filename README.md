@@ -100,3 +100,7 @@ Desde la raíz del repositorio, se puede abrir el portal mediante `python -m htt
 [Arquitectura](docs/arquitectura.md) · [Etapa 03 — primer backend FastAPI](docs/etapa-03-primer-backend-fastapi.md) · [Hoja de ruta actualizada](docs/hoja-de-ruta.md) · [Modelo de cuatro tablas](docs/modelo-ampliado-cuatro-tablas.md) · [F1](docs/etapa-04-f1-leaflet.md) · [F2](docs/etapa-05-f2-detalle-municipal.md) · [F3](docs/etapa-06-f3-identificacion-espacial.md) · [F4 — Salud](docs/etapa-07-f4-proximidad-salud.md) · [Funcionalidades y pruebas](docs/funcionalidades.md).
 
 **Alcance documental:** algunas guías tempranas recogen el diseño incremental y pueden describir estados anteriores. Este README, la especificación funcional actualizada y el código vigente prevalecen para el comportamiento de F1–F5.
+
+## Módulo 04 — interfaces y herramientas Leaflet
+
+Se incorporaron [dos prácticas autónomas](practicas/04-leaflet-integracion/): barra lateral con búsqueda y dibujo mediante Leaflet.draw. Se trata de adaptaciones docentes, no copias literales de los ejercicios originales. El ruteo externo se mantiene pendiente porque el material de origen contiene una clave incrustada que debe revocarse y sustituirse antes de una publicación segura. No se modificó el backend PostGIS.
