@@ -6,6 +6,13 @@
 
 **Al finalizar podrás:** distinguir una consulta por atributos de una selección espacial, explicar cómo se combinan dos filtros SQL y seguir la respuesta GeoJSON hasta su representación en Leaflet.
 
+## Lámina de orientación
+
+![F5: equipamientos por municipio y categoría](../laminas/09-f5-equipamientos.jpg)
+
+> **Lectura de la figura.** El filtro mostrado es administrativo, no una comprobación de contención espacial de los puntos.
+
+
 ## 1. El problema: seleccionar registros, no medir distancias
 
 En F4 buscamos sedes de salud dentro de un radio respecto a un punto. **F5 responde una pregunta diferente:** seleccionar las sedes que tienen asignado un **código municipal** y una **categoría** en la base de datos.
