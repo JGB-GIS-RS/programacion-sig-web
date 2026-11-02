@@ -1,5 +1,8 @@
 # Etapa 05 — F2: consulta remota de detalle municipal
 
+> **Nota de lectura (noviembre de 2026):** este archivo conserva instrucciones históricas de cómo se añadió F2. **El backend ya está publicado** en [backend/main.py](../backend/main.py); **no copiar nuevamente** el endpoint propuesto, porque duplicaría la ruta. La geodatabase de cuatro tablas y F1–F5 se encuentran implementadas: ver [guía vigente](guia-principal-visor.md).
+
+
 **Curso:** Programación para SIG  
 **Estado (23 de octubre de 2026): F2 validada funcionalmente en el equipo del docente.** Tras pulsar «Consultar detalle», el popup de Armenia (DIVIPOLA 63001) mostró **121,17 km²** de superficie geodésica calculada. Chrome DevTools → Network registró las peticiones individuales `63001` y `63690` con **HTTP 200**, tipo `fetch`, iniciadas en `app.js:27`. Las capturas no incluyen la pestaña Response, por lo que el contenido JSON íntegro no se auditó visualmente, aunque la interfaz presentó el resultado calculado.
 
