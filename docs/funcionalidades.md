@@ -1,5 +1,7 @@
 # Especificación funcional vigente y pruebas — F1 a F5
 
+> **Lectura complementaria:** [guía principal](guia-principal-visor.md), [modelo de datos final](modelo-geodatabase-final.md) y [guía F5](etapa-08-f5-equipamientos.md). Este documento es la referencia del contrato de API actual.
+
 **Estado:** implementación disponible en `backend/main.py` y `frontend/`, contrastada con pruebas manuales en el equipo docente (noviembre de 2026). Los scripts y documentos de etapas anteriores pueden describir propuestas históricas.
 
 ## Contrato de la API y comportamientos
