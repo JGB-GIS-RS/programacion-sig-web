@@ -1,5 +1,8 @@
 # Etapa 06 — F3: identificación espacial mediante un clic
 
+> **Nota de lectura (noviembre de 2026):** el estado «backend local y prueba funcional pendientes» corresponde al **23 de octubre de 2026**, no al estado vigente. Hoy [backend/main.py](../backend/main.py) incluye F3 y el conjunto F1–F5 fue comprobado funcionalmente en el entorno docente. **No pegar de nuevo** este endpoint en la API. Ver [guía principal](guia-principal-visor.md) y [funcionalidades](funcionalidades.md).
+
+
 **Estado (23-10-2026):** frontend F3 publicado en GitHub; **backend local y prueba funcional pendientes**.
 
 ## 1. Problema geográfico
