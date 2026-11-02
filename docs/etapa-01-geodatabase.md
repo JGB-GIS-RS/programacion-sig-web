@@ -1,5 +1,8 @@
 # Etapa 01. Diseño físico e implementación de la geodatabase
 
+> **Nota de lectura (noviembre de 2026):** este documento conserva deliberadamente la **Etapa 01 histórica**, cuando solo existían `departamento` y `municipio`. **No representa el modelo final**. La implementación vigente tiene cuatro tablas; consultar el [modelo de referencia](modelo-geodatabase-final.md) y la [guía principal del visor](guia-principal-visor.md). Los scripts de esta etapa no se deben ejecutar sobre la base actual poblada.
+
+
 **Asignatura:** Programación para SIG  
 **Proyecto:** Programación SIG Web  
 **Territorio de estudio:** municipios del Quindío, Colombia  
