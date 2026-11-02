@@ -1,5 +1,8 @@
 # Etapa 04 — F1: representación de municipios en Leaflet
 
+> **Nota de lectura (noviembre de 2026):** guía histórica de implementación de F1. Las afirmaciones de que `backend/main.py` no está versionado o de que F2–F5 siguen pendientes describen una fase anterior. El [backend vigente](../backend/main.py) está publicado y las cinco funciones están implementadas. No volver a añadir fragmentos de endpoints al código actual.
+
+
 **Estado: F1 validada funcionalmente en el computador del docente (23 de octubre de 2026).** Se comprobó el visor, la carga de doce municipios, el popup local de Armenia y la petición HTTP 200 mediante las herramientas de desarrollo de Chrome. El código del backend sigue pendiente de versionarse en GitHub.
 
 ## Propósito
