@@ -10,7 +10,7 @@ La [página de entrada del Módulo 05](index.html) presenta **siete apartados en
 | 02 | Fuentes y geodatabase | [Datos y modelo físico](../../docs/visor/02-datos-geodatabase.md) |
 | 03 | Arquitectura SIG Web | [Frontend, backend y PostGIS](../../docs/visor/03-arquitectura.md) |
 | 04 | Preparación del entorno | [Instrucciones locales](../../docs/guia-principal-visor.md#5-ejecutar-en-el-computador-docente) |
-| 05 | Desarrollo F1–F5 | [Contratos y funcionamiento](../../docs/funcionalidades.md) |
+| 05 | Desarrollo F1–F5 | [Menú de las cinco lecciones](../../docs/visor/05-funcionalidades/) |
 | 06 | Verificación | [Matriz de comprobación](../../docs/funcionalidades.md#matriz-de-verificacion) |
 | 07 | Código y reproducibilidad | [Archivos reales y límites](../../docs/visor/00-indice.md#codigo-fuente-vigente) |
 
