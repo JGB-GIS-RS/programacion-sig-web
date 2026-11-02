@@ -1,6 +1,6 @@
 # Módulo 03 — Fundamentos cartográficos con Leaflet
 
-**Primer lote incorporado el 2 de noviembre de 2026.** Contiene seis prácticas separadas, derivadas de los ejemplos del docente `002_LEAFLET`; el material original se conserva fuera del repositorio.
+**Lotes 1 y 2 incorporados en noviembre de 2026.** Contiene nueve prácticas separadas, derivadas de los ejemplos del docente `002_LEAFLET`; el material original se conserva fuera del repositorio.
 
 | Práctica | Carpeta original | Aporte |
 |---|---|---|
@@ -9,7 +9,7 @@
 | 03-controles | `02_controles_mapa` | zoom, escala, capas |
 | 04-metodos-mapa | `03_metodos_modificacion_mapa` | `setView`, `panTo`, `fitBounds` y zoom |
 | 05-eventos | `04_eventos` | `click`, `zoomend` y `moveend` |
-| 06-estado-mapa | `05_metodos_recuperar_estado_mapa` | `getCenter`, `getZoom`, `getBounds` |
+| 06-estado-mapa | `05_metodos_recuperar_estado_mapa` | `getCenter`, `getZoom`, `getBounds` |\n| 07-geometrias | `07_elementos_geometricos` | Puntos, círculos, polígonos, polilíneas y medidas de radio |\n| 08-primer-geojson | `08_1GeoJSON` | `FeatureCollection`, `Point`, `LineString`, `L.geoJSON` |\n| 09-filtrado-geojson | Serie `08_2`–`08_4_GeoJSON` | Filtrado dinámico sobre atributos de cuatro puntos de demostración |
 
 ## Cambios respecto de los ejemplos de origen
 
@@ -37,3 +37,7 @@ Abrir `http://127.0.0.1:5500/practicas/03-leaflet-fundamentos/` y elegir un ejem
 **No verificado:** pruebas reales de navegación/solicitudes de teselas en el computador docente, compatibilidad de permisos de red y validación cartográfica exhaustiva. No afirmar que han pasado pruebas de integración en navegador.
 
 La selección y sus pendientes se documentan en [auditoría Leaflet](../../docs/auditoria-coleccion-leaflet.md). El módulo de PostGIS y sus rutas no se modificaron.
+
+## Notas sobre el segundo lote
+
+Los ejercicios 07–09 son adaptaciones autocontenidas. El 09 emplea cuatro puntos **expresamente ficticios en sus atributos**, únicamente para ilustrar el filtrado por categorías; no representa un inventario sanitario/educativo real. Las versiones de filtrado de departamentos del paquete original hacen referencia a `deptos_col.js`, que no fue recuperado en la extracción disponible; no se anuncian como funcionales ni se fabricó una capa departamental sustituta. El archivo municipal de gran tamaño se mantiene fuera de esta práctica inicial. Las pruebas de navegación y de teselas en navegador siguen pendientes.
