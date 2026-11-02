@@ -1,5 +1,8 @@
 # Programación SIG Web — Quindío
 
+**Comienza aquí:** [Itinerario docente del visor SIG Web](docs/visor/00-indice.md) — presentación, datos, arquitectura, funcionalidades, pruebas y acceso al código.
+
+
 ## Guía principal del proyecto
 
 **Para estudiantes y visitantes:** comenzar por [Guía principal del visor SIG Web](docs/guia-principal-visor.md) y [Modelo de geodatabase vigente](docs/modelo-geodatabase-final.md). La [Etapa 01](docs/etapa-01-geodatabase.md) es histórica (dos tablas), no el modelo final. La guía de [F5](docs/etapa-08-f5-equipamientos.md) ya está disponible.
