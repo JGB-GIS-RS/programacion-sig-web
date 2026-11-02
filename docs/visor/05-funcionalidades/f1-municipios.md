@@ -4,7 +4,7 @@
 
 **Pregunta central:** ¿cómo llega a Leaflet la geometría de los 12 municipios almacenados en PostgreSQL/PostGIS?
 
-**Objetivo de aprendizaje:** comprender por primera vez el recorrido completo **navegador → HTTP → FastAPI → Psycopg → PostGIS → GeoJSON → Leaflet** y poder verificarlo. Esta lección explica el código vigente de [`backend/main.py`](../../../backend/main.py) y [`frontend/app.js`](../../../frontend/app.js), sin crear otra versión de la aplicación.
+**Al finalizar podrás:** seguir una solicitud desde el navegador hasta PostGIS, interpretar la respuesta GeoJSON y comprobar que los municipios representados proceden de la base de datos. **Ruta:** navegador → HTTP → FastAPI/Psycopg → PostGIS → GeoJSON → Leaflet. Esta lección explica el código vigente de [`backend/main.py`](../../../backend/main.py) y [`frontend/app.js`](../../../frontend/app.js), sin crear otra versión de la aplicación.
 
 ## 1. Problema geográfico
 
@@ -30,14 +30,9 @@ if (!respuesta.ok) throw new Error("HTTP " + respuesta.status);
 const datos = await respuesta.json();
 ```
 
-**Paso a paso:**
+**Qué ocurre:** `fetch()` envía la petición; `Accept` declara el formato preferido; `respuesta.ok` permite identificar respuestas HTTP fallidas; y `respuesta.json()` interpreta el cuerpo recibido. **Interpretar JSON no garantiza que tenga la estructura GeoJSON esperada**: el código comprueba después que existe una `FeatureCollection` con un arreglo `features` no vacío.
 
-1. `fetch("/municipios")` solicita al servidor el recurso `/municipios`.
-2. La cabecera `Accept` indica que esperamos datos GeoJSON.
-3. `respuesta.ok` permite detectar errores HTTP.
-4. `respuesta.json()` interpreta el cuerpo de la respuesta como un objeto JavaScript.
-
-Aquí **JavaScript no consulta directamente PostgreSQL**: únicamente se comunica mediante HTTP con FastAPI. La ruta relativa `/municipios` funciona porque el visor se sirve desde el mismo origen de la API (`http://127.0.0.1:8000/` en el ejercicio local).
+Aquí **JavaScript no consulta directamente PostgreSQL**: únicamente se comunica mediante HTTP con FastAPI. La ruta `/municipios` se resuelve contra el origen desde el que se abrió la página; por eso funciona aquí, donde FastAPI sirve también el HTML (`http://127.0.0.1:8000/` en el ejercicio local).
 
 ## 4. FastAPI: recibir la petición
 
@@ -50,11 +45,11 @@ def obtener_municipios():
 
 El decorador asocia las solicitudes HTTP **GET** a `/municipios` con la función `obtener_municipios()`. Esta ruta no recibe filtros ni coordenadas. La función abre una conexión mediante `conectar_bd()` y ejecuta SQL con Psycopg.
 
-**Tres conceptos distintos:** FastAPI define y atiende la ruta web; Psycopg conecta Python con PostgreSQL y ejecuta las consultas; PostGIS aporta las funciones y tipos espaciales en la base de datos.
+**Tres responsabilidades:** FastAPI recibe la solicitud HTTP; Psycopg ejecuta SQL desde Python; y PostGIS proporciona los tipos y funciones geoespaciales de PostgreSQL. Ninguno de estos componentes reemplaza a los otros.
 
 ## 5. SQL y PostGIS: recuperar las geometrías
 
-Esta es la consulta SQL del backend vigente:
+Esta es la consulta SQL del backend vigente. Léela de abajo hacia arriba: **tabla de origen → columnas seleccionadas → orden de resultados**:
 
 ```sql
 SELECT
@@ -90,7 +85,9 @@ return JSONResponse(
 )
 ```
 
-Estructura didáctica de la respuesta, **sin reproducir coordenadas reales**:
+### Estructura de una entidad GeoJSON
+
+Para evitar presentar un multipolígono vacío como si fuera válido, observa la organización de **una entidad simplificada**. Las coordenadas siguientes representan un polígono ficticio cerrado; **no son límites ni coordenadas reales del Quindío**:
 
 ```json
 {
@@ -99,21 +96,23 @@ Estructura didáctica de la respuesta, **sin reproducir coordenadas reales**:
     {
       "type": "Feature",
       "properties": {
-        "cod_municipio": "63001",
-        "nombre": "ARMENIA"
+        "cod_municipio": "EJEMPLO",
+        "nombre": "Municipio ficticio"
       },
       "geometry": {
         "type": "MultiPolygon",
-        "coordinates": []
+        "coordinates": [
+          [[[[-75.7, 4.5], [-75.6, 4.5], [-75.6, 4.6], [-75.7, 4.6], [-75.7, 4.5]]]]
+        ]
       }
     }
   ]
 }
 ```
 
-**Advertencia:** el arreglo `coordinates: []` es un marcador didáctico que **no representa una geometría municipal válida**. En la respuesta real, cada multipolígono contiene sus coordenadas. Para inspeccionarlas, abre el endpoint o la pestaña Network.
+En el visor real, las propiedades llevan códigos DIVIPOLA auténticos y cada `MultiPolygon` representa los límites almacenados en PostGIS. El ejemplo solo sirve para distinguir **colección, entidad, atributos y geometría**.
 
-GeoJSON combina **geometría** y **atributos**. La codificación de las geometrías procede de EPSG:4326 y usa posiciones `[longitud, latitud]`; Leaflet, al crear marcadores con coordenadas escritas directamente, utiliza normalmente `[latitud, longitud]`. No intercambiar esos órdenes.
+GeoJSON combina **geometría** y **atributos**. En este proyecto, las geometrías se almacenan con SRID 4326; al serializarlas como GeoJSON, las posiciones se expresan como `[longitud, latitud]`; Leaflet, al crear marcadores con coordenadas escritas directamente, utiliza normalmente `[latitud, longitud]`. No intercambiar esos órdenes.
 
 ## 7. Leaflet: representar la respuesta
 
@@ -169,7 +168,7 @@ FROM public.municipio;
 
 El resultado esperado en la instalación docente es **12**, y debe corresponder con el tamaño de `features` en F1, siempre que estemos consultando la misma base y los datos no hayan cambiado.
 
-**Si falla:** revisa primero que FastAPI esté activo (`/salud`), después `/municipios`, la conexión PostgreSQL, la consola y la pestaña Network. `/salud` prueba el servidor, **no** la conectividad real con la base.
+**Si falla:** comprueba primero `/salud` (servidor activo); luego `/municipios` (acceso a la base y respuesta); finalmente revisa la consola y Network (transferencia y representación). `/salud` **no comprueba** PostgreSQL. El servidor puede responder correctamente en esa ruta mientras la consulta F1 falla con HTTP 503.
 
 ## 9. Interpretación y límites
 
@@ -179,7 +178,11 @@ El resultado esperado en la instalación docente es **12**, y debe corresponder 
 - La respuesta puede contener geometrías densas; ello afecta la transferencia y representación, pero no justifica simplificar sin registrar sus implicaciones cartográficas.
 - Una clonación del repositorio sin la geodatabase poblada no permite ejecutar F1 de extremo a extremo.
 
-## 10. Código y continuidad
+## 10. Comprobación del aprendizaje
+
+Sin consultar la respuesta, intenta responder: **¿qué tecnología realiza la consulta SQL? ¿Por qué hay una petición HTTP para los municipios si el fondo OpenStreetMap ya es visible? ¿Un clic en el municipio vuelve a ejecutar F1?** Comprueba después cada respuesta en el código y en Network.
+
+## 11. Código y continuidad
 
 **Archivos completos:** [frontend/app.js](../../../frontend/app.js) · [frontend/index.html](../../../frontend/index.html) · [frontend/style.css](../../../frontend/style.css) · [backend/main.py](../../../backend/main.py).
 
