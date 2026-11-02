@@ -1,5 +1,9 @@
 # Visor SIG Web del Quindío — apartado docente
 
+## Ruta recomendada de lectura
+
+Primero [guía principal](../../docs/guia-principal-visor.md), luego [modelo final](../../docs/modelo-geodatabase-final.md), [contrato F1–F5](../../docs/funcionalidades.md) y [F5](../../docs/etapa-08-f5-equipamientos.md). Las etapas anteriores explican la evolución del proyecto, no siempre su último estado.
+
 Este apartado reúne el **ejercicio integrador del visor desarrollado durante las últimas sesiones**. Su objetivo es explicar y ofrecer acceso a la aplicación F1–F5 sin mover su implementación existente.
 
 ## Arquitectura
