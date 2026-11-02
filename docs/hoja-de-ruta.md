@@ -1,5 +1,7 @@
 # Hoja de ruta del proyecto — Programación SIG Web
 
+> **Referencia principal:** [guía del visor](guia-principal-visor.md) · [modelo vigente de cuatro tablas](modelo-geodatabase-final.md) · [Etapa 08, F5](etapa-08-f5-equipamientos.md). Las etapas 01–07 mantienen el relato del desarrollo incremental.
+
 **Estado actualizado: 1 de noviembre de 2026.** Documento de orientación curricular y trazabilidad. La secuencia de las *etapas documentadas* no coincide exactamente con los rótulos E1–E7 que figuraban en la planificación preliminar; prevalece la numeración de las guías existentes.
 
 ## Propósito docente
