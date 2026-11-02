@@ -104,3 +104,10 @@ Desde la raíz del repositorio, se puede abrir el portal mediante `python -m htt
 ## Módulo 04 — interfaces y herramientas Leaflet
 
 Se incorporaron [dos prácticas autónomas](practicas/04-leaflet-integracion/): barra lateral con búsqueda y dibujo mediante Leaflet.draw. Se trata de adaptaciones docentes, no copias literales de los ejercicios originales. El ruteo externo se mantiene pendiente porque el material de origen contiene una clave incrustada que debe revocarse y sustituirse antes de una publicación segura. No se modificó el backend PostGIS.
+
+## Módulos de fundamentos web y JavaScript
+
+- [Fundamentos HTML y CSS](practicas/01-fundamentos-web/): siete lecciones y ejercicio de cotización con CSS externo.
+- [Fundamentos JavaScript](practicas/02-fundamentos-javascript/): seis ejemplos reconstruidos de sintaxis y lógica.
+
+Son adaptaciones docentes; el RAR de JavaScript no permitió verificar y trasladar fielmente todos los originales. Se conservaron los archivos fuente aportados al trabajo sin publicar datos personales ni direcciones locales de imágenes. Se requiere completar la revisión de otras versiones y la prueba en navegador.
