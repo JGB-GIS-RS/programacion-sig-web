@@ -9,6 +9,16 @@
 > **Lectura de la figura.** La figura es una síntesis; las consultas se ejecutan en PostgreSQL/PostGIS mediante el backend, no directamente desde Leaflet.
 
 
+## Del clic a la respuesta: endpoints y ejecución de consultas
+
+![Flujo del visor SIG Web desde la petición HTTP hasta la respuesta](laminas/04b-como-funciona-visor.png)
+
+**Endpoint**: combinación de una ruta de la API y un método HTTP que permite solicitar una operación específica del backend. Por ejemplo, `GET /municipios/63001` solicita el detalle del municipio cuyo código es `63001`. En `backend/main.py`, FastAPI vincula esa ruta con la función decorada mediante `@app.get("/municipios/{codigo}")`.
+
+La consulta SQL **está definida en el código Python del backend**, pero **se ejecuta en PostgreSQL/PostGIS** cuando la función la envía mediante Psycopg, por ejemplo con `cursor.execute(sql, (codigo,))`. La respuesta de F2 es **JSON** con la superficie geodésica; otras funcionalidades devuelven **GeoJSON** cuando necesitan transferir geometrías.
+
+> **Alcance de la lámina:** el valor de superficie que aparece junto a Armenia es ilustrativo y no está verificado contra la geodatabase del proyecto. Los ejemplos abreviados de SQL y rutas permiten explicar el mecanismo, pero para reproducir los cálculos deben consultarse las sentencias parametrizadas completas de `backend/main.py`. El verbo `POST` aparece en la figura como posibilidad general de HTTP; **las cinco funcionalidades actuales del visor utilizan `GET`**.
+
 ## Los tres componentes
 
 | Componente | Tecnología | Responsabilidad |
