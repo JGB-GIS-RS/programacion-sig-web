@@ -2,6 +2,13 @@
 
 [← Datos y geodatabase](02-datos-geodatabase.md) · [Índice](00-indice.md) · [Funcionalidades F1–F5 →](../funcionalidades.md)
 
+## Lámina de orientación
+
+![Arquitectura funcional](laminas/04-arquitectura-funcional.jpg)
+
+> **Lectura de la figura.** La figura es una síntesis; las consultas se ejecutan en PostgreSQL/PostGIS mediante el backend, no directamente desde Leaflet.
+
+
 ## Los tres componentes
 
 | Componente | Tecnología | Responsabilidad |
