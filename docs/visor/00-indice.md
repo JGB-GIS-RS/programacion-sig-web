@@ -9,7 +9,7 @@ Esta es la entrada recomendada para entender la aplicación sin perder la trazab
 1. [Presentación y objetivos](01-presentacion.md): qué construimos y qué debe aprenderse.
 2. [Datos y geodatabase](02-datos-geodatabase.md): fuentes, cuatro tablas, relaciones y garantías de integridad.
 3. [Arquitectura funcional](03-arquitectura.md): de un clic en el mapa a una consulta PostGIS y su respuesta.
-4. [Preparación y ejecución](../guia-principal-visor.md#5-ejecutar-en-el-computador-docente): instalación docente, entorno y límites de reproducibilidad.
+4. [Preparación y ejecución](04-entorno.md): instalación docente, entorno y límites de reproducibilidad.
 5. [F1–F5: desarrollo del visor](05-funcionalidades/): cinco lecciones actuales, con explicación del código, comprobación e interpretación. Las guías antiguas se conservan aparte como antecedentes, no como ruta principal de aprendizaje.
 6. [Verificación](../funcionalidades.md#matriz-de-verificacion): criterios de comprobación de HTTP, SQL y GeoJSON.
 7. [Código y reproducibilidad](../guia-principal-visor.md#2-donde-esta-cada-parte): archivos y condiciones para ejecutar el sistema.
