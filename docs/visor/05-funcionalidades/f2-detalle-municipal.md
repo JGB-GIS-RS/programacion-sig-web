@@ -6,6 +6,13 @@
 
 **Al finalizar podrás:** distinguir los atributos que ya tiene Leaflet de una consulta nueva al servidor, explicar un parámetro de ruta HTTP y comprender cómo PostGIS calcula un área geodésica en km².
 
+## Lámina de orientación
+
+![F2: superficie geodésica](../laminas/06-f2-superficie.jpg)
+
+> **Lectura de la figura.** Los marcadores `%s` son parámetros de Psycopg y no se ejecutan literalmente en pgAdmin.
+
+
 ## 1. Qué cambia respecto a F1
 
 En **F1**, la aplicación descargó de PostGIS los polígonos de los 12 municipios, sus códigos y nombres. Esos atributos ya están disponibles en el navegador: por eso abrir un popup no requiere otra consulta.
