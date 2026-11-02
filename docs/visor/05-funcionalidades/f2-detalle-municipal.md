@@ -1,6 +1,6 @@
 # F2 · Consultar el detalle y la superficie de un municipio
 
-[← F1: visualizar municipios](f1-municipios.md) · [Menú F1–F5](index.md) · [Siguiente: F3](../../etapa-06-f3-identificacion-espacial.md)
+[← F1: visualizar municipios](f1-municipios.md) · [Menú F1–F5](index.md) · [Siguiente: F3](f3-identificacion.md)
 
 **Pregunta:** ¿cómo consultamos un dato que no se descargó al cargar el mapa, por ejemplo, la superficie de Armenia?
 
@@ -168,4 +168,4 @@ Contrasta las respuestas con el código y, especialmente, con la prueba de Netwo
 
 **Antecedente histórico:** [Etapa 05 — F2](../../etapa-05-f2-detalle-municipal.md). Se conserva para estudiar la evolución, no como sustituto del endpoint vigente.
 
-[← Volver a F1](f1-municipios.md) · [Menú F1–F5](index.md) · [Continuar con F3](../../etapa-06-f3-identificacion-espacial.md)
+[← Volver a F1](f1-municipios.md) · [Menú F1–F5](index.md) · [Continuar con F3](f3-identificacion.md)
