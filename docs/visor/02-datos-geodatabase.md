@@ -2,6 +2,13 @@
 
 [← Presentación](01-presentacion.md) · [Índice](00-indice.md) · [Arquitectura →](03-arquitectura.md)
 
+## Lámina de orientación
+
+![Datos y fuentes del ejercicio](laminas/02-datos-fuentes.jpg)
+
+> **Lectura de la figura.** Las cifras representan los registros integrados en el ejercicio docente, no un inventario actualizado automáticamente.
+
+
 ## ¿De dónde vienen los datos?
 
 La instalación docente integra tres conjuntos de fuentes administrativas:
