@@ -2,7 +2,7 @@
 // El catálogo no presume que las prácticas aún no incorporadas sean ejecutables.
 const practicas=[
  {id:"01",titulo:"Fundamentos de desarrollo web",descripcion:"Etiquetas HTML, enlaces, tablas, formularios y evolución hacia CSS externo.",tecnologias:["HTML","CSS"],estado:"pendiente"},
- {id:"02",titulo:"Leaflet: fundamentos cartográficos",descripcion:"Seis prácticas: mapa inicial, capas base, controles, métodos, eventos y estado del visor.",tecnologias:["JavaScript","Leaflet"],estado:"disponible",url:"../practicas/03-leaflet-fundamentos/"},
+ {id:"02",titulo:"Leaflet: fundamentos cartográficos",descripcion:"Nueve prácticas: mapas base, controles, métodos, eventos, geometrías y GeoJSON.",tecnologias:["JavaScript","Leaflet"],estado:"disponible",url:"../practicas/03-leaflet-fundamentos/"},
  {id:"03",titulo:"Eventos en Leaflet",descripcion:"Interacciones de clic, movimiento y menú contextual sobre el mapa.",tecnologias:["JavaScript","Eventos"],estado:"pendiente"},
  {id:"04",titulo:"Ruteo mediante geoservicios",descripcion:"Consulta a una API externa y representación de rutas y resultados.",tecnologias:["HTTP","API","Leaflet"],estado:"pendiente"},
  {id:"05",titulo:"Diseño de interfaces SIG",descripcion:"Estructura HTML, CSS, Bootstrap y barra lateral personalizada.",tecnologias:["HTML","CSS","Bootstrap"],estado:"pendiente"},
