@@ -1,6 +1,6 @@
 # F4 · Proximidad a sedes de salud
 
-[← F3: identificación espacial](f3-identificacion.md) · [Menú F1–F5](index.md) · [Siguiente: F5](../../etapa-08-f5-equipamientos.md)
+[← F3: identificación espacial](f3-identificacion.md) · [Menú F1–F5](index.md) · [Siguiente: F5](f5-equipamientos.md)
 
 **Pregunta:** ¿qué sedes de prestadores de salud registradas en nuestra geodatabase se encuentran dentro de un radio determinado respecto a una ubicación elegida en el mapa?
 
@@ -202,4 +202,4 @@ Contrasta las respuestas con el endpoint y las geometrías registradas.
 
 **Guía histórica de desarrollo:** [Etapa 07 — F4](../../etapa-07-f4-proximidad-salud.md). Se conserva para estudiar la evolución del ejercicio, pero esta lección explica el funcionamiento actual.
 
-[← F3](f3-identificacion.md) · [Menú F1–F5](index.md) · [Continuar con F5 →](../../etapa-08-f5-equipamientos.md)
+[← F3](f3-identificacion.md) · [Menú F1–F5](index.md) · [Continuar con F5 →](f5-equipamientos.md)
