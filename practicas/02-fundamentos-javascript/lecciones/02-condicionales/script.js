@@ -1,0 +1,1 @@
+"use strict";document.querySelector('#ejecutar').addEventListener('click',()=>{const edad=Number(document.querySelector('#valor').value); document.querySelector('#resultado').textContent=Number.isFinite(edad)&&edad>=18?'Mayor de edad':'Menor de edad o dato inválido';});
