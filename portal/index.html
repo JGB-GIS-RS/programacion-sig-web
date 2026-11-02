@@ -1,33 +1,19 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Laboratorio SIG Web: prácticas independientes de Programación para SIG.">
-  <title>Laboratorio SIG Web · Programación para SIG</title>
-  <link rel="stylesheet" href="./style.css">
-  <script src="./app.js" defer></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Laboratorio SIG Web: seis módulos de Programación para SIG, desde HTML y JavaScript hasta PostGIS y proyectos integradores.">
+<title>Laboratorio SIG Web · Programación para SIG</title>
+<link rel="stylesheet" href="./style.css"><script src="./app.js" defer></script>
 </head>
 <body>
-  <a class="skip" href="#contenido">Saltar al contenido</a>
-  <header class="cabecera">
-    <div class="ancho cabecera-interior">
-      <div class="marca" aria-hidden="true"><span></span><span></span><span></span></div>
-      <div><div class="sobre">Ingeniería Topográfica y Geomática · Programación para SIG</div><h1>Laboratorio SIG Web</h1><p>Un recorrido desde HTML hasta las consultas espaciales sobre PostGIS.</p></div>
-    </div>
-  </header>
-  <main id="contenido" class="ancho">
-    <section class="introduccion" aria-label="Presentación"><p>Este portal organiza los ejercicios de la asignatura. Cada práctica se conserva como un desarrollo independiente: los ejemplos iniciales no necesitan un backend; las aplicaciones de integración pueden requerir servidores y datos propios.</p></section>
-    <section aria-labelledby="titulo-practicas">
-      <div class="seccion-titulo"><div><span class="eyebrow">Secuencia formativa</span><h2 id="titulo-practicas">Prácticas</h2></div><label class="filtro">Filtrar por estado <select id="filtro"><option value="todas">Todas</option><option value="disponible">Con acceso</option><option value="pendiente">Por integrar</option></select></label></div>
-      <div id="tarjetas" class="tarjetas" aria-live="polite"></div>
-    </section>
-    <section aria-labelledby="titulo-proyectos" class="proyectos">
-      <div class="seccion-titulo"><div><span class="eyebrow">Aplicaciones integradoras</span><h2 id="titulo-proyectos">Proyectos</h2></div></div>
-      <article class="proyecto"><div><span class="estado pendiente">Documentación disponible</span><h3>Geoalerta</h3><p>Propuesta de aplicación para reportes ciudadanos georreferenciados. El repositorio contiene su documentación inicial; todavía no se presenta como aplicación ejecutable.</p></div><a href="../proyectos/geoalerta/README.md">Consultar documentación <span aria-hidden="true">↗</span></a></article>
-    </section>
-    <aside class="nota"><strong>¿Cómo se ejecutan las prácticas?</strong> Los ejercicios estáticos se abrirán desde este portal cuando se integren. La aplicación PostGIS se ejecuta en un servidor FastAPI local con su base de datos preparada; su acceso no funciona desde GitHub Pages sin un backend desplegado.</aside>
-  </main>
-  <footer class="pie"><div class="ancho"><span>Laboratorio SIG Web · Repositorio docente</span><a href="https://github.com/JGB-GIS-RS/programacion-sig-web">Ver repositorio en GitHub ↗</a></div></footer>
-</body>
-</html>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="cabecera"><div class="ancho cabecera-interior"><div class="marca" aria-hidden="true"><span></span><span></span><span></span></div><div><div class="sobre">Ingeniería Topográfica y Geomática · Programación para SIG</div><h1>Laboratorio SIG Web</h1><p>Aprender a programar aplicaciones geográficas, desde los fundamentos hasta las consultas espaciales.</p></div></div></header>
+<main id="contenido" class="ancho">
+<section class="introduccion"><p><strong>¿Por dónde comenzar?</strong> Selecciona uno de los seis módulos. Cada módulo presenta sus temas y enlaza a los ejemplos, explicaciones y archivos de código. Puedes seguir el orden propuesto o consultar directamente un tema.</p></section>
+<section aria-labelledby="titulo-modulos"><div class="seccion-titulo"><div><span class="eyebrow">Ruta de aprendizaje</span><h2 id="titulo-modulos">Módulos del laboratorio</h2></div></div><div id="tarjetas" class="tarjetas"></div></section>
+<section class="proyectos" aria-labelledby="titulo-consulta"><div class="seccion-titulo"><div><span class="eyebrow">Para ampliar y verificar</span><h2 id="titulo-consulta">Recursos de consulta</h2></div></div><div class="recursos"><a href="../docs/visor/00-indice.md">Guía del visor SIG Web del Quindío →</a><a href="../docs/modelo-geodatabase-final.md">Modelo de geodatabase vigente →</a><a href="../docs/funcionalidades.md">API y funcionalidades F1–F5 →</a><a href="https://github.com/JGB-GIS-RS/programacion-sig-web">Código fuente completo en GitHub →</a></div></section>
+<aside class="nota"><strong>Alcance de la publicación</strong> Los módulos introductorios contienen páginas estáticas. El visor PostGIS requiere FastAPI, PostgreSQL/PostGIS y una base preparada; su funcionamiento no se obtiene únicamente al abrir un enlace en GitHub. Los proyectos en desarrollo no se presentan como aplicaciones operativas.</aside>
+</main>
+<footer class="pie"><div class="ancho"><span>Laboratorio SIG Web · Repositorio docente</span><a href="https://github.com/JGB-GIS-RS/programacion-sig-web">Ver repositorio y código fuente ↗</a></div></footer>
+</body></html>
