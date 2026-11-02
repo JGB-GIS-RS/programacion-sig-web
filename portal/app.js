@@ -2,7 +2,7 @@
 // El catálogo no presume que las prácticas aún no incorporadas sean ejecutables.
 const practicas=[
  {id:"01",titulo:"Fundamentos de desarrollo web",descripcion:"Etiquetas HTML, enlaces, tablas, formularios y evolución hacia CSS externo.",tecnologias:["HTML","CSS"],estado:"pendiente"},
- {id:"02",titulo:"Primer visor cartográfico",descripcion:"Creación del mapa inicial, capas base y controles con Leaflet.",tecnologias:["JavaScript","Leaflet"],estado:"pendiente"},
+ {id:"02",titulo:"Leaflet: fundamentos cartográficos",descripcion:"Seis prácticas: mapa inicial, capas base, controles, métodos, eventos y estado del visor.",tecnologias:["JavaScript","Leaflet"],estado:"disponible",url:"../practicas/03-leaflet-fundamentos/"},
  {id:"03",titulo:"Eventos en Leaflet",descripcion:"Interacciones de clic, movimiento y menú contextual sobre el mapa.",tecnologias:["JavaScript","Eventos"],estado:"pendiente"},
  {id:"04",titulo:"Ruteo mediante geoservicios",descripcion:"Consulta a una API externa y representación de rutas y resultados.",tecnologias:["HTTP","API","Leaflet"],estado:"pendiente"},
  {id:"05",titulo:"Diseño de interfaces SIG",descripcion:"Estructura HTML, CSS, Bootstrap y barra lateral personalizada.",tecnologias:["HTML","CSS","Bootstrap"],estado:"pendiente"},
@@ -19,9 +19,9 @@ function dibujar(){
   const d=document.createElement("p");d.textContent=p.descripcion;
   const tags=document.createElement("div");tags.className="etiquetas";
   p.tecnologias.forEach(t=>{const s=document.createElement("span");s.textContent=t;tags.append(s)});
-  const state=document.createElement("span");state.className="estado "+p.estado;state.textContent=p.estado==="disponible"?"Acceso local disponible":"Por integrar";
+  const state=document.createElement("span");state.className="estado "+p.estado;state.textContent=p.estado==="disponible"?(p.id==="06"?"Acceso local disponible":"Prácticas incorporadas"):"Por integrar";
   article.append(num,title,d,tags,state);
-  if(p.url){const a=document.createElement("a");a.href=p.url;a.textContent="Abrir en servidor local ↗";a.title="Requiere FastAPI ejecutándose en este equipo";article.append(a)}
+  if(p.url){const a=document.createElement("a");a.href=p.url;a.textContent=p.id==="06"?"Abrir en servidor local ↗":"Abrir módulo ↗";a.title=p.id==="06"?"Requiere FastAPI ejecutándose en este equipo":"Ejercicios estáticos servidos por HTTP";article.append(a)}
   tarjetas.append(article);
  });
 }
