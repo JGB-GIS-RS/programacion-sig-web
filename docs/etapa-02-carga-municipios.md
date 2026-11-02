@@ -1,5 +1,8 @@
 # Etapa 02. Preparación, carga y validación de los municipios del Quindío
 
+> **Nota de lectura (noviembre de 2026):** aquí se documenta la carga histórica de los 12 municipios. La aplicación actual contiene además dos tablas de equipamientos: consultar [modelo vigente](modelo-geodatabase-final.md). Las instrucciones de carga no deben repetirse sobre la base poblada.
+
+
 **Proyecto:** Programación SIG Web  
 **Fecha de verificación:** 20 de octubre de 2026  
 **Base de datos:** `programacion_sig` (PostgreSQL 17, PostGIS 3.6.2)  
