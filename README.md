@@ -77,9 +77,15 @@ El radio inicial de la interfaz es **2.000 m**; el usuario puede indicar otro va
 
 Las cifras son conteos dependientes del punto, radio y versión de los datos; no constituyen métricas de rendimiento. Ver [guía F4](docs/etapa-07-f4-proximidad-salud.md).
 
+## Portal docente — Fase 1
+
+Se incorporó [Laboratorio SIG Web](portal/index.html) como portada de navegación. El [manual del portal](portal/README.md) explica su ejecución con un servidor estático local y la diferencia entre ejercicios pendientes y aplicaciones accesibles. La práctica PostGIS sigue funcionando en su ubicación original (`backend/` y `frontend/`) y **no se movió ni modificó**.
+
+Desde la raíz del repositorio, se puede abrir el portal mediante `python -m http.server 5500` y visitar `http://127.0.0.1:5500/portal/`. El enlace de PostGIS requiere el servidor FastAPI en `http://127.0.0.1:8000/` y su geodatabase local.
+
 ## Organización del repositorio
 
-- `backend/main.py`: endpoints F1–F5 y conexión a PostGIS.
+- `portal/`: portada del laboratorio y catálogo de prácticas; no reemplaza el SIG existente.\n- `backend/main.py`: endpoints F1–F5 y conexión a PostGIS.
 - `frontend/index.html`, `frontend/style.css`, `frontend/app.js`: interfaz y lógica de Leaflet.
 - `docs/`: arquitectura, diseño, etapas y [especificación de funcionalidades](docs/funcionalidades.md).
 - `sql/`: scripts históricos de creación y verificación; revisar precondiciones antes de ejecutarlos.
