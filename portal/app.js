@@ -5,7 +5,7 @@ const practicas=[
  {id:"02",titulo:"Leaflet: fundamentos cartográficos",descripcion:"Nueve prácticas: mapas base, controles, métodos, eventos, geometrías y GeoJSON.",tecnologias:["JavaScript","Leaflet"],estado:"disponible",url:"../practicas/03-leaflet-fundamentos/"},
  {id:"03",titulo:"Eventos en Leaflet",descripcion:"Interacciones de clic, movimiento y menú contextual sobre el mapa.",tecnologias:["JavaScript","Eventos"],estado:"pendiente"},
  {id:"04",titulo:"Ruteo mediante geoservicios",descripcion:"Consulta a una API externa y representación de rutas y resultados.",tecnologias:["HTTP","API","Leaflet"],estado:"pendiente"},
- {id:"05",titulo:"Diseño de interfaces SIG",descripcion:"Estructura HTML, CSS, Bootstrap y barra lateral personalizada.",tecnologias:["HTML","CSS","Bootstrap"],estado:"pendiente"},
+ {id:"05",titulo:"Leaflet: interfaces y herramientas",descripcion:"Barra lateral con búsqueda y edición de geometrías mediante Leaflet.draw.",tecnologias:["HTML","CSS","Leaflet"],estado:"disponible",url:"../practicas/04-leaflet-integracion/"},
  {id:"06",titulo:"SIG Web con PostGIS y FastAPI",descripcion:"Cinco funcionalidades: municipios, detalle, identificación, proximidad y equipamientos. Requiere API y base local.",tecnologias:["PostGIS","FastAPI","Leaflet"],estado:"disponible",url:"http://127.0.0.1:8000/"},
  {id:"07",titulo:"Inventario geográfico universitario",descripcion:"Ejercicio de registro y consulta de entidades geográficas, pendiente de incorporación al portal.",tecnologias:["Leaflet","GeoJSON"],estado:"pendiente"}
 ];
