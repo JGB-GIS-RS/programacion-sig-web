@@ -1,0 +1,1 @@
+"use strict";document.querySelector('#ejecutar').addEventListener('click',()=>{const nombre='Armenia'; const numero=12; const activo=true; console.log(typeof nombre,typeof numero,typeof activo); document.querySelector('#resultado').textContent=`Municipio: ${nombre}; municipios: ${numero}; activo: ${activo}`;});
