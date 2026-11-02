@@ -1,5 +1,8 @@
 # Arquitectura técnica y responsabilidades
 
+> **Nota de versión (noviembre de 2026):** este documento describe la arquitectura de referencia y contiene algunos contratos de las fases iniciales. Para la implementación **F1–F5** y el significado actual de la proximidad a sedes de Salud, consultar la [guía principal](guia-principal-visor.md) y [funcionalidades](funcionalidades.md). F4 ya no busca polígonos municipales.
+
+
 ## 1. Propósito y conocimientos previos
 
 La asignatura **Programación para SIG** retoma conocimientos previos sobre bases de datos geográficas. El nuevo problema es de **integración y programación de una aplicación web geoespacial**: transformar interacciones de un usuario en operaciones SQL/espaciales sobre PostGIS y publicar resultados en Leaflet.
