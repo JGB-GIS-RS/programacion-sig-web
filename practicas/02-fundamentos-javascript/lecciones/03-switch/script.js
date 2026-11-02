@@ -1,0 +1,1 @@
+"use strict";document.querySelector('#ejecutar').addEventListener('click',()=>{const codigo='63'; let region; switch(codigo){case '63':region='Quindío';break;case '05':region='Antioquia';break;default:region='Desconocido';} document.querySelector('#resultado').textContent=region;});
