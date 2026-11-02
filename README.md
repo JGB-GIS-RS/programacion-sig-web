@@ -1,4 +1,21 @@
-# Programación SIG Web — Quindío
+# Laboratorio SIG Web — Programación para SIG
+
+**Portal académico de seis módulos:** [abrir archivos del portal](portal/) · [guía de ejecución](portal/README.md)
+
+| Módulo | Entrar |
+|---|---|
+| 01 · HTML y CSS | [Lecciones y ejercicios](practicas/01-fundamentos-web/) |
+| 02 · JavaScript | [Lecciones y ejercicios](practicas/02-fundamentos-javascript/) |
+| 03 · Leaflet básico | [Prácticas cartográficas](practicas/03-leaflet-fundamentos/) |
+| 04 · Leaflet avanzado | [Interfaces y herramientas](practicas/04-leaflet-integracion/) |
+| 05 · SIG Web/PostGIS | [Proyecto del Quindío](practicas/05-sig-postgis-fastapi/) · [guía académica](docs/visor/00-indice.md) |
+| 06 · Proyectos integradores | [Inventario y Geoalerta](proyectos/) |
+
+**Para ver el menú visual:** desde la raíz ejecuta `python -m http.server 5500` y abre `http://127.0.0.1:5500/portal/`. Visitar GitHub muestra la estructura del código, no ejecuta automáticamente la portada HTML. No se ha verificado un despliegue público de GitHub Pages.
+
+---
+
+## Documentación técnica del visor del Quindío
 
 **Comienza aquí:** [Itinerario docente del visor SIG Web](docs/visor/00-indice.md) — presentación, datos, arquitectura, funcionalidades, pruebas y acceso al código.
 
