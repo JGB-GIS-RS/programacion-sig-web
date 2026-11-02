@@ -1,6 +1,6 @@
 # F1 · Visualizar los municipios del Quindío
 
-[← Menú F1–F5](index.md) · [Siguiente: F2 →](../../etapa-05-f2-detalle-municipal.md)
+[← Menú F1–F5](index.md) · [Siguiente: F2 →](f2-detalle-municipal.md)
 
 **Pregunta central:** ¿cómo llega a Leaflet la geometría de los 12 municipios almacenados en PostgreSQL/PostGIS?
 
@@ -188,4 +188,4 @@ Sin consultar la respuesta, intenta responder: **¿qué tecnología realiza la c
 
 **Documentación histórica:** [Etapa 04 — F1](../../etapa-04-f1-leaflet.md). Sirve para conocer la secuencia de desarrollo, pero puede contener instrucciones de una versión anterior. La implementación vigente se comprueba en los archivos anteriores.
 
-**Siguiente lección:** [F2 — Consulta de detalle municipal](../../etapa-05-f2-detalle-municipal.md). Allí veremos cómo una acción explícita del usuario dispara **una segunda petición** para obtener una superficie geodésica calculada, que F1 no había descargado.
+**Siguiente lección:** [F2 — Consulta de detalle municipal](f2-detalle-municipal.md). Allí veremos cómo una acción explícita del usuario dispara **una segunda petición** para obtener una superficie geodésica calculada, que F1 no había descargado.
