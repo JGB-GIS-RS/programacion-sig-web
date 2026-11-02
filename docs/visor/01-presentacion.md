@@ -2,6 +2,13 @@
 
 [← Índice](00-indice.md) · [Siguiente: datos y geodatabase →](02-datos-geodatabase.md)
 
+## Lámina de orientación
+
+![El corazón del proyecto](laminas/10-corazon-proyecto.jpg)
+
+> **Lectura de la figura.** La lámina resume el recorrido completo de una consulta; su diagrama es conceptual y los detalles ejecutables se encuentran en el código fuente.
+
+
 ## ¿Qué problema resolvemos?
 
 Queremos pasar de **ver entidades en un mapa** a **consultar información geográfica que reside en una base de datos**. El usuario puede explorar los municipios del Quindío, consultar su superficie, identificar un municipio mediante coordenadas y visualizar equipamientos educativos o sedes de salud.
