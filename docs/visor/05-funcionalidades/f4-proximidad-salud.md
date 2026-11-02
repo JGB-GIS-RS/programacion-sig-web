@@ -6,6 +6,13 @@
 
 **Al finalizar podrás:** diferenciar una relación topológica de una distancia, explicar por qué trabajamos con `geography` y metros, seguir el cálculo desde Leaflet hasta PostGIS e interpretar sus límites.
 
+## Lámina de orientación
+
+![F4: proximidad a sedes de salud](../laminas/08-f4-proximidad.jpg)
+
+> **Lectura de la figura.** **Advertencia:** el SQL de esta lámina es esquemático y difiere de `backend/main.py` (por ejemplo, muestra `id` y otra formulación de la consulta). Para reproducir F4 utiliza el SQL completo transcrito en esta lección y el backend vigente.
+
+
 ## 1. De identificar un municipio a medir proximidad
 
 En F3 preguntábamos **qué polígono cubre un punto** mediante `ST_Covers()`. F4 responde otra pregunta: **qué puntos de sedes de salud se encuentran a una distancia máxima del punto elegido**.
