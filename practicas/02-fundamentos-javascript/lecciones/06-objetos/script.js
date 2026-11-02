@@ -1,0 +1,1 @@
+"use strict";document.querySelector('#ejecutar').addEventListener('click',()=>{class Estacion{constructor(nombre,este,norte){this.nombre=nombre;this.este=este;this.norte=norte;}resumen(){return `${this.nombre}: E=${this.este}, N=${this.norte}`;}}const e=new Estacion('E1',1000,2000);document.querySelector('#resultado').textContent=e.resumen();});
