@@ -10,7 +10,7 @@ Esta es la entrada recomendada para entender la aplicación sin perder la trazab
 2. [Datos y geodatabase](02-datos-geodatabase.md): fuentes, cuatro tablas, relaciones y garantías de integridad.
 3. [Arquitectura funcional](03-arquitectura.md): de un clic en el mapa a una consulta PostGIS y su respuesta.
 4. [Preparación y ejecución](../guia-principal-visor.md#5-ejecutar-en-el-computador-docente): instalación docente, entorno y límites de reproducibilidad.
-5. [F1–F5: funcionalidades y pruebas](05-funcionalidades/): consulta de municipios, área, identificación espacial, proximidad y equipamientos. Guías detalladas [F1](../etapa-04-f1-leaflet.md), [F2](../etapa-05-f2-detalle-municipal.md), [F3](../etapa-06-f3-identificacion-espacial.md), [F4](../etapa-07-f4-proximidad-salud.md) y [F5](../etapa-08-f5-equipamientos.md). **Algunas etapas conservan fragmentos históricos**; consultar siempre el código actual para el contrato vigente.
+5. [F1–F5: desarrollo del visor](05-funcionalidades/): cinco lecciones actuales, con explicación del código, comprobación e interpretación. Las guías antiguas se conservan aparte como antecedentes, no como ruta principal de aprendizaje.
 6. [Verificación](../funcionalidades.md#matriz-de-verificacion): criterios de comprobación de HTTP, SQL y GeoJSON.
 7. [Código y reproducibilidad](../guia-principal-visor.md#2-donde-esta-cada-parte): archivos y condiciones para ejecutar el sistema.
 
