@@ -87,6 +87,6 @@ Las cifras son conteos dependientes del punto, radio y versión de los datos; no
 
 ### Guías
 
-[Arquitectura](docs/arquitectura.md) · [Modelo de cuatro tablas](docs/modelo-ampliado-cuatro-tablas.md) · [F1](docs/etapa-04-f1-leaflet.md) · [F2](docs/etapa-05-f2-detalle-municipal.md) · [F3](docs/etapa-06-f3-identificacion-espacial.md) · [F4 — Salud](docs/etapa-07-f4-proximidad-salud.md) · [Funcionalidades y pruebas](docs/funcionalidades.md).
+[Arquitectura](docs/arquitectura.md) · [Etapa 03 — primer backend FastAPI](docs/etapa-03-primer-backend-fastapi.md) · [Hoja de ruta actualizada](docs/hoja-de-ruta.md) · [Modelo de cuatro tablas](docs/modelo-ampliado-cuatro-tablas.md) · [F1](docs/etapa-04-f1-leaflet.md) · [F2](docs/etapa-05-f2-detalle-municipal.md) · [F3](docs/etapa-06-f3-identificacion-espacial.md) · [F4 — Salud](docs/etapa-07-f4-proximidad-salud.md) · [Funcionalidades y pruebas](docs/funcionalidades.md).
 
 **Alcance documental:** algunas guías tempranas recogen el diseño incremental y pueden describir estados anteriores. Este README, la especificación funcional actualizada y el código vigente prevalecen para el comportamiento de F1–F5.
