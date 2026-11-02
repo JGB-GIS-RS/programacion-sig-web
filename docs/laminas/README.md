@@ -1,10 +1,10 @@
 # Láminas del Módulo 05 — plan de integración
 
-Las **10 láminas aprobadas por el docente** se asociarán a las lecciones existentes. **Las imágenes aún no se han incorporado como archivos binarios a esta carpeta**; por ahora no se insertan enlaces de imagen rotos en las lecciones.
+Las **10 láminas aprobadas por el docente** están publicadas en [\`docs/visor/laminas/\`](../visor/laminas/) e integradas en los capítulos correspondientes. Esta carpeta conserva el índice y las advertencias editoriales.
 
 | Archivo de la lámina | Ubicación académica |
 |---|---|
-| `01-plataformas-herramientas.jpg` | [Preparación y ejecución](../guia-principal-visor.md#5-ejecutar-en-el-computador-docente) |
+| `01-plataformas-herramientas.jpg` | [Preparación y ejecución](../visor/04-entorno.md) |
 | `02-datos-fuentes.jpg` | [Datos y geodatabase](../visor/02-datos-geodatabase.md) |
 | `03-modelo-relacional.jpg` | [Datos y geodatabase](../visor/02-datos-geodatabase.md) |
 | `04-arquitectura-funcional.jpg` | [Arquitectura](../visor/03-arquitectura.md) |
