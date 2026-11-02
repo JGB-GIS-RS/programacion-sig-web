@@ -4,9 +4,9 @@ Portada de navegación de las prácticas de **Programación para SIG**.
 
 ## Estado de la Fase 1
 
-El portal presenta siete prácticas previstas y el proyecto Geoalerta. **Solo F6 (PostGIS/FastAPI)** ofrece acceso a una aplicación cuya ruta local existente se conoce; las demás se indican claramente como *por integrar*. La tarjeta F6 conduce a `http://127.0.0.1:8000/`: requiere ejecutar el backend en el mismo equipo y disponer de la base PostgreSQL/PostGIS. Un enlace visible **no implica** que el servidor esté encendido.
+El portal presenta siete entradas curriculares y el proyecto Geoalerta. **El módulo básico Leaflet está incorporado con seis prácticas estáticas**. La aplicación PostGIS/FastAPI mantiene su acceso local condicionado; las demás entradas se indican como *por integrar*. La tarjeta F6 conduce a `http://127.0.0.1:8000/`: requiere ejecutar el backend en el mismo equipo y disponer de la base PostgreSQL/PostGIS. Un enlace visible **no implica** que el servidor esté encendido.
 
-La portada, estilos y catálogo están aislados en `portal/index.html`, `portal/style.css` y `portal/app.js`. No se ha modificado `backend/`, `frontend/` ni `sql/`.
+Las prácticas Leaflet se encuentran en [Módulo 03](../practicas/03-leaflet-fundamentos/README.md). La portada, estilos y catálogo están aislados en `portal/index.html`, `portal/style.css` y `portal/app.js`. No se ha modificado `backend/`, `frontend/` ni `sql/`.
 
 ## Abrir el portal localmente
 
@@ -38,4 +38,4 @@ Una práctica solo cambia a estado `disponible` cuando tiene una ruta real, sus 
 
 ## Auditoría Leaflet
 
-La [matriz de selección de la colección Leaflet](../docs/auditoria-coleccion-leaflet.md) identifica los ejercicios candidatos para los módulos 03 y 04. La publicación de sus archivos ejecutables queda sujeta a pruebas de funcionamiento y revisión de dependencias; no habilitar todavía sus tarjetas.
+La [matriz de selección Leaflet](../docs/auditoria-coleccion-leaflet.md) recoge las decisiones curriculares. Se incorporó el primer lote de seis prácticas de fundamentos como adaptaciones didácticas; su funcionamiento final depende de la verificación en navegador y la disponibilidad de CDN/teselas. El módulo 04 continúa pendiente.
