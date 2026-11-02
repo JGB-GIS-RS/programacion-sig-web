@@ -35,3 +35,7 @@ Entonces la tarjeta de PostGIS abre `http://127.0.0.1:8000/`. Si no se dispone d
 ## Criterio docente
 
 Una práctica solo cambia a estado `disponible` cuando tiene una ruta real, sus archivos y recursos están completos y se ha comprobado su ejecución.
+
+## Auditoría Leaflet
+
+La [matriz de selección de la colección Leaflet](../docs/auditoria-coleccion-leaflet.md) identifica los ejercicios candidatos para los módulos 03 y 04. La publicación de sus archivos ejecutables queda sujeta a pruebas de funcionamiento y revisión de dependencias; no habilitar todavía sus tarjetas.
