@@ -1,6 +1,6 @@
 # F3 · Identificación espacial de un municipio
 
-[← F2: detalle municipal](f2-detalle-municipal.md) · [Menú F1–F5](index.md) · [Siguiente: F4](../../etapa-07-f4-proximidad-salud.md)
+[← F2: detalle municipal](f2-detalle-municipal.md) · [Menú F1–F5](index.md) · [Siguiente: F4](f4-proximidad-salud.md)
 
 **Pregunta:** si seleccionamos una ubicación en el mapa, ¿qué municipio cubre ese punto?
 
@@ -204,4 +204,4 @@ Finalmente, responde: ¿por qué puede ser correcto que F3 devuelva más de un m
 
 **Antecedente histórico:** [Etapa 06 — F3](../../etapa-06-f3-identificacion-espacial.md). Explica la evolución del desarrollo y no sustituye a esta descripción de la versión implementada.
 
-[← F2](f2-detalle-municipal.md) · [Menú F1–F5](index.md) · [F4: proximidad a sedes de salud →](../../etapa-07-f4-proximidad-salud.md)
+[← F2](f2-detalle-municipal.md) · [Menú F1–F5](index.md) · [F4: proximidad a sedes de salud →](f4-proximidad-salud.md)
