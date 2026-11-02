@@ -1,5 +1,8 @@
 # Visor SIG Web del Quindío — apartado docente
 
+**Primera lectura recomendada:** [Itinerario de aprendizaje](../../docs/visor/00-indice.md), con capítulos introductorios y enlaces a los archivos de código reales.
+
+
 ## Ruta recomendada de lectura
 
 Primero [guía principal](../../docs/guia-principal-visor.md), luego [modelo final](../../docs/modelo-geodatabase-final.md), [contrato F1–F5](../../docs/funcionalidades.md) y [F5](../../docs/etapa-08-f5-equipamientos.md). Las etapas anteriores explican la evolución del proyecto, no siempre su último estado.
