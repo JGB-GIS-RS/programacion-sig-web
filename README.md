@@ -1,173 +1,92 @@
-# Programación SIG Web
+# Programación SIG Web — Quindío
 
-**Proyecto docente de Programación para SIG — Ingeniería Topográfica y Geomática**
+**Proyecto docente · Ingeniería Topográfica y Geomática · Programación para SIG**
 
-Ejercicio progresivo para **programar un geovisor que consulte y analice información almacenada en PostgreSQL/PostGIS**, mediante una API en Python/FastAPI y una interfaz desarrollada con HTML, CSS, JavaScript y Leaflet.
+Aplicación SIG Web que consulta una geodatabase PostgreSQL/PostGIS mediante una API Python/FastAPI y representa los resultados en un frontend HTML, CSS, JavaScript y Leaflet. El énfasis didáctico es comprobar el recorrido **evento del usuario → HTTP → FastAPI → SQL/PostGIS → JSON/GeoJSON → representación en el visor**.
 
-**Territorio de estudio:** los 12 municipios del departamento del Quindío, Colombia.
+## Estado funcional (1 de noviembre de 2026)
 
-> **Punto de partida curricular.** Los estudiantes ya cursaron Bases de Datos Geográficas. En este ejercicio se recuperan únicamente los conceptos necesarios de esquema, geometría, identificadores, SRID e integridad. **No se repite el diseño conceptual, lógico y físico como unidad temática**: el énfasis está en la comunicación entre componentes, la programación de consultas y la respuesta interactiva del geovisor.
+**F1–F5 implementadas.** Las funcionalidades se han probado en el equipo docente; las pruebas registradas son verificaciones funcionales puntuales, no una auditoría automatizada completa ni mediciones de rendimiento. La versión de F4 con búsqueda de sedes de salud fue probada en el navegador, con respuesta HTTP 200, marcadores y listado ordenado.
 
-## Objetivo general
+| ID | Funcionalidad | Activación | Endpoint | Respuesta |
+|---|---|---|---|---|
+| F1 | Cargar los 12 municipios del Quindío | Al abrir el visor | `GET /municipios` | GeoJSON FeatureCollection |
+| F2 | Consultar detalle y superficie geodésica | Botón del popup municipal | `GET /municipios/{codigo}` | JSON |
+| F3 | Identificar municipios que cubren un punto | Modo identificación + clic | `GET /consultas/ubicacion?lon=...&lat=...` | GeoJSON FeatureCollection |
+| F4 | Buscar sedes de salud próximas a un punto | Radio en metros + modo F4 + clic | `GET /consultas/proximidad?lon=...&lat=...&radio_m=...` | GeoJSON FeatureCollection de puntos |
+| F5 | Mostrar equipamientos por municipio y categoría | Selección de municipio y categoría | `GET /equipamientos/municipio/{codigo}?tipo=1|2` | GeoJSON FeatureCollection de puntos |
 
-Desarrollar una aplicación SIG web que permita visualizar y consultar información geoespacial almacenada en PostgreSQL/PostGIS mediante una API con FastAPI y un geovisor interactivo con Leaflet, incorporando **consultas espaciales ejecutadas en el servidor a partir de interacciones del usuario**.
+Para la especificación completa, respuestas y pruebas véase [Funcionalidades](docs/funcionalidades.md). La nueva F4 dispone de [guía de implementación y verificación](docs/etapa-07-f4-proximidad-salud.md).
 
-El estudiante debe poder explicar y demostrar dos recorridos:
+## Datos y modelo
 
-- **Publicación:** PostGIS → SQL → FastAPI → HTTP/GeoJSON → JavaScript/Leaflet → mapa.
-- **Consulta interactiva:** usuario → evento Leaflet → petición HTTP → FastAPI → SQL/PostGIS → respuesta → actualización del mapa.
+Base local: `programacion_sig`. Se emplean **cuatro tablas principales**, sin contar las tablas de preparación (*staging*):
+
+| Tabla | Registros validados en la práctica | Función |
+|---|---:|---|
+| `public.departamento` | 1 | Quindío (63) |
+| `public.municipio` | 12 | Límites municipales, `geometry(MultiPolygon,4326)` |
+| `public.tipo_equipamiento` | 2 | Educativo (`id_tipo=1`) y Salud (`id_tipo=2`) |
+| `public.equipamiento` | 645 | 418 educativos y 227 de salud; `geometry(Point,4326)` |
+
+Relaciones: `departamento` **1:N** `municipio`; `municipio` **1:N** `equipamiento`; `tipo_equipamiento` **1:N** `equipamiento`.
+
+**Fuentes y trazabilidad:** cartografía municipal DANE/DIVIPOLA MGN 2025; sedes educativas DANE/SISE 2026; sedes de prestadores de salud SISPRO/REPS. En la carga de salud se revisaron 228 registros de origen: 227 se integraron y uno se excluyó por discrepancia entre municipio declarado y localización del punto. Los datos originales y la geodatabase poblada **no están incluidos en este repositorio**; las cifras anteriores corresponden al equipo docente y no deben interpretarse como reproducción automática al clonar el proyecto.
+
+El campo `estado` de los equipamientos es un atributo textual (actualmente «Sin verificar»), **no una tabla independiente**.
 
 ## Arquitectura
 
-~~~mermaid
-flowchart TB
-    U["USUARIO<br/>Selecciona un municipio, hace clic o define una distancia"]
-    L["FRONTEND<br/>HTML + CSS + JavaScript + Leaflet<br/>Captura eventos, realiza peticiones y representa resultados"]
-    F["BACKEND<br/>Python + FastAPI<br/>Valida parámetros, ejecuta consultas y construye respuestas"]
-    D[("BASE DE DATOS ESPACIAL<br/>PostgreSQL + PostGIS<br/>Almacena geometrías y ejecuta operaciones espaciales")]
-    U -->|"Interacción"| L
-    L -->|"HTTP: parámetros de consulta"| F
-    F -->|"SQL parametrizado"| D
-    D -->|"Registros y resultados espaciales"| F
-    F -->|"HTTP: JSON o GeoJSON"| L
-    L -->|"Mapa, selección y resultados"| U
-~~~
+```mermaid
+flowchart LR
+  U[Usuario] --> L[Leaflet + JavaScript]
+  L -->|HTTP GET| F[FastAPI + Psycopg]
+  F -->|SQL parametrizado| P[(PostgreSQL + PostGIS)]
+  P -->|Registros y geometrías| F
+  F -->|JSON / GeoJSON| L
+  L -->|Mapa, popups y resultados| U
+```
 
-**Regla arquitectónica:** Leaflet **no se conecta directamente** a PostgreSQL. El navegador se comunica con FastAPI, y FastAPI accede a PostGIS. Las credenciales de la base de datos permanecen en el servidor.
+El navegador no accede directamente a PostgreSQL. Las credenciales se mantienen en un archivo `.env` local excluido del control de versiones. `pgAdmin 4` es una interfaz de administración, no un componente necesario para atender las peticiones del geovisor; QGIS es una herramienta de preparación y revisión cartográfica.
 
-Véanse los flujos completos, la distribución de responsabilidades y los criterios técnicos en [Arquitectura](docs/arquitectura.md).
+## Puesta en marcha en el equipo configurado
 
-## Modelo ampliado aprobado: cuatro tablas
+Se requiere Python con las dependencias de `backend/main.py` (`fastapi`, `uvicorn`, `psycopg`, `python-dotenv`), PostgreSQL con PostGIS, las tablas y los datos cargados en la base local, y un archivo `.env` con `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER` y `DB_PASSWORD`.
 
-El modelo inicial de dos tablas ya está implementado y validado. Para enriquecer las consultas espaciales y temáticas del geovisor se ha **aprobado la opción A**, con cuatro tablas y tres relaciones 1:N:
+Desde la raíz del proyecto, en PowerShell y con el entorno virtual ya preparado:
 
-- `departamento` **1:N** `municipio` (existentes).
-- `municipio` **1:N** `equipamiento` (la tabla de puntos está pendiente de implementar).
-- `tipo_equipamiento` **1:N** `equipamiento` (catálogo y clasificación pendientes de implementar).
+```powershell
+.\.venv\Scripts\python.exe -m uvicorn backend.main:app --reload
+```
 
-**[Diseño conceptual y lógico, criterios de integridad y ruta de ampliación](docs/modelo-ampliado-cuatro-tablas.md)**. La ampliación no modifica por ahora las tablas existentes ni el endpoint local `GET /municipios`; su implementación se planificará después de acordar una fuente de equipamientos trazable.
+Abrir `http://127.0.0.1:8000/`. El estado del servidor se comprueba en `GET /salud`. Si el navegador conserva código antiguo, actualizar con las herramientas de desarrollador abiertas y **Disable cache**, seguido de una recarga completa.
 
-## Etapa 04 — F1: geovisor Leaflet (validación funcional completada)
+**No se afirma reproducibilidad autónoma desde GitHub:** clonar el repositorio no crea ni puebla por sí solo PostgreSQL/PostGIS. Para un entorno nuevo deben instalarse las herramientas, crear el esquema y cargar datos con procedencia adecuada; los scripts presentes en `sql/` y las guías históricas describen partes del proceso.
 
-Se añadieron los archivos [`frontend/index.html`](frontend/index.html), [`frontend/style.css`](frontend/style.css) y [`frontend/app.js`](frontend/app.js). Consultan el endpoint local `GET /municipios`, dibujan los polígonos mediante `L.geoJSON()` y ajustan el encuadre. **Integración funcional verificada en el equipo docente el 23 de octubre de 2026**: se visualizaron los 12 municipios, un popup local devolvió `ARMENIA` / `63001` y DevTools → Network mostró la petición `municipios` con **HTTP 200**, iniciada desde `app.js:38`. Se observó una transferencia indicada de aproximadamente 5.228 kB y una duración de 715 ms (valores de una sola prueba, no benchmark).
+## F4 actual — distancia a sedes de salud
 
-[Guía de integración con el backend Python local](docs/etapa-04-f1-leaflet.md). El archivo `backend/main.py` sigue siendo local; no se ha publicado código con credenciales.
+La consulta filtra `public.equipamiento` con `e.id_tipo = 2`, aplica `ST_DWithin(e.geom::geography, punto::geography, radio_m)`, y calcula `ST_Distance` en metros. La respuesta es **GeoJSON con puntos, identificadores, nombre, dirección, código de habilitación y distancia**; Leaflet dibuja los marcadores y un círculo orientativo.
 
-## Etapa 05 — F2: consulta individual validada en el geovisor
+El radio inicial de la interfaz es **2.000 m**; el usuario puede indicar otro valor positivo hasta **50.000 m** antes de activar el modo. Son distancias geodésicas entre puntos, **no** distancias viales, tiempos de desplazamiento ni pruebas de capacidad o disponibilidad asistencial.
 
-Se amplió [`frontend/app.js`](frontend/app.js) con un botón **Consultar detalle** en el popup: el clic inicial usa atributos locales (F1) y el botón ejecuta una nueva petición `GET /municipios/{codigo}` (F2). El backend local debe incorporar el nuevo endpoint con SQL parametrizado y cálculo `ST_Area(geom::geography) / 1000000.0`. **F2 validada funcionalmente en navegador (23 de octubre de 2026):** el popup de Armenia (63001) muestra **121,17 km²** y Chrome DevTools registra peticiones individuales `GET /municipios/63001` y `GET /municipios/63690` con **HTTP 200**. En la captura, el iniciador es `app.js:27`. La pestaña Response no se mostró; el resultado del popup y las solicitudes 200 sustentan la aceptación funcional, no una auditoría íntegra del JSON.
+### Evidencia funcional observada
 
-[Guía de integración y pruebas de F2](docs/etapa-05-f2-detalle-municipal.md).
+- Prueba por PowerShell con `lon=-75.70909`, `lat=4.53458`, `radio_m=10000`: `FeatureCollection` con **209** sedes.
+- Prueba posterior en navegador desde un punto distinto, aproximadamente `lon=-75.65484`, `lat=4.55255`, `radio_m=10000`: **204** sedes, petición HTTP **200**, marcadores y distancias en el panel.
+- Durante la integración se identificó una incompatibilidad de caché: un `app.js` antiguo esperaba una lista JSON de municipios. Tras recargar sin caché, el frontend procesó correctamente la nueva respuesta GeoJSON.
 
-## Etapa 06 — F3: identificación por punto (preparada, no validada)
+Las cifras son conteos dependientes del punto, radio y versión de los datos; no constituyen métricas de rendimiento. Ver [guía F4](docs/etapa-07-f4-proximidad-salud.md).
 
-Se incorpora al frontend un modo explícito **Identificar ubicación**. Al activarlo se suspenden temporalmente los popups F1/F2 y cada clic envía `lon` y `lat` a `GET /consultas/ubicacion`. El backend local debe ejecutar una consulta parametrizada con `ST_Covers`, devolver una `FeatureCollection` con cero, uno o más municipios y permitir resaltar las geometrías resultantes. **F3 aún requiere integrar el nuevo endpoint en el backend local y verificarlo en Chrome**.
+## Organización del repositorio
 
-[Guía y pruebas de F3](docs/etapa-06-f3-identificacion-espacial.md).
+- `backend/main.py`: endpoints F1–F5 y conexión a PostGIS.
+- `frontend/index.html`, `frontend/style.css`, `frontend/app.js`: interfaz y lógica de Leaflet.
+- `docs/`: arquitectura, diseño, etapas y [especificación de funcionalidades](docs/funcionalidades.md).
+- `sql/`: scripts históricos de creación y verificación; revisar precondiciones antes de ejecutarlos.
+- `proyectos/`: desarrollos asociados.
 
-## Cuatro funcionalidades del geovisor
+### Guías
 
-| ID | Funcionalidad | Interacción | Resultado esperado |
-|---|---|---|---|
-| F1 | **Visualización de municipios** | Abrir el visor | Solicitar `GET /municipios`, recibir GeoJSON y dibujar los polígonos en Leaflet. |
-| F2 | **Selección y consulta de un municipio** | Seleccionar un polígono; solicitar detalle | Distinguir popup **local** de petición `GET /municipios/{codigo}` al servidor, con información adicional. |
-| F3 | **Identificación espacial por punto** | Clic en el mapa | Enviar coordenadas; resolver en PostGIS qué municipios **cubren** el punto; destacar resultados. |
-| F4 | **Consulta de proximidad** | Clic + distancia en metros | Ejecutar `ST_DWithin()` en PostGIS; devolver y visualizar municipios a una distancia ≤ radio del punto. |
+[Arquitectura](docs/arquitectura.md) · [Modelo de cuatro tablas](docs/modelo-ampliado-cuatro-tablas.md) · [F1](docs/etapa-04-f1-leaflet.md) · [F2](docs/etapa-05-f2-detalle-municipal.md) · [F3](docs/etapa-06-f3-identificacion-espacial.md) · [F4 — Salud](docs/etapa-07-f4-proximidad-salud.md) · [Funcionalidades y pruebas](docs/funcionalidades.md).
 
-Estas funcionalidades son **requisitos del ejercicio**, no extensiones opcionales. Su especificación incluye solicitudes, respuestas, casos límite y criterios de aceptación: [Funcionalidades y pruebas](docs/funcionalidades.md).
-
-### La distinción técnica decisiva
-
-Un popup de Leaflet que muestra atributos ya descargados **no constituye una nueva consulta a la base de datos**. Para acreditar una consulta al servidor debe verificarse el flujo completo: evento → solicitud HTTP → endpoint → SQL/PostGIS → respuesta → cambio visible en el visor.
-
-De igual forma, una operación espacial realizada exclusivamente en JavaScript **no demuestra una consulta espacial en PostGIS**. En F3 y F4, el predicado espacial se ejecuta en la base de datos.
-
-## Ruta de implementación
-
-| Etapa | Trabajo principal | Evidencia |
-|---|---|---|
-| 01 | Preparar la capa oficial de municipios y verificar PostGIS | Datos geográficos consultables; CRS y fuente documentados |
-| 02 | Conectar Python/FastAPI con PostGIS | Endpoint y consulta SQL verificables |
-| 03 | Publicar geometrías mediante HTTP/GeoJSON | `GET /municipios` entrega una `FeatureCollection` válida |
-| 04 | Consumir la API desde Leaflet | Los municipios se dibujan a partir de `fetch()` |
-| 05 | Programar selección local y consulta de detalle | Se comprueba cuándo existe o no una nueva petición HTTP |
-| 06 | Identificar municipios a partir de coordenadas | Consulta por punto ejecutada en PostGIS |
-| 07 | Incorporar consulta espacial por distancia | `ST_DWithin()` y visualización de resultados desde el mapa |
-
-La preparación de PostGIS **no es el resultado final**; es la condición de partida para programar el visor. Revisión del dato, secuencia de trabajo, controles y entregables: [Hoja de ruta](docs/hoja-de-ruta.md).
-
-## Etapa 01 · Geodatabase diseñada e implementada en PostGIS
-
-Hemos decidido **construir las tablas antes de cargar la cartografía**: la base de datos espacial no será una simple importación automática de una capa del DANE. La recuperación conceptual es breve porque el alumnado ya aprobó Bases de Datos Geográficas; el trabajo principal del curso sigue siendo la conexión con el geovisor.
-
-El diseño físico inicial consta de:
-
-- **`public.departamento`**: `cod_departamento` (PK, texto de 2 dígitos) y `nombre`.
-- **`public.municipio`**: `cod_municipio` (PK, texto de 5 dígitos), `nombre`, `cod_departamento` (FK a `departamento`) y `geom geometry(MultiPolygon,4326)`.
-- Restricciones sobre códigos, relación departamental, geometrías válidas/no vacías e índice espacial **GiST** sobre `geom`.
-- Un registro inicial para **Quindío (`63`)** y, antes de cargar la fuente oficial, **cero municipios**.
-
-**Guía completa y SQL reproducible:** [Etapa 01 — diseño físico e implementación](docs/etapa-01-geodatabase.md) · [Script de creación](sql/01_crear_geodatabase.sql) · [Script de verificación](sql/02_verificar_geodatabase.sql).
-
-En la **Etapa 02**, ya se incorporaron y auditaron los 12 registros en el equipo docente (véase abajo). EPSG:4326 es una convención del prototipo para intercambiar GeoJSON, no una unidad métrica para cálculos de distancia. El área se calculará en PostGIS cuando se solicite; no se almacena obligatoriamente como campo redundante.
-
-**Precauciones geodésicas:** GeoJSON se publica en coordenadas WGS 84, longitud/latitud; las distancias en metros no se calculan directamente sobre grados. Para F4 se propone `geography` en PostGIS o una transformación proyectada apropiada. No confundir `ST_SetSRID()` con `ST_Transform()`.
-
-
-## Etapa 02 · Poblamiento y auditoría completados (20-10-2026)
-
-A partir de la fuente oficial **DANE DIVIPOLA MGN 2025**, se filtraron los **12 municipios del Quindío**, se exportaron desde QGIS a GeoPackage con transformación **EPSG:3857 → EPSG:4326**, y se importaron primero a `public.municipios_quindio_2025_stg`.
-
-Se realizó una transferencia controlada a nuestra propia tabla `public.municipio`: PostgreSQL informó **`INSERT 0 12`**. La auditoría final mostró **12** en cada indicador (registros, códigos únicos, municipio del Quindío, SRID 4326, MultiPolygon y validez geométrica). Un `INNER JOIN` con `public.departamento` recuperó **12 filas**.
-
-**Documentación y SQL:** [Etapa 02 — carga y validación](docs/etapa-02-carga-municipios.md) · [Auditar staging](sql/03_auditar_staging.sql) · [Transferencia reproducible](sql/04_cargar_municipios.sql) · [Validación final](sql/05_verificar_carga.sql).
-
-> **Estado de la evidencia:** resultados observados en pgAdmin/QGIS durante la práctica local; la base de datos y el GeoPackage no están alojados en este repositorio. La auditoría de topología entre municipios sigue pendiente. **No volver a ejecutar el INSERT sobre la tabla docente ya poblada.**
-
-## Contrato previsto de la API
-
-| Método y ruta | Función | Tipo de respuesta |
-|---|---|---|
-| `GET /municipios` | Colección cartográfica con atributos mínimos | GeoJSON `FeatureCollection` |
-| `GET /municipios/{codigo}` | Detalle adicional de un municipio | JSON |
-| `GET /consultas/ubicacion?lon=...&lat=...` | Municipios que cubren el punto | GeoJSON `FeatureCollection` |
-| `GET /consultas/proximidad?lon=...&lat=...&radio_m=...` | Municipios próximos al punto | GeoJSON `FeatureCollection` |
-
-**Estos endpoints son un contrato de diseño; todavía no están implementados.** En los límites compartidos, la consulta de ubicación puede devolver más de un municipio; fuera del área de estudio, ninguno. La especificación de parámetros, unidades, estados y pruebas está en [Funcionalidades y pruebas](docs/funcionalidades.md).
-
-## Documentación
-
-- [docs/etapa-06-f3-identificacion-espacial.md](docs/etapa-06-f3-identificacion-espacial.md) — SQL `ST_Covers`, modo de identificación Leaflet y pruebas de casos límite.
-
-- [docs/etapa-05-f2-detalle-municipal.md](docs/etapa-05-f2-detalle-municipal.md) — diseño, código SQL/API y criterios de aceptación de F2.
-
-- [docs/etapa-04-f1-leaflet.md](docs/etapa-04-f1-leaflet.md) — frontend de F1, integración y criterios de aceptación.
-
-- [docs/etapa-01-geodatabase.md](docs/etapa-01-geodatabase.md) — modelo físico y creación de la geodatabase.
-- [docs/etapa-02-carga-municipios.md](docs/etapa-02-carga-municipios.md) — **carga real y auditoría observada**, correspondencia de campos y resultados SQL.
-- [sql/](sql/) — scripts SQL de **creación, auditoría staging, inserción controlada y verificación**.
-- [docs/modelo-ampliado-cuatro-tablas.md](docs/modelo-ampliado-cuatro-tablas.md) — **opción A aprobada:** modelo de equipamientos, relaciones, integridad y consultas ampliadas (pendiente de implementación).
-- [docs/arquitectura.md](docs/arquitectura.md) — responsabilidades, flujos de petición/respuesta, decisiones de seguridad, GeoJSON y CRS.
-- [docs/funcionalidades.md](docs/funcionalidades.md) — **F1–F4**, endpoints, lógica espacial, eventos, casos límite y criterios de aceptación.
-- [docs/hoja-de-ruta.md](docs/hoja-de-ruta.md) — prerrequisitos, preparación de datos del Quindío, progresión docente y evidencias de comprobación.
-
-## Organización actual del código
-
-~~~text
-programacion-sig-web/
-├── README.md
-├── docs/                    # Guías y evidencias del proyecto
-├── sql/                     # Scripts de geodatabase y auditoría
-└── frontend/                # F1 + F2 versionadas en GitHub
-    ├── index.html
-    ├── style.css
-    └── app.js
-~~~
-
-**Backend:** `backend/main.py` y `backend/probar_conexion.py` están funcionando **en la copia local del docente**, pero todavía no se han incorporado a este repositorio. El directorio local `.venv/` y el archivo privado `.env` permanecen fuera de Git; nunca deben publicarse. Las funcionalidades F3–F4 aún están pendientes.
-
-## Criterio de logro
-
-El ejercicio culmina cuando el estudiante demuestra, con el geovisor abierto y el inspector de red del navegador, que una interacción genera parámetros, **PostGIS ejecuta la consulta espacial**, FastAPI publica la respuesta y Leaflet la visualiza correctamente. Es tan importante la explicación del recorrido como el resultado cartográfico.
-
-**Pregunta transversal:** ¿cómo llega una geometría almacenada en PostGIS al visor y cómo regresa al servidor una consulta originada en el mapa?
+**Alcance documental:** algunas guías tempranas recogen el diseño incremental y pueden describir estados anteriores. Este README, la especificación funcional actualizada y el código vigente prevalecen para el comportamiento de F1–F5.
