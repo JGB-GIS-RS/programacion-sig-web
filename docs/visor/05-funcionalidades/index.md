@@ -9,10 +9,10 @@ Las cinco lecciones explican **una sola aplicación que crece progresivamente**.
 | **[F1 — Visualización de municipios](f1-municipios.md)** | ¿Cómo obtiene Leaflet los 12 polígonos desde PostGIS? | **Lección completa; patrón editorial** |
 | **[F2 — Detalle y superficie municipal](f2-detalle-municipal.md)** | ¿Cómo consultar información adicional de un municipio? | **Lección completa** |
 | **[F3 — Identificación espacial](f3-identificacion.md)** | ¿Qué polígono cubre un punto seleccionado? | **Lección completa** |
-| [F4 — Proximidad a salud](../../etapa-07-f4-proximidad-salud.md) | ¿Qué sedes hay dentro de un radio? | Guía técnica existente; adaptación editorial pendiente |
+| **[F4 — Proximidad a salud](f4-proximidad-salud.md)** | ¿Qué sedes hay dentro de un radio? | **Lección completa** |
 | [F5 — Equipamientos](../../etapa-08-f5-equipamientos.md) | ¿Qué sedes de una categoría tiene un municipio? | Guía técnica existente; adaptación editorial pendiente |
 
-**Importante:** los enlaces F4–F5 llevan por ahora a sus guías existentes, algunas con instrucciones de desarrollo históricas. El **contrato vigente** se describe en [funcionalidades.md](../../funcionalidades.md) y el código real está en [backend/main.py](../../../backend/main.py) y [frontend/app.js](../../../frontend/app.js). No vuelvas a pegar endpoints de las guías antiguas en el backend actual.
+**Importante:** el enlace F5 lleva por ahora a sus guías existentes, algunas con instrucciones de desarrollo históricas. El **contrato vigente** se describe en [funcionalidades.md](../../funcionalidades.md) y el código real está en [backend/main.py](../../../backend/main.py) y [frontend/app.js](../../../frontend/app.js). No vuelvas a pegar endpoints de las guías antiguas en el backend actual.
 
 ## ¿Dónde está el código completo?
 
