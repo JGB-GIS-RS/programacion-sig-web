@@ -1,0 +1,2 @@
+const mapa=L.map("mapa",{center:[4.555959,-75.659946],zoom:16});const osm=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'});osm.addTo(mapa);
+const acciones={armenia:()=>mapa.setView([4.555959,-75.659946],17),cali:()=>mapa.panTo([3.4516,-76.532]),region:()=>mapa.fitBounds([[4.35,-75.85],[4.75,-75.45]]),mas:()=>mapa.zoomIn(),menos:()=>mapa.zoomOut()};document.querySelectorAll("[data-accion]").forEach(b=>b.addEventListener("click",()=>acciones[b.dataset.accion]()));
