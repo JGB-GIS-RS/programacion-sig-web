@@ -1,0 +1,28 @@
+"use strict";
+// El catálogo no presume que las prácticas aún no incorporadas sean ejecutables.
+const practicas=[
+ {id:"01",titulo:"Fundamentos de desarrollo web",descripcion:"Etiquetas HTML, enlaces, tablas, formularios y evolución hacia CSS externo.",tecnologias:["HTML","CSS"],estado:"pendiente"},
+ {id:"02",titulo:"Primer visor cartográfico",descripcion:"Creación del mapa inicial, capas base y controles con Leaflet.",tecnologias:["JavaScript","Leaflet"],estado:"pendiente"},
+ {id:"03",titulo:"Eventos en Leaflet",descripcion:"Interacciones de clic, movimiento y menú contextual sobre el mapa.",tecnologias:["JavaScript","Eventos"],estado:"pendiente"},
+ {id:"04",titulo:"Ruteo mediante geoservicios",descripcion:"Consulta a una API externa y representación de rutas y resultados.",tecnologias:["HTTP","API","Leaflet"],estado:"pendiente"},
+ {id:"05",titulo:"Diseño de interfaces SIG",descripcion:"Estructura HTML, CSS, Bootstrap y barra lateral personalizada.",tecnologias:["HTML","CSS","Bootstrap"],estado:"pendiente"},
+ {id:"06",titulo:"SIG Web con PostGIS y FastAPI",descripcion:"Cinco funcionalidades: municipios, detalle, identificación, proximidad y equipamientos. Requiere API y base local.",tecnologias:["PostGIS","FastAPI","Leaflet"],estado:"disponible",url:"http://127.0.0.1:8000/"},
+ {id:"07",titulo:"Inventario geográfico universitario",descripcion:"Ejercicio de registro y consulta de entidades geográficas, pendiente de incorporación al portal.",tecnologias:["Leaflet","GeoJSON"],estado:"pendiente"}
+];
+const tarjetas=document.querySelector("#tarjetas");const filtro=document.querySelector("#filtro");
+function dibujar(){
+ const estado=filtro.value;tarjetas.replaceChildren();
+ practicas.filter(p=>estado==="todas"||p.estado===estado).forEach(p=>{
+  const article=document.createElement("article");article.className="tarjeta";
+  const num=document.createElement("div");num.className="num";num.textContent="PRÁCTICA "+p.id;
+  const title=document.createElement("h3");title.textContent=p.titulo;
+  const d=document.createElement("p");d.textContent=p.descripcion;
+  const tags=document.createElement("div");tags.className="etiquetas";
+  p.tecnologias.forEach(t=>{const s=document.createElement("span");s.textContent=t;tags.append(s)});
+  const state=document.createElement("span");state.className="estado "+p.estado;state.textContent=p.estado==="disponible"?"Acceso local disponible":"Por integrar";
+  article.append(num,title,d,tags,state);
+  if(p.url){const a=document.createElement("a");a.href=p.url;a.textContent="Abrir en servidor local ↗";a.title="Requiere FastAPI ejecutándose en este equipo";article.append(a)}
+  tarjetas.append(article);
+ });
+}
+filtro.addEventListener("change",dibujar);dibujar();
