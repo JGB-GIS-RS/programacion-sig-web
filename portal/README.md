@@ -39,3 +39,7 @@ Una práctica solo cambia a estado `disponible` cuando tiene una ruta real, sus 
 ## Auditoría Leaflet
 
 La [matriz de selección Leaflet](../docs/auditoria-coleccion-leaflet.md) recoge las decisiones curriculares. Se incorporó el primer lote de seis prácticas de fundamentos como adaptaciones didácticas; su funcionamiento final depende de la verificación en navegador y la disponibilidad de CDN/teselas. El módulo 04 continúa pendiente.
+
+## Segundo módulo Leaflet
+
+Se incorporó [Módulo 04 — integración Leaflet](../practicas/04-leaflet-integracion/README.md) con barra lateral y dibujo. Ruteo y medición avanzada permanecen pendientes de revisión técnica y de credenciales. El catálogo del portal ya enlaza estas dos prácticas; sus pruebas de navegador aún están pendientes.
