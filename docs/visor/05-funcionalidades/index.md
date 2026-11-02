@@ -7,12 +7,12 @@ Las cinco lecciones explican **una sola aplicación que crece progresivamente**.
 | Lección | Pregunta que responde | Estado de la explicación |
 |---|---|---|
 | **[F1 — Visualización de municipios](f1-municipios.md)** | ¿Cómo obtiene Leaflet los 12 polígonos desde PostGIS? | **Lección completa; patrón editorial** |
-| [F2 — Detalle y superficie municipal](../../etapa-05-f2-detalle-municipal.md) | ¿Cómo consultar información adicional de un municipio? | Guía histórica existente; adaptación editorial pendiente |
+| **[F2 — Detalle y superficie municipal](f2-detalle-municipal.md)** | ¿Cómo consultar información adicional de un municipio? | **Lección completa** |
 | [F3 — Identificación espacial](../../etapa-06-f3-identificacion-espacial.md) | ¿Qué polígono cubre un punto seleccionado? | Guía histórica existente; adaptación editorial pendiente |
 | [F4 — Proximidad a salud](../../etapa-07-f4-proximidad-salud.md) | ¿Qué sedes hay dentro de un radio? | Guía técnica existente; adaptación editorial pendiente |
 | [F5 — Equipamientos](../../etapa-08-f5-equipamientos.md) | ¿Qué sedes de una categoría tiene un municipio? | Guía técnica existente; adaptación editorial pendiente |
 
-**Importante:** los enlaces F2–F5 llevan por ahora a sus guías existentes, algunas con instrucciones de desarrollo históricas. El **contrato vigente** se describe en [funcionalidades.md](../../funcionalidades.md) y el código real está en [backend/main.py](../../../backend/main.py) y [frontend/app.js](../../../frontend/app.js). No vuelvas a pegar endpoints de las guías antiguas en el backend actual.
+**Importante:** los enlaces F3–F5 llevan por ahora a sus guías existentes, algunas con instrucciones de desarrollo históricas. El **contrato vigente** se describe en [funcionalidades.md](../../funcionalidades.md) y el código real está en [backend/main.py](../../../backend/main.py) y [frontend/app.js](../../../frontend/app.js). No vuelvas a pegar endpoints de las guías antiguas en el backend actual.
 
 ## ¿Dónde está el código completo?
 
