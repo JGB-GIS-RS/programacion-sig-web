@@ -2,8 +2,8 @@
 
 **Asignatura:** Programación para SIG  
 **Programa:** Ingeniería Topográfica y Geomática  
-**Modalidad:** Individual o por equipos, según indicación docente  
-**Fecha de entrega:** Por definir por el docente
+**Modalidad:** Individual · Trabajo y entrega virtual  
+**Fecha de entrega:** **Jueves 19 de noviembre de 2026**
 
 ## 1. Propósito
 
@@ -92,9 +92,9 @@ Una captura de pantalla del mapa, por sí sola, **no demuestra la integración**
 
 **D. Evidencias.** Capturas o registros de la interfaz, de la respuesta de la API y de al menos una consulta comprobada en PostgreSQL.
 
-**E. Demostración funcional.** Exposición breve que siga una operación completa desde la acción del usuario hasta el resultado cartográfico, identificando el SQL ejecutado.
+**E. Demostración funcional en modalidad virtual.** Incluir en la documentación una explicación breve y verificable del recorrido de una operación completa: acción del usuario, endpoint, consulta SQL ejecutada y resultado cartográfico. Esta explicación podrá apoyarse en las evidencias del apartado D; no se exige asistencia ni sustentación presencial.
 
-La entrega se realizará mediante un **repositorio GitHub accesible para evaluación**. No publicar contraseñas, claves ni el archivo `.env` con credenciales.
+**Entrega individual y virtual el jueves 19 de noviembre de 2026:** compartir el enlace a un **repositorio GitHub accesible para evaluación**, con el código, el README y las evidencias indicadas. No se exige desplegar PostgreSQL ni FastAPI en un servidor público. No publicar contraseñas, claves ni el archivo `.env` con credenciales.
 
 ## 8. Criterios de evaluación
 
