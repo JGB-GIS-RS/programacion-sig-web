@@ -3,7 +3,7 @@
 **Asignatura:** Programación para SIG  
 **Programa:** Ingeniería Topográfica y Geomática  
 **Modalidad:** Individual · Trabajo y entrega virtual  
-**Fecha de entrega:** **Jueves 19 de noviembre de 2026**
+**Fecha y hora límite de entrega:** **Jueves 19 de noviembre de 2026, 11:59 p. m. (hora de Colombia, UTC−5)**
 
 ## 1. Propósito
 
@@ -94,7 +94,7 @@ Una captura de pantalla del mapa, por sí sola, **no demuestra la integración**
 
 **E. Demostración funcional en modalidad virtual.** Incluir en la documentación una explicación breve y verificable del recorrido de una operación completa: acción del usuario, endpoint, consulta SQL ejecutada y resultado cartográfico. Esta explicación podrá apoyarse en las evidencias del apartado D; no se exige asistencia ni sustentación presencial.
 
-**Entrega individual y virtual el jueves 19 de noviembre de 2026:** compartir el enlace a un **repositorio GitHub accesible para evaluación**, con el código, el README y las evidencias indicadas. No se exige desplegar PostgreSQL ni FastAPI en un servidor público. No publicar contraseñas, claves ni el archivo `.env` con credenciales.
+**Entrega individual y virtual — jueves 19 de noviembre de 2026, hasta las 11:59 p. m. (hora de Colombia):** cada estudiante deberá **crear su propio repositorio en GitHub** y entregar **el enlace (URL) a dicho repositorio**, que debe estar accesible para evaluación y contener obligatoriamente: **(1) el código fuente del frontend y backend; (2) el modelo de la geodatabase, con al menos cuatro tablas relacionadas; (3) un archivo `README.md` con instrucciones de instalación y ejecución; y (4) evidencias técnicas** de las peticiones HTTP, las respuestas de la API y las consultas a PostgreSQL/PostGIS. El enlace constituye el medio formal de entrega; no basta con enviar capturas ni una dirección local del computador. No se exige desplegar PostgreSQL ni FastAPI en un servidor público. No publicar contraseñas, claves ni el archivo `.env` con credenciales.
 
 ## 8. Criterios de evaluación
 
