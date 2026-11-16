@@ -14,6 +14,10 @@ La [página de entrada del Módulo 05](index.html) presenta **siete apartados en
 | 06 | Verificación | [Matriz de comprobación](../../docs/funcionalidades.md#matriz-de-verificacion) |
 | 07 | Código y reproducibilidad | [Archivos reales y límites](../../docs/visor/00-indice.md#codigo-fuente-vigente) |
 
+## Tarea integradora para estudiantes
+
+[**Consultar enunciado, requisitos, productos de entrega y rúbrica de evaluación**](tarea-integradora-sig-web.md). La actividad exige una geodatabase PostgreSQL/PostGIS con **al menos cuatro (4) tablas relacionadas**, un mínimo de cuatro capacidades funcionales y demostración de consultas reales desde la API.
+
 ## Código ejecutable del visor
 
 - [Interfaz HTML](../../frontend/index.html) · [Estilos CSS](../../frontend/style.css) · [Lógica JavaScript/Leaflet](../../frontend/app.js)
